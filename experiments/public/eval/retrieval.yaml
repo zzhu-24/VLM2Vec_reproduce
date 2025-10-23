@@ -1,0 +1,20 @@
+MSCOCO_i2t:
+    dataset_parser: image_i2t
+    dataset_name: MSCOCO_i2t
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local
+
+MSCOCO_t2i:
+    dataset_parser: image_t2i
+    dataset_name: MSCOCO_t2i
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local
+
+FashionIQ:
+    dataset_parser: image_i2i_vg
+    dataset_name: FashionIQ
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local

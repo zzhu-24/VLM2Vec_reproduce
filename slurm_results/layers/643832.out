@@ -1,0 +1,293 @@
+==> Environment
+Python: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python
+Version: Python 3.10.18
+
+/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/original-Qwen/Qwen2-VL-2B-Instruct
+CUDA_VISIBLE_DEVICES=0,1,2 torchrun --nproc_per_node=1 --master_port=2207 --max_restarts=0 train.py --lora --lora_r 16 --model_name Qwen/Qwen2-VL-2B-Instruct --bf16 --pooling eos --normalize True --temperature 0.02 --dataloader_num_workers 1 --dataset_config /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/retrieval.yaml --data_basedir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train --run_name original-Qwen/Qwen2-VL-2B-Instruct --output_dir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/original-Qwen/Qwen2-VL-2B-Instruct --grad_cache False --per_device_train_batch_size 4 --gc_q_chunk_size 8 --gc_p_chunk_size 8 --interleave_batch_size 0 --lr_scheduler_type linear --learning_rate 5e-5 --max_steps 5000 --warmup_steps 100 --save_steps 50 --logging_steps 1 --save_safetensors True --remove_unused_columns False --resume_from auto --plus_one_token False --report_to wandb 2>&1 | tee /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/original-Qwen/Qwen2-VL-2B-Instruct/train.log
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+DropoutAddRMSNorm of flash_attn is not installed!!!
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+Distributed init debug info:
+RANK: 0
+LOCAL_RANK: 0
+WORLD_SIZE: 1
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2207
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 0
+torch.distributed.get_world_size(): 1
+[2025-10-18 13:43:46,133] INFO [src.utils:10] rank0: init wandb
+wandb: Currently logged in as: zhuzhehua16 (zhuzhehua16-t-l-com-paris) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run b17hms0o
+wandb: Tracking run with wandb version 0.22.1
+wandb: Run data is saved locally in /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/original-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251018_134346-b17hms0o
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run original-Qwen/Qwen2-VL-2B-Instruct
+wandb: ⭐️ View project at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train
+wandb: 🚀 View run at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train/runs/b17hms0o
+[2025-10-18 13:43:47,672] INFO [src.utils:19] Loading backbone [qwen2_vl] from Qwen/Qwen2-VL-2B-Instruct
+You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  4.32it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  8.26it/s]
+[2025-10-18 13:43:48,292] INFO [src.utils:19] Loading lora adapter from Qwen2VLForConditionalGeneration(
+  (visual): Qwen2VisionTransformerPretrainedModel(
+    (patch_embed): PatchEmbed(
+      (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+    )
+    (rotary_pos_emb): VisionRotaryEmbedding()
+    (blocks): ModuleList(
+      (0-31): 32 x Qwen2VLVisionBlock(
+        (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (attn): VisionFlashAttention2(
+          (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+          (proj): Linear(in_features=1280, out_features=1280, bias=True)
+        )
+        (mlp): VisionMlp(
+          (fc1): Linear(in_features=1280, out_features=5120, bias=True)
+          (act): QuickGELUActivation()
+          (fc2): Linear(in_features=5120, out_features=1280, bias=True)
+        )
+      )
+    )
+    (merger): PatchMerger(
+      (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+      (mlp): Sequential(
+        (0): Linear(in_features=5120, out_features=5120, bias=True)
+        (1): GELU(approximate='none')
+        (2): Linear(in_features=5120, out_features=1536, bias=True)
+      )
+    )
+  )
+  (model): Qwen2VLModel(
+    (embed_tokens): Embedding(151936, 1536)
+    (layers): ModuleList(
+      (0-27): 28 x Qwen2VLDecoderLayer(
+        (self_attn): Qwen2VLFlashAttention2(
+          (q_proj): Linear(in_features=1536, out_features=1536, bias=True)
+          (k_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (v_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (o_proj): Linear(in_features=1536, out_features=1536, bias=False)
+          (rotary_emb): Qwen2VLRotaryEmbedding()
+        )
+        (mlp): Qwen2MLP(
+          (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (down_proj): Linear(in_features=8960, out_features=1536, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+        (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+      )
+    )
+    (norm): Qwen2RMSNorm((1536,), eps=1e-06)
+    (rotary_emb): Qwen2VLRotaryEmbedding()
+  )
+  (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
+)
+[2025-10-18 13:43:57,652] INFO [src.utils:10] rank0: model_backbone: qwen2_vl
+[2025-10-18 13:43:57,653] INFO [src.utils:19] Loading processor from: Qwen/Qwen2-VL-2B-Instruct
+[2025-10-18 13:44:01,977] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2025-10-18 13:44:01,978] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=50.0
+[2025-10-18 13:44:03,015] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2025-10-18 13:44:03,016] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=50.0
+[2025-10-18 13:44:03,017] INFO [src.utils:19] 
+Initializing interleave datasets:
+		world_size=1
+		total num rows=213287
+		global batch size=4
+		estimated num step per epoch=53321.75
+		interleave_batch_size=0.0
+[2025-10-18 13:44:03,019] INFO [src.utils:19] ==================================================
+[2025-10-18 13:44:03,019] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2025-10-18 13:44:03,020] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-10-18 13:44:03,022] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-10-18 13:44:03,022] INFO [src.utils:19] ==================================================
+[2025-10-18 13:44:04,404] INFO [src.trainer:335] ***** Running training *****
+[2025-10-18 13:44:04,404] INFO [src.trainer:336]   Num examples = 20,000
+[2025-10-18 13:44:04,405] INFO [src.trainer:337]   Num Epochs = 9,223,372,036,854,775,807
+[2025-10-18 13:44:04,405] INFO [src.trainer:338]   Instantaneous batch size per device = 4
+[2025-10-18 13:44:04,405] INFO [src.trainer:341]   Total train batch size (w. parallel, distributed & accumulation) = 4
+[2025-10-18 13:44:04,406] INFO [src.trainer:342]   Gradient Accumulation steps = 1
+[2025-10-18 13:44:04,406] INFO [src.trainer:343]   Total optimization steps = 5,000
+[2025-10-18 13:44:04,411] INFO [src.trainer:344]   Number of trainable parameters = 9,203,712
+  0%|          | 0/5000 [00:00<?, ?it/s]You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+  0%|          | 1/5000 [00:01<2:19:26,  1.67s/it]                                                  {'loss': 20.625, 'grad_norm': 0.0, 'learning_rate': 5.000000000000001e-07, 'epoch': 0.0}
+  0%|          | 1/5000 [00:01<2:19:26,  1.67s/it]  0%|          | 2/5000 [00:02<1:23:47,  1.01s/it]                                                  {'loss': 19.9062, 'grad_norm': 0.0, 'learning_rate': 1.0000000000000002e-06, 'epoch': 0.0}
+  0%|          | 2/5000 [00:02<1:23:47,  1.01s/it]Traceback (most recent call last):
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+    main()
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 104, in main
+    trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+    return inner_training_loop(
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 503, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 708, in training_step
+    loss = model(queries, targets)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/accelerate/utils/operations.py", line 818, in forward
+    return model_forward(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/accelerate/utils/operations.py", line 806, in __call__
+    return convert_to_fp32(self.model_forward(*args, **kwargs))
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/amp/autocast_mode.py", line 43, in decorate_autocast
+    return func(*args, **kwargs)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 334, in forward
+    tgt_reps = self.encode_input(tgt, self.tgt_chosen_layer) if tgt else None # (bsz_per_device, dim)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 110, in encode_input
+    hidden_states = self.encoder(**input, return_dict=True, output_hidden_states=True)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/peft/peft_model.py", line 881, in forward
+    return self.get_base_model()(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/vlm_backbone/qwen2_vl/modeling_qwen2_vl.py", line 1763, in forward
+    outputs = self.model(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/vlm_backbone/qwen2_vl/modeling_qwen2_vl.py", line 1055, in forward
+    layer_outputs = decoder_layer(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/vlm_backbone/qwen2_vl/modeling_qwen2_vl.py", line 931, in forward
+    hidden_states = self.mlp(hidden_states)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/vlm_backbone/qwen2_vl/modeling_qwen2_vl.py", line 485, in forward
+    down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/peft/tuners/lora/layer.py", line 773, in forward
+    result = self.lora_variant[active_adapter].forward(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/peft/tuners/lora/variants.py", line 122, in forward
+    result = result + module.lora_magnitude_vector[active_adapter](
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/peft/tuners/lora/dora.py", line 78, in forward
+    weight = weight.to(x.dtype)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 54.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 49.00 MiB is free. Including non-PyTorch memory, this process has 23.50 GiB memory in use. Of the allocated memory 22.75 GiB is allocated by PyTorch, and 316.28 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 104, in main
+[rank0]:     trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+[rank0]:     return inner_training_loop(
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 503, in _inner_training_loop
+[rank0]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 708, in training_step
+[rank0]:     loss = model(queries, targets)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/accelerate/utils/operations.py", line 818, in forward
+[rank0]:     return model_forward(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/accelerate/utils/operations.py", line 806, in __call__
+[rank0]:     return convert_to_fp32(self.model_forward(*args, **kwargs))
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/amp/autocast_mode.py", line 43, in decorate_autocast
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 334, in forward
+[rank0]:     tgt_reps = self.encode_input(tgt, self.tgt_chosen_layer) if tgt else None # (bsz_per_device, dim)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 110, in encode_input
+[rank0]:     hidden_states = self.encoder(**input, return_dict=True, output_hidden_states=True)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/peft/peft_model.py", line 881, in forward
+[rank0]:     return self.get_base_model()(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/vlm_backbone/qwen2_vl/modeling_qwen2_vl.py", line 1763, in forward
+[rank0]:     outputs = self.model(
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/vlm_backbone/qwen2_vl/modeling_qwen2_vl.py", line 1055, in forward
+[rank0]:     layer_outputs = decoder_layer(
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/vlm_backbone/qwen2_vl/modeling_qwen2_vl.py", line 931, in forward
+[rank0]:     hidden_states = self.mlp(hidden_states)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/vlm_backbone/qwen2_vl/modeling_qwen2_vl.py", line 485, in forward
+[rank0]:     down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/peft/tuners/lora/layer.py", line 773, in forward
+[rank0]:     result = self.lora_variant[active_adapter].forward(
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/peft/tuners/lora/variants.py", line 122, in forward
+[rank0]:     result = result + module.lora_magnitude_vector[active_adapter](
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/peft/tuners/lora/dora.py", line 78, in forward
+[rank0]:     weight = weight.to(x.dtype)
+[rank0]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 54.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 49.00 MiB is free. Including non-PyTorch memory, this process has 23.50 GiB memory in use. Of the allocated memory 22.75 GiB is allocated by PyTorch, and 316.28 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33moriginal-Qwen/Qwen2-VL-2B-Instruct[0m at: [34m[0m
+[1;34mwandb[0m: Find logs at: [1;35mexperiments/public/exps/train/original-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251018_134346-b17hms0o/logs[0m
+E1018 13:44:09.585000 131666409273152 torch/distributed/elastic/multiprocessing/api.py:833] failed (exitcode: 1) local_rank: 0 (pid: 111912) of binary: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python3.10
+Traceback (most recent call last):
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/torchrun", line 7, in <module>
+    sys.exit(main())
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 348, in wrapper
+    return f(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/run.py", line 901, in main
+    run(args)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/run.py", line 892, in run
+    elastic_launch(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 133, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 264, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+train.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2025-10-18_13:44:09
+  host      : node40.enst.fr
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 111912)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+Job finished at: sam. 18 oct. 2025 13:44:09 CEST

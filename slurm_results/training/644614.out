@@ -1,0 +1,14 @@
+==> Environment
+Python: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python
+Version: Python 3.10.18
+
+/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/TailTokenPF_2-Qwen/Qwen2-VL-2B-Instruct
+CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=2207 --max_restarts=0 train.py --lora --lora_r 16 --model_name Qwen/Qwen2-VL-2B-Instruct --bf16 --pooling eos --normalize True --temperature 0.02 --dataloader_num_workers 1 --dataset_config /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/retrieval.yaml --data_basedir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train --run_name TailTokenPF_2-Qwen/Qwen2-VL-2B-Instruct --output_dir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/TailTokenPF_2-Qwen/Qwen2-VL-2B-Instruct --grad_cache True --per_device_train_batch_size 16 --gc_q_chunk_size 8 --gc_p_chunk_size 8 --interleave_batch_size 0 --lr_scheduler_type linear --learning_rate 5e-5 --max_steps 6000 --warmup_steps 100 --save_steps 50 --logging_steps 1 --save_safetensors True --remove_unused_columns False --resume_from auto --plus_one_token True --report_to wandb 2>&1 | tee /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/TailTokenPF_2-Qwen/Qwen2-VL-2B-Instruct/train.log
+W1021 00:48:04.876000 131474247661376 torch/distributed/run.py:779] 
+W1021 00:48:04.876000 131474247661376 torch/distributed/run.py:779] *****************************************
+W1021 00:48:04.876000 131474247661376 torch/distributed/run.py:779] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W1021 00:48:04.876000 131474247661376 torch/distributed/run.py:779] *****************************************
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(

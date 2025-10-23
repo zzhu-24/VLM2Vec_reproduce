@@ -1,0 +1,331 @@
+==> Environment
+Python: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python
+Version: Python 3.10.18
+
+/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct
+CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=2207 --max_restarts=0 train.py --lora --lora_r 16 --model_name Qwen/Qwen2-VL-2B-Instruct --bf16 --pooling eos --normalize True --temperature 0.02 --dataloader_num_workers 1 --dataset_config /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/retrieval.yaml --data_basedir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train --run_name test1-Qwen/Qwen2-VL-2B-Instruct --output_dir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct --grad_cache True --per_device_train_batch_size 16 --gc_q_chunk_size 8 --gc_p_chunk_size 8 --interleave_batch_size 0 --lr_scheduler_type linear --learning_rate 5e-5 --max_steps 6000 --warmup_steps 100 --save_steps 50 --logging_steps 1 --save_safetensors True --remove_unused_columns False --resume_from auto --plus_one_token False --report_to wandb 2>&1 | tee /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct/train.log
+W1022 17:10:07.951000 140145545054016 torch/distributed/run.py:779] 
+W1022 17:10:07.951000 140145545054016 torch/distributed/run.py:779] *****************************************
+W1022 17:10:07.951000 140145545054016 torch/distributed/run.py:779] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W1022 17:10:07.951000 140145545054016 torch/distributed/run.py:779] *****************************************
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+DropoutAddRMSNorm of flash_attn is not installed!!!DropoutAddRMSNorm of flash_attn is not installed!!!
+
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+Distributed init debug info:
+RANK: 0
+LOCAL_RANK: 0
+WORLD_SIZE: 2
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2207
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 0
+torch.distributed.get_world_size(): 2
+[2025-10-22 17:10:33,279] INFO [src.utils:10] rank0: init wandb
+Distributed init debug info:
+RANK: 1
+LOCAL_RANK: 1
+WORLD_SIZE: 2
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2207
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 1
+torch.distributed.get_world_size(): 2
+wandb: Currently logged in as: zhuzhehua16 (zhuzhehua16-t-l-com-paris) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]wandb: setting up run z9cuvfhb
+wandb: Tracking run with wandb version 0.22.1
+wandb: Run data is saved locally in /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251022_171033-z9cuvfhb
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run test1-Qwen/Qwen2-VL-2B-Instruct
+wandb: ⭐️ View project at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train
+wandb: 🚀 View run at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train/runs/z9cuvfhb
+[2025-10-22 17:10:36,249] INFO [src.utils:19] Loading backbone [qwen2_vl] from Qwen/Qwen2-VL-2B-Instruct
+You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.41s/it]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  4.26it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.13s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.32s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  8.15it/s]
+[2025-10-22 17:10:36,874] INFO [src.utils:19] Loading lora adapter from Qwen2VLForConditionalGeneration(
+  (visual): Qwen2VisionTransformerPretrainedModel(
+    (patch_embed): PatchEmbed(
+      (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+    )
+    (rotary_pos_emb): VisionRotaryEmbedding()
+    (blocks): ModuleList(
+      (0-31): 32 x Qwen2VLVisionBlock(
+        (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (attn): VisionFlashAttention2(
+          (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+          (proj): Linear(in_features=1280, out_features=1280, bias=True)
+        )
+        (mlp): VisionMlp(
+          (fc1): Linear(in_features=1280, out_features=5120, bias=True)
+          (act): QuickGELUActivation()
+          (fc2): Linear(in_features=5120, out_features=1280, bias=True)
+        )
+      )
+    )
+    (merger): PatchMerger(
+      (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+      (mlp): Sequential(
+        (0): Linear(in_features=5120, out_features=5120, bias=True)
+        (1): GELU(approximate='none')
+        (2): Linear(in_features=5120, out_features=1536, bias=True)
+      )
+    )
+  )
+  (model): Qwen2VLModel(
+    (embed_tokens): Embedding(151936, 1536)
+    (layers): ModuleList(
+      (0-27): 28 x Qwen2VLDecoderLayer(
+        (self_attn): Qwen2VLFlashAttention2(
+          (q_proj): Linear(in_features=1536, out_features=1536, bias=True)
+          (k_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (v_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (o_proj): Linear(in_features=1536, out_features=1536, bias=False)
+          (rotary_emb): Qwen2VLRotaryEmbedding()
+        )
+        (mlp): Qwen2MLP(
+          (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (down_proj): Linear(in_features=8960, out_features=1536, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+        (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+      )
+    )
+    (norm): Qwen2RMSNorm((1536,), eps=1e-06)
+    (rotary_emb): Qwen2VLRotaryEmbedding()
+  )
+  (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
+)
+[2025-10-22 17:10:59,018] INFO [src.utils:10] rank0: model_backbone: qwen2_vl
+[2025-10-22 17:10:59,018] INFO [src.utils:19] Loading processor from: Qwen/Qwen2-VL-2B-Instruct
+[2025-10-22 17:10:59,021] INFO [src.utils:10] rank1: model_backbone: qwen2_vl
+[2025-10-22 17:11:04,033] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2025-10-22 17:11:04,034] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=50.0
+[2025-10-22 17:11:05,130] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2025-10-22 17:11:05,131] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=50.0
+[2025-10-22 17:11:05,132] INFO [src.utils:19] 
+Initializing interleave datasets:
+		world_size=2
+		total num rows=213287
+		global batch size=32
+		estimated num step per epoch=6665.21875
+		interleave_batch_size=0.0
+[2025-10-22 17:11:05,134] INFO [src.utils:19] ==================================================
+[2025-10-22 17:11:05,135] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2025-10-22 17:11:05,136] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-10-22 17:11:05,138] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-10-22 17:11:05,138] INFO [src.utils:19] ==================================================
+[2025-10-22 17:11:38,178] INFO [src.trainer:342] ***** Running training *****
+[2025-10-22 17:11:38,178] INFO [src.trainer:342] ***** Running training *****
+[2025-10-22 17:11:38,179] INFO [src.trainer:343]   Num examples = 192,000
+[2025-10-22 17:11:38,179] INFO [src.trainer:344]   Num Epochs = 9,223,372,036,854,775,807
+[2025-10-22 17:11:38,179] INFO [src.trainer:345]   Instantaneous batch size per device = 16
+[2025-10-22 17:11:38,179] INFO [src.trainer:348]   Total train batch size (w. parallel, distributed & accumulation) = 32
+[2025-10-22 17:11:38,179] INFO [src.trainer:349]   Gradient Accumulation steps = 1
+[2025-10-22 17:11:38,179] INFO [src.trainer:350]   Total optimization steps = 6,000
+[2025-10-22 17:11:38,179] INFO [src.trainer:343]   Num examples = 192,000
+[2025-10-22 17:11:38,180] INFO [src.trainer:344]   Num Epochs = 9,223,372,036,854,775,807
+[2025-10-22 17:11:38,180] INFO [src.trainer:345]   Instantaneous batch size per device = 16
+[2025-10-22 17:11:38,181] INFO [src.trainer:348]   Total train batch size (w. parallel, distributed & accumulation) = 32
+[2025-10-22 17:11:38,181] INFO [src.trainer:349]   Gradient Accumulation steps = 1
+[2025-10-22 17:11:38,181] INFO [src.trainer:350]   Total optimization steps = 6,000
+[2025-10-22 17:11:38,188] INFO [src.trainer:351]   Number of trainable parameters = 9,203,712
+[2025-10-22 17:11:38,191] INFO [src.trainer:351]   Number of trainable parameters = 9,203,712
+  0%|          | 0/6000 [00:00<?, ?it/s]You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+[rank1]:[W1022 17:11:44.399829080 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+[rank0]:[W1022 17:11:44.416440517 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+  0%|          | 1/6000 [00:08<13:22:23,  8.03s/it]                                                   {'loss': 20.6106, 'grad_norm': 1363.8314208984375, 'learning_rate': 5.000000000000001e-07, 'epoch': 0.0}
+  0%|          | 1/6000 [00:08<13:22:23,  8.03s/it]  0%|          | 2/6000 [00:11<8:39:43,  5.20s/it]                                                   {'loss': 17.9095, 'grad_norm': 2134.857177734375, 'learning_rate': 1.0000000000000002e-06, 'epoch': 0.0}
+  0%|          | 2/6000 [00:11<8:39:43,  5.20s/it]  0%|          | 3/6000 [00:14<7:17:58,  4.38s/it]                                                  {'loss': 15.8763, 'grad_norm': 1978.771728515625, 'learning_rate': 1.5e-06, 'epoch': 0.0}
+  0%|          | 3/6000 [00:14<7:17:58,  4.38s/it]  0%|          | 4/6000 [00:18<6:40:20,  4.01s/it]                                                  {'loss': 16.5006, 'grad_norm': 2479.923583984375, 'learning_rate': 2.0000000000000003e-06, 'epoch': 0.0}
+  0%|          | 4/6000 [00:18<6:40:20,  4.01s/it]  0%|          | 5/6000 [00:21<6:18:16,  3.79s/it]                                                  {'loss': 16.1976, 'grad_norm': 1919.339599609375, 'learning_rate': 2.5e-06, 'epoch': 0.0}
+  0%|          | 5/6000 [00:21<6:18:16,  3.79s/it]  0%|          | 6/6000 [00:24<6:02:05,  3.62s/it]                                                  {'loss': 17.8027, 'grad_norm': 1687.1920166015625, 'learning_rate': 3e-06, 'epoch': 0.0}
+  0%|          | 6/6000 [00:24<6:02:05,  3.62s/it]  0%|          | 7/6000 [00:28<5:51:22,  3.52s/it]                                                  {'loss': 16.225, 'grad_norm': 2179.227294921875, 'learning_rate': 3.5000000000000004e-06, 'epoch': 0.0}
+  0%|          | 7/6000 [00:28<5:51:22,  3.52s/it]  0%|          | 8/6000 [00:31<5:44:47,  3.45s/it]                                                  {'loss': 16.7056, 'grad_norm': 1849.8929443359375, 'learning_rate': 4.000000000000001e-06, 'epoch': 0.0}
+  0%|          | 8/6000 [00:31<5:44:47,  3.45s/it]  0%|          | 9/6000 [00:34<5:42:40,  3.43s/it]                                                  {'loss': 12.8519, 'grad_norm': 1642.195068359375, 'learning_rate': 4.5e-06, 'epoch': 0.0}
+  0%|          | 9/6000 [00:34<5:42:40,  3.43s/it]  0%|          | 10/6000 [00:38<5:36:43,  3.37s/it]                                                   {'loss': 14.4761, 'grad_norm': 1973.8089599609375, 'learning_rate': 5e-06, 'epoch': 0.0}
+  0%|          | 10/6000 [00:38<5:36:43,  3.37s/it]  0%|          | 11/6000 [00:41<5:44:09,  3.45s/it]                                                   {'loss': 13.5857, 'grad_norm': 2327.44287109375, 'learning_rate': 5.500000000000001e-06, 'epoch': 0.0}
+  0%|          | 11/6000 [00:41<5:44:09,  3.45s/it]  0%|          | 12/6000 [00:45<5:43:41,  3.44s/it]                                                   {'loss': 10.9805, 'grad_norm': 1837.7152099609375, 'learning_rate': 6e-06, 'epoch': 0.0}
+  0%|          | 12/6000 [00:45<5:43:41,  3.44s/it]  0%|          | 13/6000 [00:48<5:39:31,  3.40s/it]                                                   {'loss': 11.0882, 'grad_norm': 4212.64697265625, 'learning_rate': 6.5000000000000004e-06, 'epoch': 0.0}
+  0%|          | 13/6000 [00:48<5:39:31,  3.40s/it]  0%|          | 14/6000 [00:51<5:40:52,  3.42s/it]                                                   {'loss': 10.1691, 'grad_norm': 3047.9296875, 'learning_rate': 7.000000000000001e-06, 'epoch': 0.0}
+  0%|          | 14/6000 [00:51<5:40:52,  3.42s/it]  0%|          | 15/6000 [00:55<5:38:02,  3.39s/it]                                                   {'loss': 5.9539, 'grad_norm': 2986.933349609375, 'learning_rate': 7.5e-06, 'epoch': 0.0}
+  0%|          | 15/6000 [00:55<5:38:02,  3.39s/it]  0%|          | 16/6000 [00:58<5:35:37,  3.37s/it]                                                   {'loss': 4.4138, 'grad_norm': 2281.864013671875, 'learning_rate': 8.000000000000001e-06, 'epoch': 0.0}
+  0%|          | 16/6000 [00:58<5:35:37,  3.37s/it]  0%|          | 17/6000 [01:01<5:35:22,  3.36s/it]                                                   {'loss': 6.0876, 'grad_norm': 1774.894775390625, 'learning_rate': 8.500000000000002e-06, 'epoch': 0.0}
+  0%|          | 17/6000 [01:01<5:35:22,  3.36s/it]  0%|          | 18/6000 [01:05<5:37:00,  3.38s/it]                                                   {'loss': 4.4087, 'grad_norm': 568.81396484375, 'learning_rate': 9e-06, 'epoch': 0.0}
+  0%|          | 18/6000 [01:05<5:37:00,  3.38s/it]  0%|          | 19/6000 [01:08<5:34:12,  3.35s/it]                                                   {'loss': 4.4018, 'grad_norm': 2220.698486328125, 'learning_rate': 9.5e-06, 'epoch': 0.0}
+  0%|          | 19/6000 [01:08<5:34:12,  3.35s/it]  0%|          | 20/6000 [01:11<5:35:03,  3.36s/it]                                                   {'loss': 4.1827, 'grad_norm': 660.8455810546875, 'learning_rate': 1e-05, 'epoch': 0.0}
+  0%|          | 20/6000 [01:11<5:35:03,  3.36s/it]  0%|          | 21/6000 [01:15<5:37:46,  3.39s/it]                                                   {'loss': 3.6072, 'grad_norm': 387.3876037597656, 'learning_rate': 1.05e-05, 'epoch': 0.0}
+  0%|          | 21/6000 [01:15<5:37:46,  3.39s/it]  0%|          | 22/6000 [01:18<5:38:38,  3.40s/it]                                                   {'loss': 3.7365, 'grad_norm': 270.52325439453125, 'learning_rate': 1.1000000000000001e-05, 'epoch': 0.0}
+  0%|          | 22/6000 [01:18<5:38:38,  3.40s/it]  0%|          | 23/6000 [01:22<5:36:30,  3.38s/it]                                                   {'loss': 3.8327, 'grad_norm': 387.7395935058594, 'learning_rate': 1.1500000000000002e-05, 'epoch': 0.0}
+  0%|          | 23/6000 [01:22<5:36:30,  3.38s/it]  0%|          | 24/6000 [01:25<5:39:21,  3.41s/it]                                                   {'loss': 3.5993, 'grad_norm': 350.7850036621094, 'learning_rate': 1.2e-05, 'epoch': 0.0}
+  0%|          | 24/6000 [01:25<5:39:21,  3.41s/it]  0%|          | 25/6000 [01:28<5:38:44,  3.40s/it]                                                   {'loss': 3.6075, 'grad_norm': 185.96202087402344, 'learning_rate': 1.25e-05, 'epoch': 0.0}
+  0%|          | 25/6000 [01:28<5:38:44,  3.40s/it]  0%|          | 26/6000 [01:32<5:40:26,  3.42s/it]                                                   {'loss': 3.5133, 'grad_norm': 178.3481903076172, 'learning_rate': 1.3000000000000001e-05, 'epoch': 0.0}
+  0%|          | 26/6000 [01:32<5:40:26,  3.42s/it]  0%|          | 27/6000 [01:35<5:39:23,  3.41s/it]                                                   {'loss': 3.4834, 'grad_norm': 216.39736938476562, 'learning_rate': 1.3500000000000001e-05, 'epoch': 0.0}
+  0%|          | 27/6000 [01:35<5:39:23,  3.41s/it]  0%|          | 28/6000 [01:40<6:05:38,  3.67s/it]                                                   {'loss': 3.0894, 'grad_norm': 155.42213439941406, 'learning_rate': 1.4000000000000001e-05, 'epoch': 0.0}
+  0%|          | 28/6000 [01:40<6:05:38,  3.67s/it]  0%|          | 29/6000 [01:43<5:56:19,  3.58s/it]                                                   {'loss': 3.0511, 'grad_norm': 132.15196228027344, 'learning_rate': 1.45e-05, 'epoch': 0.0}
+  0%|          | 29/6000 [01:43<5:56:19,  3.58s/it]  0%|          | 30/6000 [01:46<5:51:42,  3.53s/it]                                                   {'loss': 3.687, 'grad_norm': 230.1149444580078, 'learning_rate': 1.5e-05, 'epoch': 0.01}
+  0%|          | 30/6000 [01:46<5:51:42,  3.53s/it]  1%|          | 31/6000 [01:50<5:46:00,  3.48s/it]                                                   {'loss': 2.8813, 'grad_norm': 97.53427124023438, 'learning_rate': 1.55e-05, 'epoch': 0.01}
+  1%|          | 31/6000 [01:50<5:46:00,  3.48s/it]  1%|          | 32/6000 [01:53<5:43:06,  3.45s/it]                                                   {'loss': 3.0902, 'grad_norm': 98.1824951171875, 'learning_rate': 1.6000000000000003e-05, 'epoch': 0.01}
+  1%|          | 32/6000 [01:53<5:43:06,  3.45s/it]  1%|          | 33/6000 [01:57<5:42:48,  3.45s/it]                                                   {'loss': 3.0186, 'grad_norm': 90.7879409790039, 'learning_rate': 1.65e-05, 'epoch': 0.01}
+  1%|          | 33/6000 [01:57<5:42:48,  3.45s/it]  1%|          | 34/6000 [02:00<5:40:17,  3.42s/it]                                                   {'loss': 2.8875, 'grad_norm': 71.73566436767578, 'learning_rate': 1.7000000000000003e-05, 'epoch': 0.01}
+  1%|          | 34/6000 [02:00<5:40:17,  3.42s/it]  1%|          | 35/6000 [02:03<5:39:11,  3.41s/it]                                                   {'loss': 2.9534, 'grad_norm': 87.97502899169922, 'learning_rate': 1.75e-05, 'epoch': 0.01}
+  1%|          | 35/6000 [02:03<5:39:11,  3.41s/it]  1%|          | 36/6000 [02:07<5:35:36,  3.38s/it]                                                   {'loss': 2.8309, 'grad_norm': 76.0586166381836, 'learning_rate': 1.8e-05, 'epoch': 0.01}
+  1%|          | 36/6000 [02:07<5:35:36,  3.38s/it]  1%|          | 37/6000 [02:10<5:34:51,  3.37s/it]                                                   {'loss': 2.8364, 'grad_norm': 102.03921508789062, 'learning_rate': 1.85e-05, 'epoch': 0.01}
+  1%|          | 37/6000 [02:10<5:34:51,  3.37s/it]  1%|          | 38/6000 [02:13<5:31:51,  3.34s/it]                                                   {'loss': 2.7207, 'grad_norm': 86.10516357421875, 'learning_rate': 1.9e-05, 'epoch': 0.01}
+  1%|          | 38/6000 [02:13<5:31:51,  3.34s/it]  1%|          | 39/6000 [02:17<5:30:44,  3.33s/it]                                                   {'loss': 2.5991, 'grad_norm': 144.8988494873047, 'learning_rate': 1.9500000000000003e-05, 'epoch': 0.01}
+  1%|          | 39/6000 [02:17<5:30:44,  3.33s/it]  1%|          | 40/6000 [02:20<5:32:33,  3.35s/it]                                                   {'loss': 2.5581, 'grad_norm': 114.17999267578125, 'learning_rate': 2e-05, 'epoch': 0.01}
+  1%|          | 40/6000 [02:20<5:32:33,  3.35s/it]  1%|          | 41/6000 [02:23<5:32:44,  3.35s/it]                                                   {'loss': 2.0551, 'grad_norm': 98.86351776123047, 'learning_rate': 2.05e-05, 'epoch': 0.01}
+  1%|          | 41/6000 [02:23<5:32:44,  3.35s/it]  1%|          | 42/6000 [02:27<5:32:41,  3.35s/it]                                                   {'loss': 1.9151, 'grad_norm': 91.75906372070312, 'learning_rate': 2.1e-05, 'epoch': 0.01}
+  1%|          | 42/6000 [02:27<5:32:41,  3.35s/it]  1%|          | 43/6000 [02:31<6:04:30,  3.67s/it]                                                   {'loss': 1.4941, 'grad_norm': 94.99849700927734, 'learning_rate': 2.15e-05, 'epoch': 0.01}
+  1%|          | 43/6000 [02:31<6:04:30,  3.67s/it]  1%|          | 44/6000 [02:35<6:08:35,  3.71s/it]                                                   {'loss': 1.5275, 'grad_norm': 78.68081665039062, 'learning_rate': 2.2000000000000003e-05, 'epoch': 0.01}
+  1%|          | 44/6000 [02:35<6:08:35,  3.71s/it]  1%|          | 45/6000 [02:38<5:56:28,  3.59s/it]                                                   {'loss': 1.3717, 'grad_norm': 75.59226989746094, 'learning_rate': 2.25e-05, 'epoch': 0.01}
+  1%|          | 45/6000 [02:38<5:56:28,  3.59s/it]  1%|          | 46/6000 [02:42<5:48:53,  3.52s/it]                                                   {'loss': 1.1548, 'grad_norm': 77.9516372680664, 'learning_rate': 2.3000000000000003e-05, 'epoch': 0.01}
+  1%|          | 46/6000 [02:42<5:48:53,  3.52s/it]Traceback (most recent call last):
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+[rank1]:     main()
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 104, in main
+[rank1]:     trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+[rank1]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+[rank1]:     return inner_training_loop(
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 450, in _inner_training_loop
+[rank1]:     batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches)
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 86, in get_batch_samples
+[rank1]:     batch_samples += [next(epoch_iterator)]
+[rank1]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 630, in __next__
+[rank1]:     data = self._next_data()
+[rank1]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1344, in _next_data
+[rank1]:     return self._process_data(data)
+[rank1]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1370, in _process_data
+[rank1]:     data.reraise()
+[rank1]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/_utils.py", line 706, in reraise
+[rank1]:     raise exception
+[rank1]: FileNotFoundError: Caught FileNotFoundError in DataLoader worker process 0.
+[rank1]: Original Traceback (most recent call last):
+[rank1]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 309, in _worker_loop
+[rank1]:     data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+[rank1]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 43, in fetch
+[rank1]:     return self.collate_fn(data)
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/data/collator/train_collator.py", line 192, in __call__
+[rank1]:     qry_inputs = self._get_batch_inputs(examples, "query_text", "query_image")
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/data/collator/train_collator.py", line 160, in _get_batch_inputs
+[rank1]:     with Image.open(path) as img:
+[rank1]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/PIL/Image.py", line 3513, in open
+[rank1]:     fp = builtins.open(filename, "rb")
+[rank1]: FileNotFoundError: [Errno 2] No such file or directory: '/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train/image/images/MSCOCO_i2t/Train/COCO_train2014_000000228647.jpg'
+
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+    main()
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 104, in main
+    trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+    return inner_training_loop(
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 450, in _inner_training_loop
+    batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 86, in get_batch_samples
+    batch_samples += [next(epoch_iterator)]
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 630, in __next__
+    data = self._next_data()
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1344, in _next_data
+    return self._process_data(data)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1370, in _process_data
+    data.reraise()
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/_utils.py", line 706, in reraise
+    raise exception
+FileNotFoundError: Caught FileNotFoundError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 309, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 43, in fetch
+    return self.collate_fn(data)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/data/collator/train_collator.py", line 192, in __call__
+    qry_inputs = self._get_batch_inputs(examples, "query_text", "query_image")
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/data/collator/train_collator.py", line 160, in _get_batch_inputs
+    with Image.open(path) as img:
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/PIL/Image.py", line 3513, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train/image/images/MSCOCO_i2t/Train/COCO_train2014_000000426853.jpg'
+
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 104, in main
+[rank0]:     trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+[rank0]:     return inner_training_loop(
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 450, in _inner_training_loop
+[rank0]:     batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 86, in get_batch_samples
+[rank0]:     batch_samples += [next(epoch_iterator)]
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 630, in __next__
+[rank0]:     data = self._next_data()
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1344, in _next_data
+[rank0]:     return self._process_data(data)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1370, in _process_data
+[rank0]:     data.reraise()
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/_utils.py", line 706, in reraise
+[rank0]:     raise exception
+[rank0]: FileNotFoundError: Caught FileNotFoundError in DataLoader worker process 0.
+[rank0]: Original Traceback (most recent call last):
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 309, in _worker_loop
+[rank0]:     data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 43, in fetch
+[rank0]:     return self.collate_fn(data)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/data/collator/train_collator.py", line 192, in __call__
+[rank0]:     qry_inputs = self._get_batch_inputs(examples, "query_text", "query_image")
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/data/collator/train_collator.py", line 160, in _get_batch_inputs
+[rank0]:     with Image.open(path) as img:
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/PIL/Image.py", line 3513, in open
+[rank0]:     fp = builtins.open(filename, "rb")
+[rank0]: FileNotFoundError: [Errno 2] No such file or directory: '/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train/image/images/MSCOCO_i2t/Train/COCO_train2014_000000426853.jpg'
+
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mtest1-Qwen/Qwen2-VL-2B-Instruct[0m at: [34m[0m
+[1;34mwandb[0m: Find logs at: [1;35mexperiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251022_171033-z9cuvfhb/logs[0m
+W1022 17:14:23.347000 140145545054016 torch/distributed/elastic/multiprocessing/api.py:858] Sending process 2377 closing signal SIGTERM
+E1022 17:14:23.511000 140145545054016 torch/distributed/elastic/multiprocessing/api.py:833] failed (exitcode: 1) local_rank: 1 (pid: 2378) of binary: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python3.10
+Traceback (most recent call last):
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/torchrun", line 7, in <module>
+    sys.exit(main())
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 348, in wrapper
+    return f(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/run.py", line 901, in main
+    run(args)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/run.py", line 892, in run
+    elastic_launch(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 133, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 264, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+train.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2025-10-22_17:14:23
+  host      : node40.enst.fr
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 2378)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+Job finished at: mer. 22 oct. 2025 17:14:23 CEST

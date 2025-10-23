@@ -1,0 +1,18 @@
+==> Environment
+Python: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python
+Version: Python 3.10.18
+
+==> Checking available GPUs...
+Detected GPUs: 0,
+✅ GPUs are free and ready to use.
+
+=================================================
+🚀 Evaluating Model: Qwen/Qwen2-VL-2B-Instruct
+=================================================
+  ➤ Dataset config: experiments/public/eval/retrieval.yaml
+  ➤ Output base path: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/test3/qwen-Qwen2-VL-2B-Instruct
+  ➤ Layer range: 27 to 27
+
+  ▶ Layer 27 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/test3/qwen-Qwen2-VL-2B-Instruct/layer_27/retrieval
+❌ Script failed at line 101
+Job finished at: mer. 22 oct. 2025 22:09:56 CEST

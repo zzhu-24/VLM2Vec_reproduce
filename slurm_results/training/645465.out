@@ -1,0 +1,348 @@
+==> Environment
+Python: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python
+Version: Python 3.10.18
+
+/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct
+CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=2207 --max_restarts=0 train.py --lora --lora_r 16 --model_name Qwen/Qwen2-VL-2B-Instruct --bf16 --pooling eos --normalize True --temperature 0.02 --dataloader_num_workers 1 --dataset_config /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/retrieval.yaml --data_basedir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train --run_name test1-Qwen/Qwen2-VL-2B-Instruct --output_dir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct --grad_cache True --per_device_train_batch_size 16 --gc_q_chunk_size 8 --gc_p_chunk_size 8 --interleave_batch_size 0 --lr_scheduler_type linear --learning_rate 5e-5 --max_steps 6000 --warmup_steps 100 --save_steps 50 --logging_steps 1 --save_safetensors True --remove_unused_columns False --resume_from auto --plus_one_token True --report_to wandb 2>&1 | tee /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct/train.log
+W1022 18:36:06.754000 136670067832640 torch/distributed/run.py:779] 
+W1022 18:36:06.754000 136670067832640 torch/distributed/run.py:779] *****************************************
+W1022 18:36:06.754000 136670067832640 torch/distributed/run.py:779] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W1022 18:36:06.754000 136670067832640 torch/distributed/run.py:779] *****************************************
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+DropoutAddRMSNorm of flash_attn is not installed!!!DropoutAddRMSNorm of flash_attn is not installed!!!
+
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+Distributed init debug info:
+RANK: 0
+LOCAL_RANK: 0
+WORLD_SIZE: 2
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2207
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 0
+torch.distributed.get_world_size(): 2
+[2025-10-22 18:36:17,843] INFO [__main__:61] Resuming from checkpoint: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct/checkpoint-200
+[2025-10-22 18:36:17,843] INFO [src.utils:10] rank0: init wandb
+Distributed init debug info:
+RANK: 1
+LOCAL_RANK: 1
+WORLD_SIZE: 2
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2207
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 1
+torch.distributed.get_world_size(): 2
+[2025-10-22 18:36:17,977] INFO [__main__:61] Resuming from checkpoint: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct/checkpoint-200
+You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+wandb: Currently logged in as: zhuzhehua16 (zhuzhehua16-t-l-com-paris) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  4.06it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  7.82it/s]
+wandb: setting up run 6jn60pwj
+wandb: Tracking run with wandb version 0.22.1
+wandb: Run data is saved locally in /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251022_183618-6jn60pwj
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run test1-Qwen/Qwen2-VL-2B-Instruct
+wandb: ⭐️ View project at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train
+wandb: 🚀 View run at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train/runs/6jn60pwj
+[2025-10-22 18:36:19,379] INFO [src.utils:19] Loading backbone [qwen2_vl] from Qwen/Qwen2-VL-2B-Instruct
+You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  4.17it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  7.98it/s]
+[2025-10-22 18:36:20,008] INFO [src.utils:19] Loading lora adapter from Qwen2VLForConditionalGeneration(
+  (visual): Qwen2VisionTransformerPretrainedModel(
+    (patch_embed): PatchEmbed(
+      (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+    )
+    (rotary_pos_emb): VisionRotaryEmbedding()
+    (blocks): ModuleList(
+      (0-31): 32 x Qwen2VLVisionBlock(
+        (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (attn): VisionFlashAttention2(
+          (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+          (proj): Linear(in_features=1280, out_features=1280, bias=True)
+        )
+        (mlp): VisionMlp(
+          (fc1): Linear(in_features=1280, out_features=5120, bias=True)
+          (act): QuickGELUActivation()
+          (fc2): Linear(in_features=5120, out_features=1280, bias=True)
+        )
+      )
+    )
+    (merger): PatchMerger(
+      (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+      (mlp): Sequential(
+        (0): Linear(in_features=5120, out_features=5120, bias=True)
+        (1): GELU(approximate='none')
+        (2): Linear(in_features=5120, out_features=1536, bias=True)
+      )
+    )
+  )
+  (model): Qwen2VLModel(
+    (embed_tokens): Embedding(151936, 1536)
+    (layers): ModuleList(
+      (0-27): 28 x Qwen2VLDecoderLayer(
+        (self_attn): Qwen2VLFlashAttention2(
+          (q_proj): Linear(in_features=1536, out_features=1536, bias=True)
+          (k_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (v_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (o_proj): Linear(in_features=1536, out_features=1536, bias=False)
+          (rotary_emb): Qwen2VLRotaryEmbedding()
+        )
+        (mlp): Qwen2MLP(
+          (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (down_proj): Linear(in_features=8960, out_features=1536, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+        (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+      )
+    )
+    (norm): Qwen2RMSNorm((1536,), eps=1e-06)
+    (rotary_emb): Qwen2VLRotaryEmbedding()
+  )
+  (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
+)
+[2025-10-22 18:36:28,886] INFO [src.utils:10] rank1: model_backbone: qwen2_vl
+[2025-10-22 18:36:30,151] INFO [src.utils:19] PeftModel(
+  (base_model): LoraModel(
+    (model): Qwen2VLForConditionalGeneration(
+      (visual): Qwen2VisionTransformerPretrainedModel(
+        (patch_embed): PatchEmbed(
+          (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+        )
+        (rotary_pos_emb): VisionRotaryEmbedding()
+        (blocks): ModuleList(
+          (0-31): 32 x Qwen2VLVisionBlock(
+            (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+            (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+            (attn): VisionFlashAttention2(
+              (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+              (proj): Linear(in_features=1280, out_features=1280, bias=True)
+            )
+            (mlp): VisionMlp(
+              (fc1): Linear(in_features=1280, out_features=5120, bias=True)
+              (act): QuickGELUActivation()
+              (fc2): Linear(in_features=5120, out_features=1280, bias=True)
+            )
+          )
+        )
+        (merger): PatchMerger(
+          (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+          (mlp): Sequential(
+            (0): Linear(in_features=5120, out_features=5120, bias=True)
+            (1): GELU(approximate='none')
+            (2): Linear(in_features=5120, out_features=1536, bias=True)
+          )
+        )
+      )
+      (model): Qwen2VLModel(
+        (embed_tokens): Embedding(151936, 1536)
+        (layers): ModuleList(
+          (0-27): 28 x Qwen2VLDecoderLayer(
+            (self_attn): Qwen2VLFlashAttention2(
+              (q_proj): lora.Linear(
+                (base_layer): Linear(in_features=1536, out_features=1536, bias=True)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1536, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=1536, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (k_proj): lora.Linear(
+                (base_layer): Linear(in_features=1536, out_features=256, bias=True)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1536, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=256, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (v_proj): lora.Linear(
+                (base_layer): Linear(in_features=1536, out_features=256, bias=True)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1536, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=256, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (o_proj): lora.Linear(
+                (base_layer): Linear(in_features=1536, out_features=1536, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1536, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=1536, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (rotary_emb): Qwen2VLRotaryEmbedding()
+            )
+            (mlp): Qwen2MLP(
+              (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
+              (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
+              (down_proj): lora.Linear(
+                (base_layer): Linear(in_features=8960, out_features=1536, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=8960, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=1536, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (act_fn): SiLU()
+            )
+            (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+            (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+          )
+        )
+        (norm): Qwen2RMSNorm((1536,), eps=1e-06)
+        (rotary_emb): Qwen2VLRotaryEmbedding()
+      )
+      (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
+    )
+  )
+)
+[2025-10-22 18:36:30,159] INFO [src.utils:19] 1536
+[2025-10-22 18:36:30,160] INFO [src.utils:10] rank0: model_backbone: qwen2_vl
+[2025-10-22 18:36:30,161] INFO [src.utils:19] Loading processor from: Qwen/Qwen2-VL-2B-Instruct
+[2025-10-22 18:36:34,674] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2025-10-22 18:36:34,675] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=50.0
+[2025-10-22 18:36:35,705] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2025-10-22 18:36:35,706] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=50.0
+[2025-10-22 18:36:35,706] INFO [src.utils:19] 
+Initializing interleave datasets:
+		world_size=2
+		total num rows=213287
+		global batch size=32
+		estimated num step per epoch=6665.21875
+		interleave_batch_size=0.0
+[2025-10-22 18:36:35,708] INFO [src.utils:19] ==================================================
+[2025-10-22 18:36:35,708] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2025-10-22 18:36:35,709] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-10-22 18:36:35,710] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-10-22 18:36:35,710] INFO [src.utils:19] ==================================================
+[2025-10-22 18:36:35,963] INFO [src.trainer:161] Loading checkpoint from /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct/checkpoint-200
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.71it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  7.16it/s]
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+[rank1]:     main()
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 104, in main
+[rank1]:     trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+[rank1]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2217, in train
+[rank1]:     self._load_from_checkpoint(resume_from_checkpoint)
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 162, in _load_from_checkpoint
+[rank1]:     self.model = MMEBModel.load(self.model_args)
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 281, in load
+[rank1]:     base_model = TailTokenDetachPrefixWrapper(base_model, hidden_size=hidden_size, freeze_text_embeddings=False)
+[rank1]: TypeError: TailTokenDetachPrefixWrapper.__init__() got an unexpected keyword argument 'hidden_size'
+[2025-10-22 18:36:36,827] INFO [src.trainer:161] Loading checkpoint from /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct/checkpoint-200
+[2025-10-22 18:36:36,829] INFO [src.utils:19] Loading backbone [qwen2_vl] from /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test1-Qwen/Qwen2-VL-2B-Instruct/checkpoint-200
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  4.01it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  7.68it/s]
+[2025-10-22 18:36:37,399] INFO [src.utils:19] Enabling TailTokenWrapper (learnable tail token).
+Traceback (most recent call last):
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+    main()
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 104, in main
+    trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2217, in train
+    self._load_from_checkpoint(resume_from_checkpoint)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 162, in _load_from_checkpoint
+    self.model = MMEBModel.load(self.model_args)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 281, in load
+    base_model = TailTokenDetachPrefixWrapper(base_model, hidden_size=hidden_size, freeze_text_embeddings=False)
+TypeError: TailTokenDetachPrefixWrapper.__init__() got an unexpected keyword argument 'hidden_size'
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 104, in main
+[rank0]:     trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2217, in train
+[rank0]:     self._load_from_checkpoint(resume_from_checkpoint)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 162, in _load_from_checkpoint
+[rank0]:     self.model = MMEBModel.load(self.model_args)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 281, in load
+[rank0]:     base_model = TailTokenDetachPrefixWrapper(base_model, hidden_size=hidden_size, freeze_text_embeddings=False)
+[rank0]: TypeError: TailTokenDetachPrefixWrapper.__init__() got an unexpected keyword argument 'hidden_size'
+W1022 18:36:37.943000 136670067832640 torch/distributed/elastic/multiprocessing/api.py:858] Sending process 7801 closing signal SIGTERM
+E1022 18:36:38.207000 136670067832640 torch/distributed/elastic/multiprocessing/api.py:833] failed (exitcode: 1) local_rank: 1 (pid: 7802) of binary: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python3.10
+Traceback (most recent call last):
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/torchrun", line 7, in <module>
+    sys.exit(main())
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 348, in wrapper
+    return f(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/run.py", line 901, in main
+    run(args)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/run.py", line 892, in run
+    elastic_launch(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 133, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 264, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+train.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2025-10-22_18:36:37
+  host      : node40.enst.fr
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 7802)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+Job finished at: mer. 22 oct. 2025 18:36:38 CEST

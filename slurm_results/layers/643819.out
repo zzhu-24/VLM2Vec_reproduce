@@ -1,0 +1,366 @@
+==> Environment
+Python: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python
+Version: Python 3.10.18
+
+/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/original-Qwen/Qwen2-VL-2B-Instruct
+CUDA_VISIBLE_DEVICES=0,1,2 torchrun --nproc_per_node=1 --master_port=2207 --max_restarts=0 train.py --lora --lora_r 16 --model_name Qwen/Qwen2-VL-2B-Instruct --bf16 --pooling eos --normalize True --temperature 0.02 --dataloader_num_workers 1 --dataset_config /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/retrieval.yaml --data_basedir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train --run_name original-Qwen/Qwen2-VL-2B-Instruct --output_dir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/original-Qwen/Qwen2-VL-2B-Instruct --grad_cache False --per_device_train_batch_size 4 --gc_q_chunk_size 8 --gc_p_chunk_size 8 --interleave_batch_size 0 --lr_scheduler_type linear --learning_rate 5e-5 --max_steps 5000 --warmup_steps 100 --save_steps 50 --logging_steps 1 --save_safetensors True --remove_unused_columns False --resume_from auto --plus_one_token False --report_to wandb 2>&1 | tee /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/original-Qwen/Qwen2-VL-2B-Instruct/train.log
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+DropoutAddRMSNorm of flash_attn is not installed!!!
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+Distributed init debug info:
+RANK: 0
+LOCAL_RANK: 0
+WORLD_SIZE: 1
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2207
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 0
+torch.distributed.get_world_size(): 1
+[2025-10-18 13:23:03,323] INFO [src.utils:10] rank0: init wandb
+wandb: Currently logged in as: zhuzhehua16 (zhuzhehua16-t-l-com-paris) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run or2osmkg
+wandb: Tracking run with wandb version 0.22.1
+wandb: Run data is saved locally in /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/original-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251018_132303-or2osmkg
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run original-Qwen/Qwen2-VL-2B-Instruct
+wandb: ⭐️ View project at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train
+wandb: 🚀 View run at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train/runs/or2osmkg
+[2025-10-18 13:23:04,967] INFO [src.utils:19] Loading backbone [qwen2_vl] from Qwen/Qwen2-VL-2B-Instruct
+You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  4.35it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  8.33it/s]
+[2025-10-18 13:23:05,567] INFO [src.utils:19] Loading lora adapter from Qwen2VLForConditionalGeneration(
+  (visual): Qwen2VisionTransformerPretrainedModel(
+    (patch_embed): PatchEmbed(
+      (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+    )
+    (rotary_pos_emb): VisionRotaryEmbedding()
+    (blocks): ModuleList(
+      (0-31): 32 x Qwen2VLVisionBlock(
+        (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (attn): VisionFlashAttention2(
+          (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+          (proj): Linear(in_features=1280, out_features=1280, bias=True)
+        )
+        (mlp): VisionMlp(
+          (fc1): Linear(in_features=1280, out_features=5120, bias=True)
+          (act): QuickGELUActivation()
+          (fc2): Linear(in_features=5120, out_features=1280, bias=True)
+        )
+      )
+    )
+    (merger): PatchMerger(
+      (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+      (mlp): Sequential(
+        (0): Linear(in_features=5120, out_features=5120, bias=True)
+        (1): GELU(approximate='none')
+        (2): Linear(in_features=5120, out_features=1536, bias=True)
+      )
+    )
+  )
+  (model): Qwen2VLModel(
+    (embed_tokens): Embedding(151936, 1536)
+    (layers): ModuleList(
+      (0-27): 28 x Qwen2VLDecoderLayer(
+        (self_attn): Qwen2VLFlashAttention2(
+          (q_proj): Linear(in_features=1536, out_features=1536, bias=True)
+          (k_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (v_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (o_proj): Linear(in_features=1536, out_features=1536, bias=False)
+          (rotary_emb): Qwen2VLRotaryEmbedding()
+        )
+        (mlp): Qwen2MLP(
+          (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (down_proj): Linear(in_features=8960, out_features=1536, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+        (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+      )
+    )
+    (norm): Qwen2RMSNorm((1536,), eps=1e-06)
+    (rotary_emb): Qwen2VLRotaryEmbedding()
+  )
+  (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
+)
+[2025-10-18 13:23:14,966] INFO [src.utils:10] rank0: model_backbone: qwen2_vl
+[2025-10-18 13:23:14,967] INFO [src.utils:19] Loading processor from: Qwen/Qwen2-VL-2B-Instruct
+[2025-10-18 13:23:19,471] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2025-10-18 13:23:19,472] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=50.0
+[2025-10-18 13:23:20,329] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2025-10-18 13:23:20,330] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=50.0
+[2025-10-18 13:23:20,331] INFO [src.utils:19] 
+Initializing interleave datasets:
+		world_size=1
+		total num rows=213287
+		global batch size=4
+		estimated num step per epoch=53321.75
+		interleave_batch_size=0.0
+[2025-10-18 13:23:20,333] INFO [src.utils:19] ==================================================
+[2025-10-18 13:23:20,333] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2025-10-18 13:23:20,335] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-10-18 13:23:20,336] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-10-18 13:23:20,336] INFO [src.utils:19] ==================================================
+[2025-10-18 13:23:21,698] INFO [src.trainer:335] ***** Running training *****
+[2025-10-18 13:23:21,699] INFO [src.trainer:336]   Num examples = 20,000
+[2025-10-18 13:23:21,699] INFO [src.trainer:337]   Num Epochs = 9,223,372,036,854,775,807
+[2025-10-18 13:23:21,700] INFO [src.trainer:338]   Instantaneous batch size per device = 4
+[2025-10-18 13:23:21,700] INFO [src.trainer:341]   Total train batch size (w. parallel, distributed & accumulation) = 4
+[2025-10-18 13:23:21,701] INFO [src.trainer:342]   Gradient Accumulation steps = 1
+[2025-10-18 13:23:21,701] INFO [src.trainer:343]   Total optimization steps = 5,000
+[2025-10-18 13:23:21,706] INFO [src.trainer:344]   Number of trainable parameters = 9,203,712
+  0%|          | 0/5000 [00:00<?, ?it/s]You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+[2025-10-18 13:23:22,043] INFO [src.utils:19] {'input_ids': tensor([[151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+            198,   9885,    458,   2168,  17256,  22692,    279,   2661,  17778,
+           2168,    624],
+        [151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643,   9885,    752,
+            458,  17778,   2168,    429,   9071,    279,   2661,  17256,     25,
+            362,  41223,  10258,  11722,   8061,    374,  18650,    448,    264,
+           6006,   7616,  41223,  10258,    323,    264,   9565,  41223,  10258,
+           3403,    624],
+        [151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+            198,   9885,    458,   2168,  17256,  22692,    279,   2661,  17778,
+           2168,    624],
+        [151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643, 151643,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+         151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655, 151655,
+            198,   9885,    458,   2168,  17256,  22692,    279,   2661,  17778,
+           2168,    624]], device='cuda:0'), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]], device='cuda:0'), 'texts': ['<|image_pad|>\nFind an image caption describing the given everyday image.\n', 'Find me an everyday image that matches the given caption: A teddy bear shop is equipped with a door guard teddy and a neighbor teddy above.\n', '<|image_pad|>\nFind an image caption describing the given everyday image.\n', '<|image_pad|>\nFind an image caption describing the given everyday image.\n'], 'images': [[<PIL.Image.Image image mode=RGB size=256x383 at 0x7B0F53B14CD0>], [None], [<PIL.Image.Image image mode=RGB size=256x341 at 0x7B0F53B15CF0>], [<PIL.Image.Image image mode=RGB size=341x256 at 0x7B0F53B14DF0>]], 'pixel_values': [array([[-1.7922626, -1.7630657, -1.6900735, ..., -1.0962781, -1.0962781,
+        -1.0962781],
+       [-1.7192703, -1.7192703, -1.704672 , ..., -1.067838 , -1.067838 ,
+        -1.067838 ],
+       [-1.704672 , -1.500294 , -1.4856956, ..., -1.0536178, -1.0536178,
+        -1.0536178],
+       ...,
+       [-1.704672 , -1.704672 , -1.704672 , ..., -1.4659997, -1.4659997,
+        -1.3806794],
+       [-1.3543098, -1.2375224, -1.1499318, ..., -1.4802198, -1.4659997,
+        -1.309579 ],
+       [-1.3543098, -1.0039475, -1.3105145, ..., -1.4802198, -1.4802198,
+        -1.309579 ]], dtype=float32), None, array([[-1.6900735, -1.6900735, -1.6900735, ..., -1.3806794, -1.3806794,
+        -1.3806794],
+       [-1.6462783, -1.6462783, -1.6462783, ..., -1.3522393, -1.3522393,
+        -1.3522393],
+       [-1.6316798, -1.6462783, -1.6462783, ..., -1.3806794, -1.3806794,
+        -1.3806794],
+       ...,
+       [-1.4710971, -1.4564987, -1.4564987, ..., -1.1958185, -1.1815984,
+        -1.1531583],
+       [-1.500294 , -1.5148925, -1.5148925, ..., -1.1531583, -1.0962781,
+        -1.1247182],
+       [-1.3689082, -1.4419003, -1.5148925, ..., -1.2384787, -1.2384787,
+        -1.2526988]], dtype=float32), array([[ 0.09093457,  0.01794233,  0.01794233, ..., -0.27151415,
+        -0.243074  , -0.22885394],
+       [ 0.38290307,  0.3975015 ,  0.42669836, ..., -0.20041381,
+        -0.17197368, -0.14353354],
+       [-0.04045137, -0.04045137, -0.02585294, ..., -0.8545369 ,
+        -0.8545369 , -0.9256371 ],
+       ...,
+       [-1.0331444 , -1.018546  , -0.9893491 , ..., -1.4802198 ,
+        -1.4233395 , -1.3380191 ],
+       [-1.5294908 , -1.5440893 , -1.5440893 , ..., -1.4091195 ,
+        -1.3237991 , -1.2669188 ],
+       [-1.4127034 , -1.4127034 , -1.4127034 , ..., -1.3806794 ,
+        -1.3522393 , -1.3237991 ]], dtype=float32)], 'image_grid_thw': [array([[ 1, 28, 18]]), None, array([[ 1, 24, 18]]), array([[ 1, 18, 24]])], 'pixel_values_videos': [None, None, None, None], 'video_grid_thw': [None, None, None, None], 'text': ['<|image_pad|>\nFind an image caption describing the given everyday image.\n', 'Find me an everyday image that matches the given caption: A teddy bear shop is equipped with a door guard teddy and a neighbor teddy above.\n', '<|image_pad|>\nFind an image caption describing the given everyday image.\n', '<|image_pad|>\nFind an image caption describing the given everyday image.\n'], 'global_dataset_name': ['mmeb/MSCOCO_i2t', 'mmeb/MSCOCO_t2i', 'mmeb/MSCOCO_i2t', 'mmeb/MSCOCO_i2t']}
+Traceback (most recent call last):
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+    main()
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 104, in main
+    trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+    return inner_training_loop(
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 503, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 706, in training_step
+    loss = model(queries, targets)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/accelerate/utils/operations.py", line 818, in forward
+    return model_forward(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/accelerate/utils/operations.py", line 806, in __call__
+    return convert_to_fp32(self.model_forward(*args, **kwargs))
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/amp/autocast_mode.py", line 43, in decorate_autocast
+    return func(*args, **kwargs)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 335, in forward
+    qry_reps = self.encode_input(qry, self.qry_chosen_layer) if qry else None  # (bsz_per_device, dim)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 110, in encode_input
+    hidden_states = self.encoder(**input, return_dict=True, output_hidden_states=True)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/peft/peft_model.py", line 881, in forward
+    return self.get_base_model()(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/vlm_backbone/qwen2_vl/modeling_qwen2_vl.py", line 1610, in forward
+    inputs_embeds = self.model.embed_tokens(input_ids)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/sparse.py", line 164, in forward
+    return F.embedding(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/functional.py", line 2267, in embedding
+    return torch.embedding(weight, input, padding_idx, scale_grad_by_freq, sparse)
+TypeError: embedding(): argument 'indices' (position 2) must be Tensor, not NoneType
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 104, in main
+[rank0]:     trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+[rank0]:     return inner_training_loop(
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 503, in _inner_training_loop
+[rank0]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 706, in training_step
+[rank0]:     loss = model(queries, targets)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/accelerate/utils/operations.py", line 818, in forward
+[rank0]:     return model_forward(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/accelerate/utils/operations.py", line 806, in __call__
+[rank0]:     return convert_to_fp32(self.model_forward(*args, **kwargs))
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/amp/autocast_mode.py", line 43, in decorate_autocast
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 335, in forward
+[rank0]:     qry_reps = self.encode_input(qry, self.qry_chosen_layer) if qry else None  # (bsz_per_device, dim)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 110, in encode_input
+[rank0]:     hidden_states = self.encoder(**input, return_dict=True, output_hidden_states=True)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/peft/peft_model.py", line 881, in forward
+[rank0]:     return self.get_base_model()(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/vlm_backbone/qwen2_vl/modeling_qwen2_vl.py", line 1610, in forward
+[rank0]:     inputs_embeds = self.model.embed_tokens(input_ids)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/modules/sparse.py", line 164, in forward
+[rank0]:     return F.embedding(
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/nn/functional.py", line 2267, in embedding
+[rank0]:     return torch.embedding(weight, input, padding_idx, scale_grad_by_freq, sparse)
+[rank0]: TypeError: embedding(): argument 'indices' (position 2) must be Tensor, not NoneType
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33moriginal-Qwen/Qwen2-VL-2B-Instruct[0m at: [34m[0m
+[1;34mwandb[0m: Find logs at: [1;35mexperiments/public/exps/train/original-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251018_132303-or2osmkg/logs[0m
+E1018 13:23:24.340000 132463090120512 torch/distributed/elastic/multiprocessing/api.py:833] failed (exitcode: 1) local_rank: 0 (pid: 109802) of binary: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python3.10
+Traceback (most recent call last):
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/torchrun", line 7, in <module>
+    sys.exit(main())
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 348, in wrapper
+    return f(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/run.py", line 901, in main
+    run(args)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/run.py", line 892, in run
+    elastic_launch(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 133, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 264, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+train.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2025-10-18_13:23:24
+  host      : node40.enst.fr
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 109802)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+Job finished at: sam. 18 oct. 2025 13:23:24 CEST
