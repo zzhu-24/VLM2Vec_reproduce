@@ -195,7 +195,7 @@ class TailTokenDetachPrefixWrapper(nn.Module):
 
         
         # 5) Forward through base model (normal)
-        outputs = self.base.model(**kwargs)
+        outputs = self.base(**kwargs)
         # print_master("OUTPUTS:")
         # print_master(len(outputs.hidden_states))
         # print_master(outputs.hidden_states[0].shape)
