@@ -235,7 +235,7 @@ class MMEBModel(nn.Module):
             lora_model = get_peft_model(base_model, lora_config)
 
             if model_args.plus_one_token:
-                lora_model = TailTokenDetachPrefixWrapper(lora_model, merged=False)
+                lora_model = TailTokenDetachPrefixWrapper(lora_model, merged=False, freeze_text_embeddings=True)
 
             
 

@@ -51,13 +51,15 @@ CUDA_VISIBLE_DEVICES="0"
 BATCH_SIZE=24
 
 
-MODEL_TYPE="test4"
+MODEL_TYPE="03Nov"
 DATA_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_eval/MMEB-V2"
 # OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/vlm2vec_retrieval"
 OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/${MODEL_TYPE}"
 # # colpali cannot use average token
 
-LAYER_START=28
+CHECKPOINT_PATH="checkpoint-1000"
+
+LAYER_START=1
 LAYER_END=28
 # # colpali baseline layer index 0-18
 
@@ -92,7 +94,7 @@ for spec in "${MODEL_SPECS[@]}"; do
   start_time_model=$(date +%s)
 
   for L in $(seq $LAYER_START $LAYER_END); do
-    OUTPUT_PATH="$BASE_OUTPUT_PATH/layer_${L}/retrieval"
+    OUTPUT_PATH="$BASE_OUTPUT_PATH/$CHECKPOINT_PATH/layer_${L}/retrieval"
     mkdir -p "$OUTPUT_PATH"
 
     echo "  ▶ Layer $L → output: $OUTPUT_PATH"
@@ -112,7 +114,7 @@ for spec in "${MODEL_SPECS[@]}"; do
       --plus_one_token True \
       --qry_chosen_layer "$L" \
       --tgt_chosen_layer "$L" \
-      --checkpoint_path /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test3-Qwen/Qwen2-VL-2B-Instruct/checkpoint-100 \
+      --checkpoint_path /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/03Nov-Qwen/Qwen2-VL-2B-Instruct/$CHECKPOINT_PATH \
       &> "$OUTPUT_PATH/eval.log"
 
       # --checkpoint_path /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/test3-Qwen/Qwen2-VL-2B-Instruct/checkpoint-100 \
