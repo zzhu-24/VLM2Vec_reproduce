@@ -30,7 +30,8 @@ class ModelArguments:
     tgt_chosen_layer: int = field(default=-1, metadata={"help": "Specify the lm layer to be used to extract final target embeddings"})
     attn_implementation: str = field(default="flash_attention_2", metadata={"help": "flash attention or eager"})
     plus_one_token: bool = field(default=False, metadata={"help": "add a learnable token at the end of the sequence"})
-
+    tail_token_train_only: bool = field(default=False, metadata={"help": "only train the tail token when plus_one_token is enabled"})
+    tail_gradient_flow_only: bool = field(default=False, metadata={"help": "gradient is only passed through the tail token when plus_one_token is enabled"})
 
 @dataclass
 class DataArguments:

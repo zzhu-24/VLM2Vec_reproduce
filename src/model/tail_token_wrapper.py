@@ -104,22 +104,30 @@ class TailTokenDetachPrefixWrapper(nn.Module):
     No KV cache is used here.
     """
 
-    def __init__(self, base_model: nn.Module, tail_embedding=None, merged=False, freeze_text_embeddings: bool = True):
+    def __init__(self, base_model: nn.Module, tail_embedding=None, merged=False, freeze_text_embeddings: bool = True, tail_token_train_only: bool = False, tail_gradient_flow_only: bool = False):
         super().__init__()
         self.base = base_model
         self.merged = merged
         print_master(self.base)
-        if self.merged: 
+        if self.merged: # eval stage
             self.hidden_size = self.base.model.embed_tokens.weight.shape[-1]
-        else:        
+        else: # train stage
             self.hidden_size = self.base.base_model.model.model.embed_tokens.weight.shape[-1]
+
+            if tail_token_train_only:
+                for n, p in self.base.named_parameters():
+                    p.requires_grad = False
+                    print_master("Freezing all base model parameters except tail token embedding.")
+
+            if tail_gradient_flow_only:
+                for i, block in enumerate(self.base.base_model.model.model.layers):
+                    self.base.base_model.model.model.layers[i] = TailIsolatedBlock(block)
+                print_master("Gradient will only flow through the tail token embedding.")
 
             if not freeze_text_embeddings:
                 for p in self.base.base_model.model.model.embed_tokens.parameters():
                     p.requires_grad = True
-            else:
-                for p in self.base.base_model.model.model.embed_tokens.parameters():
-                    p.requires_grad = False
+            
         
         if tail_embedding is not None:
             self.tail_token = tail_embedding

@@ -1,0 +1,76 @@
+==> Environment
+Python: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python
+Version: Python 3.10.18
+
+==> Checking available GPUs...
+Detected GPUs: 0,
+✅ GPUs are free and ready to use.
+
+=================================================
+🚀 Evaluating Model: Qwen/Qwen2-VL-2B-Instruct
+=================================================
+  ➤ Dataset config: experiments/public/eval/retrieval.yaml
+  ➤ Output base path: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct
+  ➤ Layer range: 1 to 28
+
+  ▶ Layer 1 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_1/retrieval
+    ✅ Finished layer 1 in 316s
+  ▶ Layer 2 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_2/retrieval
+    ✅ Finished layer 2 in 311s
+  ▶ Layer 3 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_3/retrieval
+    ✅ Finished layer 3 in 311s
+  ▶ Layer 4 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_4/retrieval
+    ✅ Finished layer 4 in 316s
+  ▶ Layer 5 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_5/retrieval
+    ✅ Finished layer 5 in 318s
+  ▶ Layer 6 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_6/retrieval
+    ✅ Finished layer 6 in 314s
+  ▶ Layer 7 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_7/retrieval
+    ✅ Finished layer 7 in 315s
+  ▶ Layer 8 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_8/retrieval
+    ✅ Finished layer 8 in 318s
+  ▶ Layer 9 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_9/retrieval
+    ✅ Finished layer 9 in 315s
+  ▶ Layer 10 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_10/retrieval
+    ✅ Finished layer 10 in 315s
+  ▶ Layer 11 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_11/retrieval
+    ✅ Finished layer 11 in 315s
+  ▶ Layer 12 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_12/retrieval
+    ✅ Finished layer 12 in 315s
+  ▶ Layer 13 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_13/retrieval
+    ✅ Finished layer 13 in 317s
+  ▶ Layer 14 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_14/retrieval
+    ✅ Finished layer 14 in 311s
+  ▶ Layer 15 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_15/retrieval
+    ✅ Finished layer 15 in 312s
+  ▶ Layer 16 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_16/retrieval
+    ✅ Finished layer 16 in 316s
+  ▶ Layer 17 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_17/retrieval
+    ✅ Finished layer 17 in 319s
+  ▶ Layer 18 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_18/retrieval
+    ✅ Finished layer 18 in 312s
+  ▶ Layer 19 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_19/retrieval
+    ✅ Finished layer 19 in 317s
+  ▶ Layer 20 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_20/retrieval
+    ✅ Finished layer 20 in 312s
+  ▶ Layer 21 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_21/retrieval
+    ✅ Finished layer 21 in 316s
+  ▶ Layer 22 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_22/retrieval
+    ✅ Finished layer 22 in 314s
+  ▶ Layer 23 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_23/retrieval
+    ✅ Finished layer 23 in 314s
+  ▶ Layer 24 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_24/retrieval
+    ✅ Finished layer 24 in 314s
+  ▶ Layer 25 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_25/retrieval
+    ✅ Finished layer 25 in 317s
+  ▶ Layer 26 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_26/retrieval
+    ✅ Finished layer 26 in 312s
+  ▶ Layer 27 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_27/retrieval
+    ✅ Finished layer 27 in 316s
+  ▶ Layer 28 → output: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/03Nov/qwen-Qwen2-VL-2B-Instruct/checkpoint-1000/layer_28/retrieval
+    ✅ Finished layer 28 in 28s
+-------------------------------------------------
+✅ Finished Qwen/Qwen2-VL-2B-Instruct (layers 1-28) in 8526s
+-------------------------------------------------
+🎯 All per-layer retrieval evaluations completed.
+Job finished at: mer. 05 nov. 2025 09:35:27 CET
