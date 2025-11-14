@@ -331,8 +331,16 @@ class MMEBTrainer(Trainer):
             self.deepspeed = self.model_wrapped
 
         # Check if saved optimizer or scheduler states exist
-        self._load_optimizer_and_scheduler(resume_from_checkpoint)
+        try:
+            self._load_optimizer_and_scheduler(resume_from_checkpoint)
+        except ValueError as e:
+            if "parameter group" in str(e):
+                self.log({"warn": "optimizer state incompatible; reinitializing optimizer and scheduler"})
+                self.create_optimizer_and_scheduler(self.args.max_steps)
+            else:
+                raise
 
+            
         # important: at this point:
         # self.model         is the Transformers Model
         # self.model_wrapped is DDP(Transformers Model), Deepspeed(Transformers Model),
@@ -445,7 +453,7 @@ class MMEBTrainer(Trainer):
                 remainder = args.gradient_accumulation_steps
             update_step = -1
             total_updates = steps_in_epoch // args.gradient_accumulation_steps + 1
-            for _ in range(total_updates):
+            for i in range(total_updates):
                 update_step += 1
                 num_batches = args.gradient_accumulation_steps if update_step != (total_updates - 1) else remainder
                 batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches)
@@ -589,6 +597,15 @@ class MMEBTrainer(Trainer):
                     if is_torch_xla_available():
                         xm.mark_step()
                     break
+                
+                # print_master(model.module.encoder.tail_token)
+                # last_step = model.module.encoder.tail_token
+                # print_master(step)
+                # if step > 0:
+                #     print_master(torch.equal(model.module.encoder.tail_token, last_step))
+                
+                # print_master(model.module.encoder.base.base_model.model.model.layers[0].self_attn.q_proj.lora_A.default.weight)
+
             if step < 0:
                 logger.warning(
                     "There seems not to be a single sample in your epoch_iterator, stopping training at step"
@@ -703,6 +720,7 @@ class GradCacheLateProcessTrainer(MMEBTrainer):
         # targets = batch_to_device(targets, model.device)
 
         _distributed = self.args.local_rank > -1
+        # _distributed = False
         if _distributed:
             queries, targets = {'qry': queries}, {'tgt': targets}
             self.gc.models = [model, model]

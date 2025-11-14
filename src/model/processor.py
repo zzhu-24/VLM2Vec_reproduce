@@ -13,7 +13,7 @@ from src.utils import print_master
 
 from src.model.baseline_backbone.llava_next import LlavaNextForConditionalGeneration
 from src.model.baseline_backbone.phi3_v.modeling_phi3_v import Phi3VForCausalLM
-from src.model.vlm_backbone.qwen2_vl import Qwen2VLForConditionalGeneration, Qwen2VLProcessor
+from src.model.vlm_backbone.qwen2_vl import Qwen2VLForConditionalGeneration, Qwen2VLProcessor, Qwen2VLForConditionalGenerationWithTail
 from src.model.vlm_backbone.qwen2_vl_tokenselection import \
     Qwen2VLForConditionalGeneration as Qwen2VLTokenSelectionForConditionalGeneration, \
     Qwen2VLProcessor as Qwen2VLTokenSelectionProcessor
@@ -29,6 +29,7 @@ LLAVA_IMAGE_TOKEN_ID = 32000
 PHI3V = 'phi3_v'
 LLAVA_NEXT = 'llava_next'
 QWEN2_VL = 'qwen2_vl'
+QWEN2_VL_TAIL = 'qwen2_vl_tail'
 QWEN2_VL_TOKENSELECTION = 'qwen2_vl'
 QWEN2_5_VL = 'qwen2_5_vl'
 QWEN2_VL_TOKENSELECTION = 'qwen2_vl_tokenselection'
@@ -89,6 +90,7 @@ backbone2model = {
     PHI3V: Phi3VForCausalLM,
     LLAVA_NEXT: LlavaNextForConditionalGeneration,
     QWEN2_VL: Qwen2VLForConditionalGeneration,
+    QWEN2_VL_TAIL: Qwen2VLForConditionalGenerationWithTail,
     QWEN2_5_VL: Qwen2_5_VLForConditionalGeneration,
     QWEN2_VL_TOKENSELECTION: Qwen2VLTokenSelectionForConditionalGeneration,
     QWEN2_5_VL_TOKENSELECTION: Qwen2_5_VL_TokenSelectionForConditionalGeneration,

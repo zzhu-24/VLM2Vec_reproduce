@@ -1,0 +1,91 @@
+==> Environment
+Python: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python
+Version: Python 3.10.18
+
+/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/13Nov_AddTail-Qwen/Qwen2-VL-2B-Instruct
+CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=2207 --max_restarts=0 train.py --lora --lora_r 16 --model_name Qwen/Qwen2-VL-2B-Instruct --bf16 --pooling eos --normalize True --temperature 0.02 --dataloader_num_workers 1 --dataset_config /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/retrieval.yaml --data_basedir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train --run_name 13Nov_AddTail-Qwen/Qwen2-VL-2B-Instruct --output_dir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/13Nov_AddTail-Qwen/Qwen2-VL-2B-Instruct --grad_cache True --per_device_train_batch_size 16 --gc_q_chunk_size 8 --gc_p_chunk_size 8 --interleave_batch_size 0 --lr_scheduler_type linear --learning_rate 1e-5 --max_steps 6000 --warmup_steps 100 --save_steps 500 --logging_steps 1 --save_safetensors True --remove_unused_columns False --resume_from auto --plus_one_token True --report_to wandb 2>&1 | tee /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/13Nov_AddTail-Qwen/Qwen2-VL-2B-Instruct/train.log
+W1113 03:18:12.120000 131241125590848 torch/distributed/run.py:779] 
+W1113 03:18:12.120000 131241125590848 torch/distributed/run.py:779] *****************************************
+W1113 03:18:12.120000 131241125590848 torch/distributed/run.py:779] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W1113 03:18:12.120000 131241125590848 torch/distributed/run.py:779] *****************************************
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+DropoutAddRMSNorm of flash_attn is not installed!!!
+DropoutAddRMSNorm of flash_attn is not installed!!!
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+Distributed init debug info:
+RANK: 0
+LOCAL_RANK: 0
+WORLD_SIZE: 2
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2207
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 0
+torch.distributed.get_world_size(): 2
+[2025-11-13 03:18:18,826] INFO [src.utils:10] rank0: init wandb
+Distributed init debug info:
+RANK: 1
+LOCAL_RANK: 1
+WORLD_SIZE: 2
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2207
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 1
+torch.distributed.get_world_size(): 2
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+[rank1]:     main()
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 79, in main
+[rank1]:     model = MMEBModel.build(model_args)
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 177, in build
+[rank1]:     base_model = backbone2model['QWEN2_VL_TAIL'].from_pretrained(
+[rank1]: KeyError: 'QWEN2_VL_TAIL'
+wandb: Currently logged in as: zhuzhehua16 (zhuzhehua16-t-l-com-paris) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run r0oatbmz
+wandb: Tracking run with wandb version 0.22.1
+wandb: Run data is saved locally in /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/13Nov_AddTail-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251113_031819-r0oatbmz
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run 13Nov_AddTail-Qwen/Qwen2-VL-2B-Instruct
+wandb: ⭐️ View project at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train
+wandb: 🚀 View run at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train/runs/r0oatbmz
+W1113 03:18:20.045000 131241125590848 torch/distributed/elastic/multiprocessing/api.py:858] Sending process 364640 closing signal SIGTERM
+E1113 03:18:20.209000 131241125590848 torch/distributed/elastic/multiprocessing/api.py:833] failed (exitcode: 1) local_rank: 1 (pid: 364641) of binary: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python3.10
+Traceback (most recent call last):
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/torchrun", line 7, in <module>
+    sys.exit(main())
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 348, in wrapper
+    return f(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/run.py", line 901, in main
+    run(args)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/run.py", line 892, in run
+    elastic_launch(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 133, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 264, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+train.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2025-11-13_03:18:20
+  host      : nodeaudible01.enst.fr
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 364641)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+Job finished at: Thu Nov 13 03:18:20 CET 2025

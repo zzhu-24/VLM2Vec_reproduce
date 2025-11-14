@@ -32,6 +32,7 @@ else:
         "Qwen2VLForConditionalGeneration",
         "Qwen2VLModel",
         "Qwen2VLPreTrainedModel",
+        "Qwen2VLForConditionalGenerationWithTail",
     ]
 
 try:
@@ -57,6 +58,7 @@ if TYPE_CHECKING:
             Qwen2VLForConditionalGeneration,
             Qwen2VLModel,
             Qwen2VLPreTrainedModel,
+            Qwen2VLForConditionalGenerationWithTail,
         )
 
     try:

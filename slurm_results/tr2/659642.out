@@ -1,0 +1,1037 @@
+==> Environment
+Python: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python
+Version: Python 3.10.18
+
+/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/12Nov_tail_grad_only-Qwen/Qwen2-VL-2B-Instruct
+CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=2207 --max_restarts=0 train.py --lora --lora_r 16 --model_name Qwen/Qwen2-VL-2B-Instruct --bf16 --pooling eos --normalize True --temperature 0.02 --dataloader_num_workers 1 --dataset_config /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/retrieval.yaml --data_basedir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train --run_name 12Nov_tail_grad_only-Qwen/Qwen2-VL-2B-Instruct --output_dir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/12Nov_tail_grad_only-Qwen/Qwen2-VL-2B-Instruct --grad_cache True --per_device_train_batch_size 16 --gc_q_chunk_size 8 --gc_p_chunk_size 8 --interleave_batch_size 0 --lr_scheduler_type linear --learning_rate 1e-5 --max_steps 6000 --warmup_steps 100 --save_steps 50 --logging_steps 1 --save_safetensors True --remove_unused_columns False --resume_from auto --plus_one_token True --tail_gradient_flow_only False --report_to wandb 2>&1 | tee /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/12Nov_tail_grad_only-Qwen/Qwen2-VL-2B-Instruct/train.log
+W1112 17:26:42.428000 137917562242880 torch/distributed/run.py:779] 
+W1112 17:26:42.428000 137917562242880 torch/distributed/run.py:779] *****************************************
+W1112 17:26:42.428000 137917562242880 torch/distributed/run.py:779] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W1112 17:26:42.428000 137917562242880 torch/distributed/run.py:779] *****************************************
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+DropoutAddRMSNorm of flash_attn is not installed!!!
+DropoutAddRMSNorm of flash_attn is not installed!!!
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+Distributed init debug info:
+RANK: 0
+LOCAL_RANK: 0
+WORLD_SIZE: 2
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2207
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 0
+torch.distributed.get_world_size(): 2
+[2025-11-12 17:26:49,529] INFO [src.utils:10] rank0: init wandb
+Distributed init debug info:
+RANK: 1
+LOCAL_RANK: 1
+WORLD_SIZE: 2
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2207
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 1
+torch.distributed.get_world_size(): 2
+You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+wandb: Currently logged in as: zhuzhehua16 (zhuzhehua16-t-l-com-paris) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  5.65it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 10.86it/s]
+wandb: setting up run mexjkqkg
+wandb: Tracking run with wandb version 0.22.1
+wandb: Run data is saved locally in /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/12Nov_tail_grad_only-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251112_172649-mexjkqkg
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run 12Nov_tail_grad_only-Qwen/Qwen2-VL-2B-Instruct
+wandb: ⭐️ View project at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train
+wandb: 🚀 View run at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train/runs/mexjkqkg
+[2025-11-12 17:26:51,044] INFO [src.utils:19] Loading backbone [qwen2_vl] from Qwen/Qwen2-VL-2B-Instruct
+You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  5.91it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 11.31it/s]
+[2025-11-12 17:26:51,553] INFO [src.utils:19] Loading lora adapter from Qwen2VLForConditionalGeneration(
+  (visual): Qwen2VisionTransformerPretrainedModel(
+    (patch_embed): PatchEmbed(
+      (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+    )
+    (rotary_pos_emb): VisionRotaryEmbedding()
+    (blocks): ModuleList(
+      (0-31): 32 x Qwen2VLVisionBlock(
+        (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (attn): VisionFlashAttention2(
+          (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+          (proj): Linear(in_features=1280, out_features=1280, bias=True)
+        )
+        (mlp): VisionMlp(
+          (fc1): Linear(in_features=1280, out_features=5120, bias=True)
+          (act): QuickGELUActivation()
+          (fc2): Linear(in_features=5120, out_features=1280, bias=True)
+        )
+      )
+    )
+    (merger): PatchMerger(
+      (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+      (mlp): Sequential(
+        (0): Linear(in_features=5120, out_features=5120, bias=True)
+        (1): GELU(approximate='none')
+        (2): Linear(in_features=5120, out_features=1536, bias=True)
+      )
+    )
+  )
+  (model): Qwen2VLModel(
+    (embed_tokens): Embedding(151936, 1536)
+    (layers): ModuleList(
+      (0-27): 28 x Qwen2VLDecoderLayer(
+        (self_attn): Qwen2VLFlashAttention2(
+          (q_proj): Linear(in_features=1536, out_features=1536, bias=True)
+          (k_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (v_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (o_proj): Linear(in_features=1536, out_features=1536, bias=False)
+          (rotary_emb): Qwen2VLRotaryEmbedding()
+        )
+        (mlp): Qwen2MLP(
+          (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (down_proj): Linear(in_features=8960, out_features=1536, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+        (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+      )
+    )
+    (norm): Qwen2RMSNorm((1536,), eps=1e-06)
+    (rotary_emb): Qwen2VLRotaryEmbedding()
+  )
+  (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
+)
+[2025-11-12 17:26:57,552] INFO [src.utils:10] rank1: model_backbone: qwen2_vl
+[2025-11-12 17:26:58,694] INFO [src.utils:19] PeftModel(
+  (base_model): LoraModel(
+    (model): Qwen2VLForConditionalGeneration(
+      (visual): Qwen2VisionTransformerPretrainedModel(
+        (patch_embed): PatchEmbed(
+          (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+        )
+        (rotary_pos_emb): VisionRotaryEmbedding()
+        (blocks): ModuleList(
+          (0-31): 32 x Qwen2VLVisionBlock(
+            (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+            (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+            (attn): VisionFlashAttention2(
+              (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+              (proj): Linear(in_features=1280, out_features=1280, bias=True)
+            )
+            (mlp): VisionMlp(
+              (fc1): Linear(in_features=1280, out_features=5120, bias=True)
+              (act): QuickGELUActivation()
+              (fc2): Linear(in_features=5120, out_features=1280, bias=True)
+            )
+          )
+        )
+        (merger): PatchMerger(
+          (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+          (mlp): Sequential(
+            (0): Linear(in_features=5120, out_features=5120, bias=True)
+            (1): GELU(approximate='none')
+            (2): Linear(in_features=5120, out_features=1536, bias=True)
+          )
+        )
+      )
+      (model): Qwen2VLModel(
+        (embed_tokens): Embedding(151936, 1536)
+        (layers): ModuleList(
+          (0-27): 28 x Qwen2VLDecoderLayer(
+            (self_attn): Qwen2VLFlashAttention2(
+              (q_proj): lora.Linear(
+                (base_layer): Linear(in_features=1536, out_features=1536, bias=True)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1536, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=1536, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (k_proj): lora.Linear(
+                (base_layer): Linear(in_features=1536, out_features=256, bias=True)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1536, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=256, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (v_proj): lora.Linear(
+                (base_layer): Linear(in_features=1536, out_features=256, bias=True)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1536, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=256, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (o_proj): lora.Linear(
+                (base_layer): Linear(in_features=1536, out_features=1536, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1536, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=1536, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (rotary_emb): Qwen2VLRotaryEmbedding()
+            )
+            (mlp): Qwen2MLP(
+              (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
+              (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
+              (down_proj): lora.Linear(
+                (base_layer): Linear(in_features=8960, out_features=1536, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=8960, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=1536, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (act_fn): SiLU()
+            )
+            (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+            (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+          )
+        )
+        (norm): Qwen2RMSNorm((1536,), eps=1e-06)
+        (rotary_emb): Qwen2VLRotaryEmbedding()
+      )
+      (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
+    )
+  )
+)
+[2025-11-12 17:26:58,700] INFO [src.utils:10] rank0: model_backbone: qwen2_vl
+[2025-11-12 17:26:58,700] INFO [src.utils:19] Loading processor from: Qwen/Qwen2-VL-2B-Instruct
+[2025-11-12 17:27:01,928] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2025-11-12 17:27:01,929] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=50.0
+[2025-11-12 17:27:02,706] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2025-11-12 17:27:02,707] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=50.0
+[2025-11-12 17:27:02,707] INFO [src.utils:19] 
+Initializing interleave datasets:
+		world_size=2
+		total num rows=213287
+		global batch size=32
+		estimated num step per epoch=6665.21875
+		interleave_batch_size=0.0
+[2025-11-12 17:27:02,708] INFO [src.utils:19] ==================================================
+[2025-11-12 17:27:02,708] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2025-11-12 17:27:02,709] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-11-12 17:27:02,710] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-11-12 17:27:02,710] INFO [src.utils:19] ==================================================
+[2025-11-12 17:27:04,276] INFO [src.trainer:350] ***** Running training *****
+[2025-11-12 17:27:04,276] INFO [src.trainer:351]   Num examples = 192,000
+[2025-11-12 17:27:04,276] INFO [src.trainer:350] ***** Running training *****
+[2025-11-12 17:27:04,276] INFO [src.trainer:352]   Num Epochs = 9,223,372,036,854,775,807
+[2025-11-12 17:27:04,276] INFO [src.trainer:353]   Instantaneous batch size per device = 16
+[2025-11-12 17:27:04,276] INFO [src.trainer:356]   Total train batch size (w. parallel, distributed & accumulation) = 32
+[2025-11-12 17:27:04,276] INFO [src.trainer:357]   Gradient Accumulation steps = 1
+[2025-11-12 17:27:04,276] INFO [src.trainer:358]   Total optimization steps = 6,000
+[2025-11-12 17:27:04,277] INFO [src.trainer:351]   Num examples = 192,000
+[2025-11-12 17:27:04,277] INFO [src.trainer:352]   Num Epochs = 9,223,372,036,854,775,807
+[2025-11-12 17:27:04,277] INFO [src.trainer:353]   Instantaneous batch size per device = 16
+[2025-11-12 17:27:04,277] INFO [src.trainer:356]   Total train batch size (w. parallel, distributed & accumulation) = 32
+[2025-11-12 17:27:04,278] INFO [src.trainer:357]   Gradient Accumulation steps = 1
+[2025-11-12 17:27:04,278] INFO [src.trainer:358]   Total optimization steps = 6,000
+[2025-11-12 17:27:04,280] INFO [src.trainer:359]   Number of trainable parameters = 9,205,248
+[2025-11-12 17:27:04,281] INFO [src.trainer:359]   Number of trainable parameters = 9,205,248
+[2025-11-12 17:27:04,283] INFO [src.trainer:360]   Trainable Parameters = ['module.encoder.tail_token', 'module.encoder.base.base_model.model.model.layers.0.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.0.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.0.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.0.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.1.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.1.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.1.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.2.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.2.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.2.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.3.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.3.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.3.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.4.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.4.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.4.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.5.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.5.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.5.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.6.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.6.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.6.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.7.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.7.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.7.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.8.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.8.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.8.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.9.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.9.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.9.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.10.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.10.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.10.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.11.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.11.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.11.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.12.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.12.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.12.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.13.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.13.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.13.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.14.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.14.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.14.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.15.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.15.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.15.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.16.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.16.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.16.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.17.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.17.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.17.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.18.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.18.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.18.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.19.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.19.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.19.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.20.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.20.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.20.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.21.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.21.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.21.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.22.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.22.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.22.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.23.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.23.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.23.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.24.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.24.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.24.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.25.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.25.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.25.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.26.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.26.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.26.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.27.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.27.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.27.mlp.down_proj.lora_magnitude_vector.default.weight']
+[2025-11-12 17:27:04,285] INFO [src.trainer:360]   Trainable Parameters = ['module.encoder.tail_token', 'module.encoder.base.base_model.model.model.layers.0.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.0.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.0.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.0.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.0.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.1.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.1.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.1.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.1.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.2.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.2.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.2.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.2.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.3.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.3.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.3.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.3.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.4.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.4.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.4.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.4.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.5.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.5.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.5.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.5.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.6.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.6.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.6.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.6.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.7.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.7.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.7.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.7.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.8.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.8.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.8.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.8.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.9.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.9.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.9.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.9.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.10.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.10.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.10.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.10.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.11.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.11.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.11.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.11.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.12.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.12.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.12.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.12.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.13.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.13.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.13.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.13.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.14.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.14.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.14.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.14.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.15.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.15.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.15.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.15.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.16.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.16.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.16.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.16.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.17.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.17.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.17.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.17.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.18.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.18.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.18.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.18.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.19.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.19.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.19.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.19.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.20.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.20.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.20.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.20.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.21.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.21.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.21.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.21.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.22.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.22.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.22.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.22.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.23.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.23.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.23.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.23.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.24.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.24.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.24.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.24.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.25.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.25.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.25.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.25.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.26.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.26.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.26.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.26.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.27.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base.base_model.model.model.layers.27.mlp.down_proj.lora_A.default.weight', 'module.encoder.base.base_model.model.model.layers.27.mlp.down_proj.lora_B.default.weight', 'module.encoder.base.base_model.model.model.layers.27.mlp.down_proj.lora_magnitude_vector.default.weight']
+  0%|          | 0/6000 [00:00<?, ?it/s]You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+  0%|          | 1/6000 [00:03<5:22:00,  3.22s/it]                                                  {'loss': 20.6075, 'grad_norm': 1423.76806640625, 'learning_rate': 1.0000000000000001e-07, 'epoch': 0.0}
+  0%|          | 1/6000 [00:03<5:22:00,  3.22s/it][2025-11-12 17:27:07,527] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:07,549] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0854,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 2/6000 [00:05<4:05:58,  2.46s/it]                                                  {'loss': 17.7575, 'grad_norm': 2026.8956298828125, 'learning_rate': 2.0000000000000002e-07, 'epoch': 0.0}
+  0%|          | 2/6000 [00:05<4:05:58,  2.46s/it][2025-11-12 17:27:09,457] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:09,458] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0854,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 3/6000 [00:07<3:43:01,  2.23s/it]                                                  {'loss': 15.9917, 'grad_norm': 2207.78076171875, 'learning_rate': 3.0000000000000004e-07, 'epoch': 0.0}
+  0%|          | 3/6000 [00:07<3:43:01,  2.23s/it][2025-11-12 17:27:11,415] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:11,416] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0854,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 4/6000 [00:09<3:33:38,  2.14s/it]                                                  {'loss': 16.8444, 'grad_norm': 4115.50341796875, 'learning_rate': 4.0000000000000003e-07, 'epoch': 0.0}
+  0%|          | 4/6000 [00:09<3:33:38,  2.14s/it][2025-11-12 17:27:13,408] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:13,409] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0854,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 5/6000 [00:10<3:24:26,  2.05s/it]                                                  {'loss': 17.0321, 'grad_norm': 1992.8223876953125, 'learning_rate': 5.000000000000001e-07, 'epoch': 0.0}
+  0%|          | 5/6000 [00:10<3:24:26,  2.05s/it][2025-11-12 17:27:15,296] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:15,298] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0854,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 6/6000 [00:12<3:20:33,  2.01s/it]                                                  {'loss': 18.4024, 'grad_norm': 1597.8909912109375, 'learning_rate': 6.000000000000001e-07, 'epoch': 0.0}
+  0%|          | 6/6000 [00:12<3:20:33,  2.01s/it][2025-11-12 17:27:17,226] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:17,227] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0854,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 7/6000 [00:14<3:18:47,  1.99s/it]                                                  {'loss': 17.7657, 'grad_norm': 1995.5107421875, 'learning_rate': 7.000000000000001e-07, 'epoch': 0.0}
+  0%|          | 7/6000 [00:14<3:18:47,  1.99s/it][2025-11-12 17:27:19,179] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:19,180] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0854,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 8/6000 [00:16<3:14:21,  1.95s/it]                                                  {'loss': 19.2997, 'grad_norm': 1793.101806640625, 'learning_rate': 8.000000000000001e-07, 'epoch': 0.0}
+  0%|          | 8/6000 [00:16<3:14:21,  1.95s/it][2025-11-12 17:27:21,030] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:21,031] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0854,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 9/6000 [00:18<3:13:43,  1.94s/it]                                                  {'loss': 15.0346, 'grad_norm': 1779.318603515625, 'learning_rate': 9.000000000000001e-07, 'epoch': 0.0}
+  0%|          | 9/6000 [00:18<3:13:43,  1.94s/it][2025-11-12 17:27:22,957] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:22,959] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0854,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 10/6000 [00:20<3:11:34,  1.92s/it]                                                   {'loss': 18.4277, 'grad_norm': 1396.561767578125, 'learning_rate': 1.0000000000000002e-06, 'epoch': 0.0}
+  0%|          | 10/6000 [00:20<3:11:34,  1.92s/it][2025-11-12 17:27:24,830] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:24,832] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0854,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 11/6000 [00:22<3:13:06,  1.93s/it]                                                   {'loss': 20.9525, 'grad_norm': 1701.0859375, 'learning_rate': 1.1e-06, 'epoch': 0.0}
+  0%|          | 11/6000 [00:22<3:13:06,  1.93s/it][2025-11-12 17:27:26,803] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:26,804] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0854,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 12/6000 [00:24<3:14:19,  1.95s/it]                                                   {'loss': 18.0158, 'grad_norm': 1986.808837890625, 'learning_rate': 1.2000000000000002e-06, 'epoch': 0.0}
+  0%|          | 12/6000 [00:24<3:14:19,  1.95s/it][2025-11-12 17:27:28,775] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:28,776] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0854,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 13/6000 [00:26<3:13:02,  1.93s/it]                                                   {'loss': 18.2284, 'grad_norm': 1910.8951416015625, 'learning_rate': 1.3e-06, 'epoch': 0.0}
+  0%|          | 13/6000 [00:26<3:13:02,  1.93s/it][2025-11-12 17:27:30,682] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:30,684] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0168,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 14/6000 [00:28<3:11:59,  1.92s/it]                                                   {'loss': 17.4379, 'grad_norm': 2748.1611328125, 'learning_rate': 1.4000000000000001e-06, 'epoch': 0.0}
+  0%|          | 14/6000 [00:28<3:11:59,  1.92s/it][2025-11-12 17:27:32,581] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:32,582] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 15/6000 [00:30<3:10:59,  1.91s/it]                                                   {'loss': 14.6443, 'grad_norm': 2239.832763671875, 'learning_rate': 1.5e-06, 'epoch': 0.0}
+  0%|          | 15/6000 [00:30<3:10:59,  1.91s/it][2025-11-12 17:27:34,475] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:34,476] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 16/6000 [00:32<3:10:41,  1.91s/it]                                                   {'loss': 16.1695, 'grad_norm': 1659.0494384765625, 'learning_rate': 1.6000000000000001e-06, 'epoch': 0.0}
+  0%|          | 16/6000 [00:32<3:10:41,  1.91s/it][2025-11-12 17:27:36,379] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:36,381] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 17/6000 [00:33<3:10:25,  1.91s/it]                                                   {'loss': 15.3545, 'grad_norm': 1515.2147216796875, 'learning_rate': 1.7000000000000002e-06, 'epoch': 0.0}
+  0%|          | 17/6000 [00:33<3:10:25,  1.91s/it][2025-11-12 17:27:38,286] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:38,287] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 18/6000 [00:35<3:11:31,  1.92s/it]                                                   {'loss': 12.1985, 'grad_norm': 1566.760009765625, 'learning_rate': 1.8000000000000001e-06, 'epoch': 0.0}
+  0%|          | 18/6000 [00:35<3:11:31,  1.92s/it][2025-11-12 17:27:40,233] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:40,234] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 19/6000 [00:37<3:10:19,  1.91s/it]                                                   {'loss': 13.3479, 'grad_norm': 2211.622802734375, 'learning_rate': 1.9000000000000002e-06, 'epoch': 0.0}
+  0%|          | 19/6000 [00:37<3:10:19,  1.91s/it][2025-11-12 17:27:42,114] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:42,115] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 20/6000 [00:39<3:10:30,  1.91s/it]                                                   {'loss': 14.4397, 'grad_norm': 2490.301513671875, 'learning_rate': 2.0000000000000003e-06, 'epoch': 0.0}
+  0%|          | 20/6000 [00:39<3:10:30,  1.91s/it][2025-11-12 17:27:44,031] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:44,032] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 21/6000 [00:41<3:12:56,  1.94s/it]                                                   {'loss': 11.5554, 'grad_norm': 2047.5477294921875, 'learning_rate': 2.1000000000000002e-06, 'epoch': 0.0}
+  0%|          | 21/6000 [00:41<3:12:56,  1.94s/it][2025-11-12 17:27:46,025] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:46,026] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 22/6000 [00:43<3:11:31,  1.92s/it]                                                   {'loss': 11.1646, 'grad_norm': 1801.013916015625, 'learning_rate': 2.2e-06, 'epoch': 0.0}
+  0%|          | 22/6000 [00:43<3:11:31,  1.92s/it][2025-11-12 17:27:47,915] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:47,916] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 23/6000 [00:45<3:11:02,  1.92s/it]                                                   {'loss': 10.524, 'grad_norm': 1832.2620849609375, 'learning_rate': 2.3000000000000004e-06, 'epoch': 0.0}
+  0%|          | 23/6000 [00:45<3:11:02,  1.92s/it][2025-11-12 17:27:49,820] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:49,822] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 24/6000 [00:47<3:15:58,  1.97s/it]                                                   {'loss': 11.1854, 'grad_norm': 3408.327392578125, 'learning_rate': 2.4000000000000003e-06, 'epoch': 0.0}
+  0%|          | 24/6000 [00:47<3:15:58,  1.97s/it][2025-11-12 17:27:51,904] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:51,905] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 25/6000 [00:49<3:15:22,  1.96s/it]                                                   {'loss': 12.4432, 'grad_norm': 5708.365234375, 'learning_rate': 2.5e-06, 'epoch': 0.0}
+  0%|          | 25/6000 [00:49<3:15:22,  1.96s/it][2025-11-12 17:27:53,855] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:53,857] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 26/6000 [00:51<3:14:40,  1.96s/it]                                                   {'loss': 10.0158, 'grad_norm': 3498.236083984375, 'learning_rate': 2.6e-06, 'epoch': 0.0}
+  0%|          | 26/6000 [00:51<3:14:40,  1.96s/it][2025-11-12 17:27:55,796] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:55,797] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 27/6000 [00:53<3:15:14,  1.96s/it]                                                   {'loss': 6.7218, 'grad_norm': 1781.879150390625, 'learning_rate': 2.7000000000000004e-06, 'epoch': 0.0}
+  0%|          | 27/6000 [00:53<3:15:14,  1.96s/it][2025-11-12 17:27:57,769] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:27:57,770] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 28/6000 [00:55<3:24:51,  2.06s/it]                                                   {'loss': 7.3086, 'grad_norm': 2878.28662109375, 'learning_rate': 2.8000000000000003e-06, 'epoch': 0.0}
+  0%|          | 28/6000 [00:55<3:24:51,  2.06s/it][2025-11-12 17:28:00,053] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:00,054] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 29/6000 [00:57<3:19:25,  2.00s/it]                                                   {'loss': 7.2466, 'grad_norm': 2098.34521484375, 'learning_rate': 2.9e-06, 'epoch': 0.0}
+  0%|          | 29/6000 [00:57<3:19:25,  2.00s/it][2025-11-12 17:28:01,932] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:01,934] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  0%|          | 30/6000 [00:59<3:15:29,  1.96s/it]                                                   {'loss': 5.2965, 'grad_norm': 3729.25634765625, 'learning_rate': 3e-06, 'epoch': 0.01}
+  0%|          | 30/6000 [00:59<3:15:29,  1.96s/it][2025-11-12 17:28:03,803] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:03,804] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 31/6000 [01:01<3:15:00,  1.96s/it]                                                   {'loss': 5.8805, 'grad_norm': 1643.2508544921875, 'learning_rate': 3.1000000000000004e-06, 'epoch': 0.01}
+  1%|          | 31/6000 [01:01<3:15:00,  1.96s/it][2025-11-12 17:28:05,753] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:05,754] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 32/6000 [01:03<3:15:04,  1.96s/it]                                                   {'loss': 6.0872, 'grad_norm': 3453.379150390625, 'learning_rate': 3.2000000000000003e-06, 'epoch': 0.01}
+  1%|          | 32/6000 [01:03<3:15:04,  1.96s/it][2025-11-12 17:28:07,717] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:07,719] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 33/6000 [01:05<3:16:31,  1.98s/it]                                                   {'loss': 4.0328, 'grad_norm': 856.0818481445312, 'learning_rate': 3.3000000000000006e-06, 'epoch': 0.01}
+  1%|          | 33/6000 [01:05<3:16:31,  1.98s/it][2025-11-12 17:28:09,729] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:09,730] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 34/6000 [01:07<3:15:50,  1.97s/it]                                                   {'loss': 4.504, 'grad_norm': 1056.26318359375, 'learning_rate': 3.4000000000000005e-06, 'epoch': 0.01}
+  1%|          | 34/6000 [01:07<3:15:50,  1.97s/it][2025-11-12 17:28:11,682] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:11,683] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 35/6000 [01:09<3:16:37,  1.98s/it]                                                   {'loss': 4.4569, 'grad_norm': 990.4953002929688, 'learning_rate': 3.5e-06, 'epoch': 0.01}
+  1%|          | 35/6000 [01:09<3:16:37,  1.98s/it][2025-11-12 17:28:13,678] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:13,679] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 36/6000 [01:11<3:14:13,  1.95s/it]                                                   {'loss': 4.8681, 'grad_norm': 1325.6409912109375, 'learning_rate': 3.6000000000000003e-06, 'epoch': 0.01}
+  1%|          | 36/6000 [01:11<3:14:13,  1.95s/it][2025-11-12 17:28:15,579] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:15,580] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 37/6000 [01:13<3:13:29,  1.95s/it]                                                   {'loss': 4.3325, 'grad_norm': 904.5847778320312, 'learning_rate': 3.7e-06, 'epoch': 0.01}
+  1%|          | 37/6000 [01:13<3:13:29,  1.95s/it][2025-11-12 17:28:17,507] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:17,508] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0300,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 38/6000 [01:15<3:13:14,  1.94s/it]                                                   {'loss': 4.6957, 'grad_norm': 868.3719482421875, 'learning_rate': 3.8000000000000005e-06, 'epoch': 0.01}
+  1%|          | 38/6000 [01:15<3:13:14,  1.94s/it][2025-11-12 17:28:19,450] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:19,451] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 39/6000 [01:17<3:13:11,  1.94s/it]                                                   {'loss': 3.9153, 'grad_norm': 563.7527465820312, 'learning_rate': 3.900000000000001e-06, 'epoch': 0.01}
+  1%|          | 39/6000 [01:17<3:13:11,  1.94s/it][2025-11-12 17:28:21,394] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:21,395] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 40/6000 [01:19<3:13:16,  1.95s/it]                                                   {'loss': 4.2524, 'grad_norm': 367.9098815917969, 'learning_rate': 4.000000000000001e-06, 'epoch': 0.01}
+  1%|          | 40/6000 [01:19<3:13:16,  1.95s/it][2025-11-12 17:28:23,339] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:23,340] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 41/6000 [01:20<3:11:39,  1.93s/it]                                                   {'loss': 3.3334, 'grad_norm': 568.2155151367188, 'learning_rate': 4.1e-06, 'epoch': 0.01}
+  1%|          | 41/6000 [01:20<3:11:39,  1.93s/it][2025-11-12 17:28:25,232] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:25,234] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0683],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 42/6000 [01:22<3:09:19,  1.91s/it]                                                   {'loss': 3.3663, 'grad_norm': 443.8465881347656, 'learning_rate': 4.2000000000000004e-06, 'epoch': 0.01}
+  1%|          | 42/6000 [01:22<3:09:19,  1.91s/it][2025-11-12 17:28:27,084] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:27,085] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 43/6000 [01:25<3:22:23,  2.04s/it]                                                   {'loss': 3.716, 'grad_norm': 742.2454223632812, 'learning_rate': 4.3e-06, 'epoch': 0.01}
+  1%|          | 43/6000 [01:25<3:22:23,  2.04s/it][2025-11-12 17:28:29,432] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:29,433] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 44/6000 [01:27<3:22:28,  2.04s/it]                                                   {'loss': 3.307, 'grad_norm': 1228.3663330078125, 'learning_rate': 4.4e-06, 'epoch': 0.01}
+  1%|          | 44/6000 [01:27<3:22:28,  2.04s/it][2025-11-12 17:28:31,473] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:31,474] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0070],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 45/6000 [01:29<3:18:37,  2.00s/it]                                                   {'loss': 3.2634, 'grad_norm': 346.22705078125, 'learning_rate': 4.5e-06, 'epoch': 0.01}
+  1%|          | 45/6000 [01:29<3:18:37,  2.00s/it][2025-11-12 17:28:33,385] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:33,386] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 46/6000 [01:31<3:17:06,  1.99s/it]                                                   {'loss': 3.054, 'grad_norm': 252.16293334960938, 'learning_rate': 4.600000000000001e-06, 'epoch': 0.01}
+  1%|          | 46/6000 [01:31<3:17:06,  1.99s/it][2025-11-12 17:28:35,340] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:35,341] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 47/6000 [01:32<3:16:27,  1.98s/it]                                                   {'loss': 3.463, 'grad_norm': 261.1578674316406, 'learning_rate': 4.7e-06, 'epoch': 0.01}
+  1%|          | 47/6000 [01:32<3:16:27,  1.98s/it][2025-11-12 17:28:37,303] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:37,304] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 48/6000 [01:34<3:13:51,  1.95s/it]                                                   {'loss': 3.2275, 'grad_norm': 661.2546997070312, 'learning_rate': 4.800000000000001e-06, 'epoch': 0.01}
+  1%|          | 48/6000 [01:34<3:13:51,  1.95s/it][2025-11-12 17:28:39,195] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:39,196] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0953,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0391,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 49/6000 [01:36<3:12:46,  1.94s/it]                                                   {'loss': 3.2434, 'grad_norm': 256.6042175292969, 'learning_rate': 4.9000000000000005e-06, 'epoch': 0.01}
+  1%|          | 49/6000 [01:36<3:12:46,  1.94s/it][2025-11-12 17:28:41,116] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:41,118] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0390,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0347,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 50/6000 [01:38<3:12:20,  1.94s/it]                                                   {'loss': 3.351, 'grad_norm': 959.2586059570312, 'learning_rate': 5e-06, 'epoch': 0.01}
+  1%|          | 50/6000 [01:38<3:12:20,  1.94s/it][2025-11-12 17:28:43,045] INFO [src.utils:19] Saving model to /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/12Nov_tail_grad_only-Qwen/Qwen2-VL-2B-Instruct/checkpoint-50
+[2025-11-12 17:28:43,057] INFO [src.utils:19] Detected wrapper — saving only LoRA model (encoder.base).
+[2025-11-12 17:28:43,343] INFO [src.utils:19] Saved tail token to /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/12Nov_tail_grad_only-Qwen/Qwen2-VL-2B-Instruct/checkpoint-50/tail_token.pt
+Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead.
+[2025-11-12 17:28:43,826] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:43,828] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0390,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0346,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 51/6000 [01:41<3:34:15,  2.16s/it]                                                   {'loss': 3.1067, 'grad_norm': 376.68365478515625, 'learning_rate': 5.1e-06, 'epoch': 0.01}
+  1%|          | 51/6000 [01:41<3:34:15,  2.16s/it][2025-11-12 17:28:45,724] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:45,725] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0390,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0346,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0046,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 52/6000 [01:43<3:26:07,  2.08s/it]                                                   {'loss': 3.7025, 'grad_norm': 554.623779296875, 'learning_rate': 5.2e-06, 'epoch': 0.01}
+  1%|          | 52/6000 [01:43<3:26:07,  2.08s/it][2025-11-12 17:28:47,612] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:47,613] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0390,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0346,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 53/6000 [01:45<3:21:40,  2.03s/it]                                                   {'loss': 4.2733, 'grad_norm': 615.7001342773438, 'learning_rate': 5.300000000000001e-06, 'epoch': 0.01}
+  1%|          | 53/6000 [01:45<3:21:40,  2.03s/it][2025-11-12 17:28:49,542] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:49,543] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0390,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0346,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 54/6000 [01:47<3:18:34,  2.00s/it]                                                   {'loss': 3.0065, 'grad_norm': 264.4576110839844, 'learning_rate': 5.400000000000001e-06, 'epoch': 0.01}
+  1%|          | 54/6000 [01:47<3:18:34,  2.00s/it][2025-11-12 17:28:51,476] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:51,477] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0390,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0346,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 55/6000 [01:49<3:18:05,  2.00s/it]                                                   {'loss': 3.1976, 'grad_norm': 251.86875915527344, 'learning_rate': 5.500000000000001e-06, 'epoch': 0.01}
+  1%|          | 55/6000 [01:49<3:18:05,  2.00s/it][2025-11-12 17:28:53,464] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:53,465] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0251, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0390,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0346,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 56/6000 [01:51<3:16:14,  1.98s/it]                                                   {'loss': 3.2164, 'grad_norm': 180.70651245117188, 'learning_rate': 5.600000000000001e-06, 'epoch': 0.01}
+  1%|          | 56/6000 [01:51<3:16:14,  1.98s/it][2025-11-12 17:28:55,403] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:55,404] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0252, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0390,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0346,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)
+  1%|          | 57/6000 [01:53<3:14:30,  1.96s/it]                                                   {'loss': 2.9482, 'grad_norm': 341.5270690917969, 'learning_rate': 5.7e-06, 'epoch': 0.01}
+  1%|          | 57/6000 [01:53<3:14:30,  1.96s/it][2025-11-12 17:28:57,325] INFO [src.utils:19] Parameter containing:
+tensor([[[ 0.0053,  0.0014,  0.0090,  ...,  0.0002,  0.0117, -0.0030]]],
+       device='cuda:0', requires_grad=True)
+[2025-11-12 17:28:57,326] INFO [src.utils:19] Parameter containing:
+tensor([[-0.0564, -0.0252, -0.0194,  ...,  0.1099,  0.0645,  0.0071],
+        [ 0.0301,  0.0169,  0.0265,  ..., -0.0488,  0.0442, -0.0347],
+        [ 0.0952,  0.0603, -0.0854,  ...,  0.0166, -0.0011,  0.0684],
+        ...,
+        [-0.0305, -0.0123, -0.0855,  ..., -0.0630, -0.0390,  0.0510],
+        [-0.0737,  0.0225, -0.0288,  ..., -0.0346,  0.0040,  0.0139],
+        [ 0.0447, -0.0042,  0.0045,  ..., -0.0087,  0.0508,  0.0510]],
+       device='cuda:0', requires_grad=True)

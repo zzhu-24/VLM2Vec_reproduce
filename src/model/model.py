@@ -8,7 +8,7 @@ from peft import LoraConfig, get_peft_model, PeftModel
 from src.model.processor import QWEN2_5_VL_TOKENSELECTION
 from src.arguments import ModelArguments, TrainingArguments
 from src.model.processor import LLAVA_NEXT, QWEN2_VL, PHI3V, get_backbone_name, print_master, QWEN2_5_VL, \
-    backbone2model, QWEN2_VL_TOKENSELECTION, QWEN2_5_VL_TOKENSELECTION, E5_V
+    backbone2model, QWEN2_VL_TOKENSELECTION, QWEN2_5_VL_TOKENSELECTION, E5_V, QWEN2_VL_TAIL
 
 from src.arguments import ModelArguments
 from src.model.processor import LLAVA_NEXT, QWEN2_VL, PHI3V, get_backbone_name, print_master, QWEN2_5_VL, INTERNVIDEO2, \
@@ -19,8 +19,6 @@ from src.model.baseline_backbone.lamra.lamra_inference import LamRAQwen2VL
 from src.model.baseline_backbone.lamra.lamra_qwen25_inference import LamRAQwen25VL
 from src.model.baseline_backbone.phi3_v.modeling_phi3_v import Phi3VForCausalLM
 from src.model.baseline_backbone.llava_next import LlavaNextForConditionalGeneration
-
-from src.model.tail_token_wrapper import TailTokenWrapper, TailTokenDetachPrefixWrapper, TailIsolatedBlock
 
 from transformers import modeling_utils
 if not hasattr(modeling_utils, "ALL_PARALLEL_STYLES") or modeling_utils.ALL_PARALLEL_STYLES is None:
@@ -33,7 +31,7 @@ class MMEBModel(nn.Module):
                  encoder: PreTrainedModel,
                  pooling: str = 'last',
                  normalize: bool = False,
-                 temperature: float = 0.02,
+                 temperature: float = 0.02
                  ):
         super().__init__()
         self.config = encoder.config
@@ -124,7 +122,7 @@ class MMEBModel(nn.Module):
             if left_padding:
                 # print_master("LEFT_PADDING")
                 # Get the vectors at the last position
-                reps = last_hidden_state[torch.arange(batch_size), -1, :]
+                reps = last_hidden_state[torch.arange(batch_size), 0, :]
             else:
                 # Calculate last 1 position in the original tensor
                 eos_indices = attention_mask.sum(dim=1) - 1
@@ -175,23 +173,20 @@ class MMEBModel(nn.Module):
             config._attn_implementation = "flash_attention_2"
             config.padding_side = "left"
             config.use_cache = False
-            base_model = backbone2model[model_backbone].from_pretrained(
-                model_args.model_name,
-                config=config,
-                torch_dtype=torch.bfloat16,
-                low_cpu_mem_usage=True,
-            )
-
-            # hidden_size = base_model.config.hidden_size
-            # if model_args.plus_one_token:
-            #     print_master("Enabling TailTokenWrapper (learnable tail token).")
-                # base_model = TailTokenWrapper(base_model, hidden_size=hidden_size, freeze_base=True)
-                # base_model = TailTokenDetachPrefixWrapper(base_model, hidden_size=hidden_size, freeze_text_embeddings=False)
-                # base_model.tail = ...
-                # def my_forward()
-                # base_model.forward = my_forward
-                # for i, block in enumerate(base_model.model.layers):
-                #     base_model.model.layers[i] = TailIsolatedBlock(block)
+            if model_args.plus_one_token:
+                base_model = backbone2model['qwen2_vl_tail'].from_pretrained(
+                    model_args.model_name,
+                    config=config,
+                    torch_dtype=torch.bfloat16,
+                    low_cpu_mem_usage=True,
+                )
+            else:
+                base_model = backbone2model[model_backbone].from_pretrained(
+                    model_args.model_name,
+                    config=config,
+                    torch_dtype=torch.bfloat16,
+                    low_cpu_mem_usage=True,
+                )
 
 
         elif model_backbone in [QWEN2_VL_TOKENSELECTION, QWEN2_5_VL_TOKENSELECTION]:
@@ -233,10 +228,10 @@ class MMEBModel(nn.Module):
                 inference_mode=False
             )
             lora_model = get_peft_model(base_model, lora_config)
+            lora_model.base_model.tail_emb.requires_grad = True # prevent from being set to False in get_peft_model
 
-            if model_args.plus_one_token:
-                lora_model = TailTokenDetachPrefixWrapper(lora_model, merged=False, freeze_text_embeddings=True, tail_token_train_only=model_args.tail_token_train_only, tail_gradient_flow_only=model_args.tail_gradient_flow_only)
-
+            # if model_args.plus_one_token:
+                # lora_model = TailTokenDetachPrefixWrapper(lora_model, merged=False, freeze_text_embeddings=True, tail_token_train_only=model_args.tail_token_train_only, tail_gradient_flow_only=model_args.tail_gradient_flow_only)
             
 
             model = cls(
@@ -331,11 +326,7 @@ class MMEBModel(nn.Module):
             #     print_master(name)
             #     print_master(param.data)
             # print_master(lora_model)
-            if model_args.plus_one_token:
-                print_master("Enabling TailTokenWrapper (learnable tail token).")
-                tail_embedding = torch.load(os.path.join(model_name_or_path, 'tail_token.pt'))
-                lora_model = TailTokenDetachPrefixWrapper(lora_model, tail_embedding=tail_embedding, merged=True)
-            
+                                
             model = cls(
                 encoder=lora_model,
                 pooling=model_args.pooling,

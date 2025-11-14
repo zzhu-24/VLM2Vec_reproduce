@@ -1,0 +1,1472 @@
+==> Environment
+Python: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python
+Version: Python 3.10.18
+
+/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/05Nov_tail_only-Qwen/Qwen2-VL-2B-Instruct
+CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=1 --master_port=2207 --max_restarts=0 train.py --lora --lora_r 16 --model_name Qwen/Qwen2-VL-2B-Instruct --bf16 --pooling eos --normalize True --temperature 0.02 --dataloader_num_workers 1 --dataset_config /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/retrieval.yaml --data_basedir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train --run_name 05Nov_tail_only-Qwen/Qwen2-VL-2B-Instruct --output_dir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/05Nov_tail_only-Qwen/Qwen2-VL-2B-Instruct --grad_cache True --per_device_train_batch_size 16 --gc_q_chunk_size 8 --gc_p_chunk_size 8 --interleave_batch_size 0 --lr_scheduler_type linear --learning_rate 1e-5 --max_steps 6000 --warmup_steps 100 --save_steps 100 --logging_steps 1 --save_safetensors True --remove_unused_columns False --resume_from auto --plus_one_token True --tail_token_train_only True --report_to wandb 2>&1 | tee /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/05Nov_tail_only-Qwen/Qwen2-VL-2B-Instruct/train.log
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+DropoutAddRMSNorm of flash_attn is not installed!!!
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+Distributed init debug info:
+RANK: 0
+LOCAL_RANK: 0
+WORLD_SIZE: 1
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2207
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 0
+torch.distributed.get_world_size(): 1
+[2025-11-07 15:05:42,317] INFO [src.utils:10] rank0: init wandb
+wandb: Currently logged in as: zhuzhehua16 (zhuzhehua16-t-l-com-paris) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.1
+wandb: Run data is saved locally in /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/05Nov_tail_only-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251107_150542-5nmpttnx
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run 05Nov_tail_only-Qwen/Qwen2-VL-2B-Instruct
+wandb: ⭐️ View project at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train
+wandb: 🚀 View run at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train/runs/5nmpttnx
+[2025-11-07 15:05:43,878] INFO [src.utils:19] Loading backbone [qwen2_vl] from Qwen/Qwen2-VL-2B-Instruct
+You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  4.14it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  7.94it/s]
+[2025-11-07 15:05:44,492] INFO [src.utils:19] Loading lora adapter from Qwen2VLForConditionalGeneration(
+  (visual): Qwen2VisionTransformerPretrainedModel(
+    (patch_embed): PatchEmbed(
+      (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+    )
+    (rotary_pos_emb): VisionRotaryEmbedding()
+    (blocks): ModuleList(
+      (0-31): 32 x Qwen2VLVisionBlock(
+        (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (attn): VisionFlashAttention2(
+          (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+          (proj): Linear(in_features=1280, out_features=1280, bias=True)
+        )
+        (mlp): VisionMlp(
+          (fc1): Linear(in_features=1280, out_features=5120, bias=True)
+          (act): QuickGELUActivation()
+          (fc2): Linear(in_features=5120, out_features=1280, bias=True)
+        )
+      )
+    )
+    (merger): PatchMerger(
+      (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+      (mlp): Sequential(
+        (0): Linear(in_features=5120, out_features=5120, bias=True)
+        (1): GELU(approximate='none')
+        (2): Linear(in_features=5120, out_features=1536, bias=True)
+      )
+    )
+  )
+  (model): Qwen2VLModel(
+    (embed_tokens): Embedding(151936, 1536)
+    (layers): ModuleList(
+      (0-27): 28 x Qwen2VLDecoderLayer(
+        (self_attn): Qwen2VLFlashAttention2(
+          (q_proj): Linear(in_features=1536, out_features=1536, bias=True)
+          (k_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (v_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (o_proj): Linear(in_features=1536, out_features=1536, bias=False)
+          (rotary_emb): Qwen2VLRotaryEmbedding()
+        )
+        (mlp): Qwen2MLP(
+          (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (down_proj): Linear(in_features=8960, out_features=1536, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+        (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+      )
+    )
+    (norm): Qwen2RMSNorm((1536,), eps=1e-06)
+    (rotary_emb): Qwen2VLRotaryEmbedding()
+  )
+  (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
+)
+[2025-11-07 15:05:54,008] INFO [src.utils:19] PeftModel(
+  (base_model): LoraModel(
+    (model): Qwen2VLForConditionalGeneration(
+      (visual): Qwen2VisionTransformerPretrainedModel(
+        (patch_embed): PatchEmbed(
+          (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+        )
+        (rotary_pos_emb): VisionRotaryEmbedding()
+        (blocks): ModuleList(
+          (0-31): 32 x Qwen2VLVisionBlock(
+            (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+            (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+            (attn): VisionFlashAttention2(
+              (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+              (proj): Linear(in_features=1280, out_features=1280, bias=True)
+            )
+            (mlp): VisionMlp(
+              (fc1): Linear(in_features=1280, out_features=5120, bias=True)
+              (act): QuickGELUActivation()
+              (fc2): Linear(in_features=5120, out_features=1280, bias=True)
+            )
+          )
+        )
+        (merger): PatchMerger(
+          (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+          (mlp): Sequential(
+            (0): Linear(in_features=5120, out_features=5120, bias=True)
+            (1): GELU(approximate='none')
+            (2): Linear(in_features=5120, out_features=1536, bias=True)
+          )
+        )
+      )
+      (model): Qwen2VLModel(
+        (embed_tokens): Embedding(151936, 1536)
+        (layers): ModuleList(
+          (0-27): 28 x Qwen2VLDecoderLayer(
+            (self_attn): Qwen2VLFlashAttention2(
+              (q_proj): lora.Linear(
+                (base_layer): Linear(in_features=1536, out_features=1536, bias=True)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1536, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=1536, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (k_proj): lora.Linear(
+                (base_layer): Linear(in_features=1536, out_features=256, bias=True)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1536, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=256, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (v_proj): lora.Linear(
+                (base_layer): Linear(in_features=1536, out_features=256, bias=True)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1536, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=256, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (o_proj): lora.Linear(
+                (base_layer): Linear(in_features=1536, out_features=1536, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1536, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=1536, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (rotary_emb): Qwen2VLRotaryEmbedding()
+            )
+            (mlp): Qwen2MLP(
+              (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
+              (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
+              (down_proj): lora.Linear(
+                (base_layer): Linear(in_features=8960, out_features=1536, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.1, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=8960, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=1536, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict(
+                  (default): lora.dora.DoraLinearLayer()
+                )
+              )
+              (act_fn): SiLU()
+            )
+            (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+            (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+          )
+        )
+        (norm): Qwen2RMSNorm((1536,), eps=1e-06)
+        (rotary_emb): Qwen2VLRotaryEmbedding()
+      )
+      (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
+    )
+  )
+)
+[2025-11-07 15:05:54,016] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,016] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,016] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,017] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,017] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,017] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,017] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,018] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,018] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,019] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,019] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,019] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,019] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,020] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,020] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,020] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,021] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,021] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,021] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,022] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,022] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,022] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,022] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,023] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,023] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,023] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,023] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,024] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,024] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,024] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,024] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,024] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,025] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,025] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,025] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,025] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,026] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,026] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,026] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,026] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,027] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,027] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,027] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,028] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,028] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,028] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,028] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,029] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,029] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,029] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,029] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,030] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,030] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,030] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,030] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,031] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,031] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,031] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,031] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,032] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,032] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,032] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,032] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,033] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,033] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,033] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,033] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,034] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,034] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,034] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,034] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,034] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,035] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,035] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,035] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,035] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,036] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,036] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,036] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,036] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,037] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,037] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,037] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,037] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,038] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,038] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,038] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,038] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,039] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,039] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,039] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,039] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,040] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,040] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,040] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,040] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,041] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,041] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,041] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,041] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,042] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,042] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,042] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,042] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,042] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,043] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,043] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,043] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,044] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,044] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,044] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,044] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,044] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,045] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,045] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,045] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,045] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,046] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,046] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,046] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,046] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,047] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,047] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,047] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,047] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,048] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,048] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,048] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,049] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,049] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,049] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,049] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,050] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,050] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,050] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,050] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,050] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,051] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,051] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,051] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,051] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,052] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,052] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,052] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,052] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,053] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,053] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,053] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,053] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,054] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,054] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,054] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,054] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,055] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,055] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,055] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,055] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,055] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,056] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,056] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,056] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,057] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,057] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,057] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,057] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,058] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,058] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,058] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,058] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,059] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,059] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,059] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,059] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,059] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,060] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,060] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,060] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,060] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,061] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,061] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,061] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,061] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,062] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,062] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,062] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,062] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,063] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,063] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,063] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,063] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,064] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,064] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,064] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,064] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,065] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,065] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,065] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,065] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,066] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,066] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,066] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,066] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,067] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,067] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,067] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,067] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,068] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,068] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,068] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,068] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,069] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,069] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,069] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,069] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,070] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,070] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,070] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,070] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,071] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,071] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,071] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,071] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,072] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,072] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,072] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,072] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,073] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,073] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,073] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,073] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,074] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,074] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,074] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,074] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,075] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,075] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,075] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,075] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,075] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,076] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,076] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,076] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,076] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,077] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,077] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,077] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,077] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,078] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,078] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,078] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,078] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,079] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,079] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,079] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,079] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,080] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,080] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,080] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,080] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,081] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,081] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,081] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,081] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,082] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,082] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,082] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,082] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,083] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,083] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,083] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,083] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,084] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,084] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,084] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,084] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,084] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,085] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,085] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,085] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,085] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,086] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,086] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,086] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,086] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,087] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,087] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,087] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,087] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,088] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,088] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,088] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,088] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,089] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,089] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,089] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,089] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,090] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,090] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,090] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,090] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,091] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,091] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,091] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,091] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,092] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,092] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,092] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,092] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,093] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,093] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,093] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,093] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,094] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,094] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,094] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,094] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,094] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,095] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,095] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,095] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,095] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,096] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,096] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,096] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,096] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,097] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,097] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,097] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,097] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,098] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,098] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,098] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,098] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,099] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,099] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,099] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,099] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,100] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,100] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,100] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,101] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,101] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,101] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,101] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,102] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,102] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,102] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,102] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,102] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,103] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,103] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,103] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,103] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,104] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,104] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,104] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,104] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,105] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,105] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,105] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,105] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,106] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,106] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,106] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,106] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,107] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,107] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,107] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,107] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,108] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,108] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,108] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,108] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,109] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,109] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,109] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,109] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,109] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,110] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,110] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,110] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,110] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,111] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,111] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,111] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,111] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,112] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,112] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,112] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,112] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,112] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,113] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,113] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,113] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,113] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,114] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,114] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,114] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,114] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,115] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,116] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,117] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,117] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,117] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,118] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,118] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,118] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,118] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,119] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,119] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,119] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,119] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,120] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,120] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,120] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,120] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,121] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,121] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,121] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,121] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,122] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,122] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,122] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,122] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,123] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,123] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,123] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,123] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,124] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,124] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,124] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,124] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,125] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,125] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,125] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,125] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,126] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,126] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,126] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,126] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,127] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,127] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,127] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,127] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,128] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,128] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,128] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,128] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,129] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,129] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,129] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,129] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,130] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,130] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,130] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,130] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,131] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,131] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,131] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,131] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,132] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,132] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,132] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,132] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,133] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,133] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,133] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,133] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,134] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,134] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,134] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,134] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,135] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,135] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,135] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,135] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,136] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,136] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,136] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,136] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,137] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,137] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,137] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,137] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,138] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,138] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,138] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,138] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,139] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,139] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,139] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,139] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,140] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,140] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,140] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,140] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,141] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,141] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,141] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,141] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,142] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,142] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,142] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,142] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,143] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,143] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,143] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,143] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,144] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,144] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,144] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,144] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,144] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,145] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,145] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,145] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,145] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,146] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,146] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,146] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,146] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,147] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,147] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,147] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,147] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,148] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,148] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,148] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,148] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,149] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,149] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,149] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,149] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,150] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,150] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,150] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,150] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,151] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,151] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,151] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,151] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,152] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,152] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,152] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,152] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,153] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,153] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,153] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,153] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,153] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,154] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,154] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,154] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,154] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,155] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,155] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,155] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,155] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,156] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,156] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,156] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,156] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,157] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,157] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,157] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,157] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,158] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,158] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,158] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,160] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,160] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,160] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,161] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,161] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,161] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,161] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,162] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,162] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,162] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,162] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,163] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,163] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,163] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,163] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,164] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,164] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,164] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,164] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,165] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,165] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,165] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,165] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,165] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,166] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,166] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,166] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,167] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,167] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,167] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,167] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,167] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,168] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,168] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,168] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,168] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,169] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,169] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,169] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,169] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,170] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,170] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,170] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,170] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,171] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,171] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,171] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,171] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,172] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,172] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,172] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,172] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,173] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,173] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,173] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,173] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,173] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,174] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,174] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,174] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,174] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,175] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,175] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,175] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,175] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,176] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,176] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,176] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,176] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,177] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,177] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,177] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,177] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,178] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,178] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,178] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,178] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,179] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,179] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,179] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,179] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,180] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,180] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,180] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,180] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,180] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,181] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,181] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,181] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,181] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,182] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,182] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,182] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,182] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,183] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,183] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,183] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,183] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,184] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,184] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,184] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,184] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,185] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,185] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,185] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,185] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,186] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,186] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,186] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,186] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,187] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,187] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,187] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,187] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,188] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,188] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,188] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,188] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,189] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,189] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,189] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,189] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,190] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,190] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,190] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,190] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,190] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,191] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,191] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,191] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,191] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,192] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,192] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,192] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,192] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,193] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,193] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,193] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,193] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,194] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,194] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,194] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,194] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,195] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,195] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,195] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,195] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,196] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,196] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,196] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,196] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,197] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,197] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,197] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,197] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,198] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,198] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,198] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,198] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,199] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,199] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,199] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,199] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,200] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,200] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,200] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,200] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,201] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,201] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,201] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,201] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,202] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,202] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,202] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,202] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,203] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,203] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,203] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,203] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,203] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,204] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,204] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,204] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,204] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,205] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,205] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,205] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,205] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,206] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,206] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,206] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,206] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,207] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,207] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,207] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,207] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,208] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,208] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,208] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,208] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,209] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,209] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,209] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,209] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,210] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,210] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,210] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,210] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,211] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,211] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,211] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,211] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,212] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,212] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,212] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,212] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,213] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,213] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,213] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,213] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,214] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,214] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,214] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,214] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,214] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,215] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,215] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,215] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,215] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,216] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,216] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,216] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,217] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,217] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,217] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,217] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,218] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,218] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,218] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,218] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,219] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,219] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,219] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,219] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,220] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,220] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,220] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,220] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,220] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,221] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,221] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,221] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,221] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,222] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,222] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,222] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,222] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,223] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,223] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,223] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,223] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,224] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,224] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,224] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,224] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,225] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,225] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,225] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,225] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,225] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,226] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,226] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,226] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,226] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,227] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,227] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,227] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,228] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,228] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,228] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,228] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,228] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,229] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,229] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,229] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,229] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,230] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,230] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,230] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,230] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,231] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,231] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,231] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,231] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,232] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,232] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,232] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,232] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,233] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,233] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,233] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,233] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,234] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,234] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,234] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,234] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,235] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,235] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,235] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,235] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,235] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,236] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,236] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,236] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,236] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,237] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,237] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,237] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,238] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,238] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,238] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,238] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,239] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,239] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,239] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,239] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,240] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,240] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,240] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,240] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,240] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,241] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,241] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,241] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,241] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,242] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,242] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,242] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,242] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,243] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,243] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,243] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,243] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,244] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,244] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,244] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,244] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,245] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,245] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,245] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,245] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,245] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,246] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,246] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,246] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,246] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,247] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,247] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,247] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,247] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,249] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,249] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,250] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,250] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,250] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,250] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,251] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,251] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,251] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,251] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,252] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,252] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,252] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,252] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,253] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,253] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,253] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,253] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,253] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,254] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,254] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,254] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,254] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,255] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,255] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,255] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,255] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,256] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,256] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,256] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,256] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,257] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,257] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,257] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,257] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,258] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,258] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,258] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,258] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,259] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,259] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,259] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,259] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,260] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,260] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,260] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,260] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,261] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,261] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,261] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,261] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,262] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,262] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,262] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,262] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,263] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,263] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,263] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,263] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,263] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,264] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,264] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,264] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,264] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,265] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,265] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,265] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,265] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,266] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,266] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,266] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,266] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,267] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,267] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,267] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,267] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,268] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,268] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,268] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,268] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,269] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,269] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,269] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,269] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,270] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,270] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,270] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,270] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,271] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,271] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,271] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,271] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,272] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,272] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,272] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,272] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,272] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,273] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,273] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,273] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,273] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,274] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,274] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,274] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,274] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,275] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,275] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,275] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,275] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,275] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,276] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,276] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,276] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,276] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,277] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,277] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,277] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,277] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,278] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,278] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,278] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,279] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,279] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,279] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,279] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,279] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,280] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,280] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,280] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,280] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,281] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,281] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,281] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,281] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,282] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,282] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,282] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,282] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,283] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,283] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,283] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,283] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,283] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,284] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,284] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,284] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,284] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,285] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,285] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,285] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,285] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,286] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,286] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,286] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,286] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,287] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,287] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,287] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,287] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,288] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,290] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,290] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,290] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,290] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,291] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,291] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,291] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,291] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,292] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,292] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,292] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,292] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,293] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,293] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,293] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,293] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,293] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,294] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,294] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,294] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,294] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,295] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,295] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,295] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,295] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,296] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,296] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,296] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,296] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,297] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,297] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,297] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,297] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,298] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,298] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,298] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,298] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,299] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,299] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,299] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,299] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,299] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,300] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,300] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,300] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,300] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,301] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,301] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,301] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,301] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,302] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,302] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,302] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,302] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,303] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,303] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,303] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,304] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,304] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,304] INFO [src.utils:19] Freezing all base model parameters except tail token embedding.
+[2025-11-07 15:05:54,305] INFO [src.utils:10] rank0: model_backbone: qwen2_vl
+[2025-11-07 15:05:54,305] INFO [src.utils:19] Loading processor from: Qwen/Qwen2-VL-2B-Instruct
+[2025-11-07 15:05:58,887] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2025-11-07 15:05:58,888] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=50.0
+[2025-11-07 15:05:59,725] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2025-11-07 15:05:59,726] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=50.0
+[2025-11-07 15:05:59,726] INFO [src.utils:19] 
+Initializing interleave datasets:
+		world_size=1
+		total num rows=213287
+		global batch size=16
+		estimated num step per epoch=13330.4375
+		interleave_batch_size=0.0
+[2025-11-07 15:05:59,728] INFO [src.utils:19] ==================================================
+[2025-11-07 15:05:59,728] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2025-11-07 15:05:59,730] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-11-07 15:05:59,731] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-11-07 15:05:59,731] INFO [src.utils:19] ==================================================
+[2025-11-07 15:06:01,120] INFO [src.trainer:342] ***** Running training *****
+[2025-11-07 15:06:01,121] INFO [src.trainer:343]   Num examples = 96,000
+[2025-11-07 15:06:01,121] INFO [src.trainer:344]   Num Epochs = 9,223,372,036,854,775,807
+[2025-11-07 15:06:01,121] INFO [src.trainer:345]   Instantaneous batch size per device = 16
+[2025-11-07 15:06:01,122] INFO [src.trainer:348]   Total train batch size (w. parallel, distributed & accumulation) = 16
+[2025-11-07 15:06:01,122] INFO [src.trainer:349]   Gradient Accumulation steps = 1
+[2025-11-07 15:06:01,122] INFO [src.trainer:350]   Total optimization steps = 6,000
+[2025-11-07 15:06:01,127] INFO [src.trainer:351]   Number of trainable parameters = 1,536
+[2025-11-07 15:06:01,132] INFO [src.trainer:352]   Trainable Parameters = ['encoder.tail_token']
+  0%|          | 0/6000 [00:00<?, ?it/s]You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+Traceback (most recent call last):
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+    main()
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 104, in main
+    trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+    return inner_training_loop(
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 511, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 709, in training_step
+    loss = self.gc(queries, targets, no_sync_except_last=_distributed)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 71, in __call__
+    return self.cache_step(*args, **kwargs)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 263, in cache_step
+    assert all(map(lambda m: isinstance(m, nn.parallel.DistributedDataParallel), self.models)), \
+AssertionError: Some of models are not wrapped in DistributedDataParallel. Make sure you are running DDP with proper initializations.
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 112, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 104, in main
+[rank0]:     trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+[rank0]:     return inner_training_loop(
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 511, in _inner_training_loop
+[rank0]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 709, in training_step
+[rank0]:     loss = self.gc(queries, targets, no_sync_except_last=_distributed)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 71, in __call__
+[rank0]:     return self.cache_step(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 263, in cache_step
+[rank0]:     assert all(map(lambda m: isinstance(m, nn.parallel.DistributedDataParallel), self.models)), \
+[rank0]: AssertionError: Some of models are not wrapped in DistributedDataParallel. Make sure you are running DDP with proper initializations.
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33m05Nov_tail_only-Qwen/Qwen2-VL-2B-Instruct[0m at: [34m[0m
+[1;34mwandb[0m: Find logs at: [1;35mexperiments/public/exps/train/05Nov_tail_only-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251107_150542-5nmpttnx/logs[0m
+E1107 15:06:04.359000 132181240072000 torch/distributed/elastic/multiprocessing/api.py:833] failed (exitcode: 1) local_rank: 0 (pid: 1252107) of binary: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python3.10
+Traceback (most recent call last):
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/torchrun", line 7, in <module>
+    sys.exit(main())
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 348, in wrapper
+    return f(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/run.py", line 901, in main
+    run(args)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/run.py", line 892, in run
+    elastic_launch(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 133, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 264, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+train.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2025-11-07_15:06:04
+  host      : node40.enst.fr
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 1252107)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+Job finished at: ven. 07 nov. 2025 15:06:04 CET

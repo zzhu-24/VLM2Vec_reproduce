@@ -518,6 +518,8 @@ def apply_multimodal_rotary_pos_emb(q, k, cos, sin, mrope_section, unsqueeze_dim
     Returns:
         `tuple(torch.Tensor)` comprising of the query and key tensors rotated using the Rotary Position Embedding.
     """
+    # print_master(q.shape)
+    # print_master(cos.shape)
     mrope_section = mrope_section * 2
     cos = torch.cat([m[i % 3] for i, m in enumerate(cos.split(mrope_section, dim=-1))], dim=-1).unsqueeze(
         unsqueeze_dim
@@ -678,7 +680,6 @@ class Qwen2VLFlashAttention2(Qwen2VLAttention):
         position_embeddings: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,  # necessary, but kept here for BC
     ):
         bsz, q_len, _ = hidden_states.size()
-
         query_states = self.q_proj(hidden_states)
         key_states = self.k_proj(hidden_states)
         value_states = self.v_proj(hidden_states)
@@ -1028,7 +1029,12 @@ class Qwen2VLModel(Qwen2VLPreTrainedModel):
         hidden_states = inputs_embeds
 
         # create position embeddings to be shared across the decoder layers
-        position_embeddings = self.rotary_emb(hidden_states, position_ids)
+        # position_embeddings = self.rotary_emb(hidden_states, position_ids)
+        q_rot, k_rot = self.rotary_emb(hidden_states, position_ids)
+        zero_q = torch.zeros_like(q_rot)
+        zero_k = torch.zeros_like(k_rot)
+
+        position_embeddings = (zero_q, zero_k)
 
         # decoder layers
         all_hidden_states = () if output_hidden_states else None
@@ -1599,7 +1605,6 @@ class Qwen2VLForConditionalGeneration(Qwen2VLPreTrainedModel, GenerationMixin):
         >>> tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
         "The image shows a street scene with a red stop sign in the foreground. In the background, there is a large red gate with Chinese characters ..."
         ```"""
-
         output_attentions = output_attentions if output_attentions is not None else self.config.output_attentions
         output_hidden_states = (
             output_hidden_states if output_hidden_states is not None else self.config.output_hidden_states
@@ -1884,3 +1889,309 @@ class Qwen2VLForConditionalGeneration(Qwen2VLPreTrainedModel, GenerationMixin):
 
 
 __all__ = ["Qwen2VLForConditionalGeneration", "Qwen2VLModel", "Qwen2VLPreTrainedModel"]
+
+
+
+
+class Qwen2VLForConditionalGenerationWithTail(Qwen2VLForConditionalGeneration):
+    def __init__(self, config):
+        super().__init__(config)
+
+        self.tail_emb = nn.Parameter(torch.randn(1, 1, config.hidden_size) * 0.01)
+
+    # forward: mainly copied from father, but add tail prompt
+    def forward(
+        self,
+        input_ids: torch.LongTensor = None,
+        attention_mask: Optional[torch.Tensor] = None,
+        position_ids: Optional[torch.LongTensor] = None,
+        past_key_values: Optional[List[torch.FloatTensor]] = None,
+        inputs_embeds: Optional[torch.FloatTensor] = None,
+        labels: Optional[torch.LongTensor] = None,
+        use_cache: Optional[bool] = None,
+        output_attentions: Optional[bool] = None,
+        output_hidden_states: Optional[bool] = None,
+        return_dict: Optional[bool] = None,
+        pixel_values: Optional[torch.Tensor] = None,
+        pixel_values_videos: Optional[torch.FloatTensor] = None,
+        image_grid_thw: Optional[torch.LongTensor] = None,
+        video_grid_thw: Optional[torch.LongTensor] = None,
+        rope_deltas: Optional[torch.LongTensor] = None,
+        cache_position: Optional[torch.LongTensor] = None,
+        *args, **kwargs
+    ) -> Union[Tuple, Qwen2VLCausalLMOutputWithPast]:
+        r"""
+        Args:
+            labels (`torch.LongTensor` of shape `(batch_size, sequence_length)`, *optional*):
+                Labels for computing the masked language modeling loss. Indices should either be in `[0, ...,
+                config.vocab_size]` or -100 (see `input_ids` docstring). Tokens with indices set to `-100` are ignored
+                (masked), the loss is only computed for the tokens with labels in `[0, ..., config.vocab_size]`.
+
+        Returns:
+
+        Example:
+
+        ```python
+        >>> from PIL import Image
+        >>> import requests
+        >>> from transformers import AutoProcessor, Qwen2VLForConditionalGeneration
+
+        >>> model = Qwen2VLForConditionalGeneration.from_pretrained("Qwen/Qwen2-VL-7B-Instruct")
+        >>> processor = AutoProcessor.from_pretrained("Qwen/Qwen2-VL-7B-Instruct")
+
+        >>> messages = [
+            {
+                "role": "user",
+                "content": [
+                    {"type": "image"},
+                    {"type": "text", "text": "What is shown in this image?"},
+                ],
+            },
+        ]
+        >>> url = "https://www.ilankelman.org/stopsigns/australia.jpg"
+        >>> image = Image.open(requests.get(url, stream=True).raw)
+
+        >>> text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        >>> inputs = processor(text=[text], images=[image], vision_infos=[vision_infos])
+
+        >>> # Generate
+        >>> generate_ids = model.generate(inputs.input_ids, max_length=30)
+        >>> tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+        "The image shows a street scene with a red stop sign in the foreground. In the background, there is a large red gate with Chinese characters ..."
+        ```"""
+
+
+        # For training / encoding only – do not reuse rope_deltas across calls
+        self.rope_deltas = None
+        cache_position = None
+
+
+        output_attentions = output_attentions if output_attentions is not None else self.config.output_attentions
+        output_hidden_states = (
+            output_hidden_states if output_hidden_states is not None else self.config.output_hidden_states
+        )
+        return_dict = return_dict if return_dict is not None else self.config.use_return_dict
+
+        if inputs_embeds is None:
+            inputs_embeds = self.model.embed_tokens(input_ids)
+            # encode image inputs
+            # @ruimeng split data by whether image inputs are valid, and forward separately
+            bsz = input_ids.size(0)
+
+            '''
+            # original implementation for images
+            pixel_values = pixel_values.type(self.visual.get_dtype())
+            image_embeds = self.visual(pixel_values, grid_thw=image_grid_thw)
+            n_image_tokens = (input_ids == self.config.image_token_id).sum().item()
+            n_image_features = image_embeds.shape[0]
+            if n_image_tokens != n_image_features:
+                raise ValueError(
+                    f"Image features and image tokens do not match: tokens: {n_image_tokens}, features {n_image_features}"
+                )
+            image_mask = (
+                (input_ids == self.config.image_token_id)
+                .unsqueeze(-1)
+                .expand_as(inputs_embeds)
+                .to(inputs_embeds.device)
+            )
+            image_embeds = image_embeds.to(inputs_embeds.device, inputs_embeds.dtype)
+            inputs_embeds = inputs_embeds.masked_scatter(image_mask, image_embeds)
+            '''
+            if pixel_values is not None:
+                image_grid_thw = [image_grid_thw[i] if image_grid_thw[i] is not None and image_grid_thw[i].sum() > 0 else None for i in range(bsz)]
+                idx_w_image = [mid for mid, isize in enumerate(image_grid_thw) if isize is not None]
+                idx_wo_image = [mid for mid, isize in enumerate(image_grid_thw) if isize is None]
+                if len(idx_w_image) > 0:
+                    merged_inputs_embeds = []
+                    if len(idx_w_image):
+                        input_ids_w_image = torch.stack([input_ids[i] for i in idx_w_image])
+                        inputs_embeds_w_image = torch.stack([inputs_embeds[i] for i in idx_w_image])
+                        valid_pixel_values = [pixel_values[i] if isinstance(pixel_values[i], torch.Tensor) else torch.from_numpy(pixel_values[i]) for i in idx_w_image]
+                        valid_pixel_values = torch.cat(valid_pixel_values).to(input_ids.device)  # shape=[BS*n_patch,C*H*W]
+                        # print_rank(f"valid_pixel_values.shape={str(valid_pixel_values.shape)}, len(idx_w_image)={len(idx_w_image)}, n_patch={valid_pixel_values.shape[0] // len(idx_w_image)}")
+                        valid_grid_thw = [image_grid_thw[i] if isinstance(image_grid_thw[i], torch.Tensor) else torch.from_numpy(image_grid_thw[i]) for i in idx_w_image]
+                        valid_grid_thw = torch.cat(valid_grid_thw).to(input_ids.device)  # shape=[BS,H,W]
+
+                        valid_pixel_values = valid_pixel_values.type(self.visual.get_dtype())
+                        image_embeds = self.visual(valid_pixel_values, grid_thw=valid_grid_thw)
+                        n_image_tokens = (input_ids_w_image == self.config.image_token_id).sum().item()
+                        n_image_features = image_embeds.shape[0]
+                        if n_image_tokens != n_image_features:
+                            print(f'n_image_tokens={n_image_tokens}')
+                            print(f'n_image_features={n_image_features}')
+                            raise ValueError(
+                                f"Image features and image tokens do not match: tokens: {n_image_tokens}, features {n_image_features}"
+                            )
+                        image_mask = (
+                            (input_ids_w_image == self.config.image_token_id)
+                            .unsqueeze(-1)
+                            .expand_as(inputs_embeds_w_image)
+                            .to(inputs_embeds_w_image.device)
+                        )
+                        image_embeds = image_embeds.to(inputs_embeds.device, inputs_embeds.dtype)
+                        inputs_embeds_w_image = inputs_embeds_w_image.masked_scatter(image_mask, image_embeds)
+                        merged_inputs_embeds.append(inputs_embeds_w_image)
+                    if len(idx_wo_image):
+                        inputs_embeds_wo_image = torch.stack([inputs_embeds[i] for i in idx_wo_image])
+                        merged_inputs_embeds.append(inputs_embeds_wo_image)
+                    # merge the two outputs
+                    merged_inputs_embeds = torch.cat(merged_inputs_embeds, dim=0)
+                    # create a permutation tensor to reorder inputs_embeds
+                    original_order = idx_w_image + idx_wo_image
+                    permutation = torch.argsort(torch.tensor(original_order))
+                    # resort inputs_embeds by original order
+                    inputs_embeds = merged_inputs_embeds[permutation]
+
+            '''
+            # original implementation for videos
+            pixel_values_videos = pixel_values_videos.type(self.visual.get_dtype())
+            video_embeds = self.visual(pixel_values_videos, grid_thw=video_grid_thw)
+            n_video_tokens = (input_ids == self.config.video_token_id).sum().item()
+            n_video_features = video_embeds.shape[0]
+            if n_video_tokens != n_video_features:
+                raise ValueError(
+                    f"Video features and video tokens do not match: tokens: {n_video_tokens}, features {n_video_features}"
+                )
+            video_mask = (
+                (input_ids == self.config.video_token_id)
+                .unsqueeze(-1)
+                .expand_as(inputs_embeds)
+                .to(inputs_embeds.device)
+            )
+            video_embeds = video_embeds.to(inputs_embeds.device, inputs_embeds.dtype)
+            inputs_embeds = inputs_embeds.masked_scatter(video_mask, video_embeds)
+            '''
+            if pixel_values_videos is not None:
+                video_grid_thw = [video_grid_thw[i] if video_grid_thw[i] is not None and video_grid_thw[i].sum() > 0 else None for i in range(bsz)]
+                idx_w_video = [mid for mid, isize in enumerate(video_grid_thw) if isize is not None]
+                idx_wo_video = [mid for mid, isize in enumerate(video_grid_thw) if isize is None]
+                if len(idx_w_video) > 0:
+                    merged_inputs_embeds = []
+                    if len(idx_w_video):
+                        input_ids_w_video = torch.stack([input_ids[i] for i in idx_w_video])
+                        inputs_embeds_w_video = torch.stack([inputs_embeds[i] for i in idx_w_video])
+                        valid_pixel_values = [pixel_values_videos[i] if isinstance(pixel_values_videos[i], torch.Tensor) else torch.from_numpy(pixel_values_videos[i]) for i in idx_w_video]
+                        valid_pixel_values = torch.cat(valid_pixel_values).to(input_ids.device)  # shape=[BS_w_video*n_patch,T*C*H*W], say T*C*H*W=1176=2*3*14*14
+                        # print_rank(f"valid_pixel_values.shape={str(valid_pixel_values.shape)}, len(idx_w_video)={len(idx_w_video)}, n_patch={valid_pixel_values.shape[0] // len(idx_w_video)}")
+                        valid_grid_thw = [video_grid_thw[i] if isinstance(video_grid_thw[i], torch.Tensor) else torch.from_numpy(video_grid_thw[i]) for i in idx_w_video]
+                        valid_grid_thw = torch.cat(valid_grid_thw).to(input_ids.device)  # shape=[BS,H,W]
+
+                        valid_pixel_values = valid_pixel_values.type(self.visual.get_dtype())
+                        video_embeds = self.visual(valid_pixel_values, grid_thw=valid_grid_thw)
+                        n_video_tokens = (input_ids_w_video == self.config.video_token_id).sum().item()
+                        n_video_features = video_embeds.shape[0]
+                        if n_video_tokens != n_video_features:
+                            raise ValueError(
+                                f"video features and video tokens do not match: tokens: {n_video_tokens}, features {n_video_features}"
+                            )
+                        video_mask = (
+                            (input_ids_w_video == self.config.video_token_id)
+                            .unsqueeze(-1)
+                            .expand_as(inputs_embeds_w_video)
+                            .to(inputs_embeds_w_video.device)
+                        )
+                        video_embeds = video_embeds.to(inputs_embeds.device, inputs_embeds.dtype)
+                        inputs_embeds_w_video = inputs_embeds_w_video.masked_scatter(video_mask, video_embeds)
+                        merged_inputs_embeds.append(inputs_embeds_w_video)
+                    if len(idx_wo_video):
+                        inputs_embeds_wo_video = torch.stack([inputs_embeds[i] for i in idx_wo_video])
+                        merged_inputs_embeds.append(inputs_embeds_wo_video)
+                    # merge the two outputs
+                    merged_inputs_embeds = torch.cat(merged_inputs_embeds, dim=0)
+                    # create a permutation tensor to reorder inputs_embeds
+                    original_order = idx_w_video + idx_wo_video
+                    permutation = torch.argsort(torch.tensor(original_order))
+                    # resort inputs_embeds by original order
+                    inputs_embeds = merged_inputs_embeds[permutation]
+
+            if attention_mask is not None:
+                attention_mask = attention_mask.to(inputs_embeds.device)
+
+        tail = self.tail_emb.expand(inputs_embeds.shape[0], 1, -1).to(inputs_embeds.device, dtype=inputs_embeds.dtype)
+        all_embeds = torch.cat([inputs_embeds, tail], dim=1)
+
+        add = torch.ones(attention_mask.shape[0], 1, device=attention_mask.device, dtype=attention_mask.dtype)
+        attention_mask = torch.cat([attention_mask, add], dim=1)
+
+        # if we get 4D attention mask we cannot calculate rope deltas anymore. TODO @raushan fixme
+        if position_ids is None and (attention_mask is None or attention_mask.ndim == 2):
+            # calculate RoPE index once per generation in the pre-fill stage only
+            if (cache_position is not None and cache_position[0] == 0) or self.rope_deltas is None:
+                # position_ids, rope_deltas = self.get_rope_index(
+                #     input_ids, image_grid_thw, video_grid_thw, attention_mask
+                # )
+                tail_token_ids = input_ids[:, -1:].clone()
+                extended_input_ids = torch.cat([input_ids, tail_token_ids], dim=1)
+
+                position_ids, rope_deltas = self.get_rope_index(
+                    extended_input_ids, image_grid_thw, video_grid_thw, attention_mask
+                )
+                self.rope_deltas = rope_deltas
+            # then use the prev pre-calculated rope-deltas to get the correct position ids
+            else:
+                batch_size, seq_length, _ = inputs_embeds.shape
+                delta = cache_position[0] + self.rope_deltas if cache_position is not None else 0
+                position_ids = torch.arange(seq_length, device=inputs_embeds.device)
+                position_ids = position_ids.view(1, -1).expand(batch_size, -1)
+                if cache_position is not None:  # otherwise `deltas` is an int `0`
+                    delta = delta.repeat_interleave(batch_size // delta.shape[0], dim=0)
+                position_ids = position_ids.add(delta)
+                position_ids = position_ids.unsqueeze(0).expand(3, -1, -1)
+
+        # print_master("INPUT_EMBEDS:")
+        # print_master(inputs_embeds.shape)
+
+        # print_master("POSITION_IDS:")
+        # print_master(position_ids.shape)
+        # print_master(position_ids)
+
+        # print_master(all_embeds.shape)
+
+        outputs = self.model(
+            input_ids=None,
+            position_ids=position_ids,
+            attention_mask=attention_mask,
+            past_key_values=past_key_values,
+            inputs_embeds=all_embeds,
+            use_cache=use_cache,
+            output_attentions=output_attentions,
+            output_hidden_states=output_hidden_states,
+            return_dict=return_dict,
+            cache_position=cache_position,
+        )
+
+        # print_master("OUTPUTS:")
+        # print_master(len(outputs.hidden_states))
+        # print_master(outputs.hidden_states[0].shape)
+
+        hidden_states = outputs[0]
+        logits = self.lm_head(hidden_states)
+
+        loss = None
+        if labels is not None:
+
+            # Upcast to float if we need to compute the loss to avoid potential precision issues
+            logits = logits.float()
+            # Shift so that tokens < n predict n
+            shift_logits = logits[..., :-1, :].contiguous()
+            shift_labels = labels[..., 1:].contiguous()
+            # Flatten the tokens
+            loss_fct = CrossEntropyLoss()
+            shift_logits = shift_logits.view(-1, self.config.vocab_size)
+            shift_labels = shift_labels.view(-1)
+            # Enable model parallelism
+            shift_labels = shift_labels.to(shift_logits.device)
+            loss = loss_fct(shift_logits, shift_labels)
+
+        if not return_dict:
+            output = (logits,) + outputs[1:]
+            return (loss,) + output if loss is not None else output
+
+        return Qwen2VLCausalLMOutputWithPast(
+            loss=loss,
+            logits=logits,
+            past_key_values=outputs.past_key_values,
+            hidden_states=outputs.hidden_states,
+            attentions=outputs.attentions,
+            rope_deltas=self.rope_deltas,
+        )
