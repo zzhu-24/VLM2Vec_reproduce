@@ -736,76 +736,57 @@ class GradCacheLateProcessTrainer(MMEBTrainer):
         return loss / self._dist_loss_scale_factor
 
 
-    # def _save(self, output_dir: Optional[str] = None, state_dict=None):
-    #     print_master(f"Saving model to {output_dir}")
-    #     os.makedirs(output_dir, exist_ok=True)
-
-    #     
-
-    #     # Save tail_token separately if it exists
-    #     if hasattr(self.model.encoder, "tail_token"):
-    #         torch.save(
-    #             self.model.encoder.tail_token.detach().cpu(),
-    #             os.path.join(output_dir, "tail_token.pt")
-    #         )
-    #     print_master(f"  Saved tail_token to {os.path.join(output_dir, 'tail_token.pt')}")
-
-    #     if state_dict is None:
-    #         state_dict = self.model.state_dict()
-    #     prefix = 'encoder.'
-    #     assert all(k.startswith(prefix) for k in state_dict.keys()), list(state_dict.keys())
-    #     state_dict = {k[len(prefix):]: v for k, v in state_dict.items()}
-    #     self.model.encoder.save_pretrained(
-    #         output_dir, state_dict=state_dict, safe_serialization=self.args.save_safetensors
-    #     )
-
-    #     if self.tokenizer is not None:
-    #         self.tokenizer.save_pretrained(output_dir)
-
-    #     torch.save(self.args, os.path.join(output_dir, TRAINING_ARGS_NAME))
-    #     self.model.encoder.config.to_json_file(os.path.join(output_dir, 'config.json'))
-
     def _save(self, output_dir: Optional[str] = None, state_dict=None):
         print_master(f"Saving model to {output_dir}")
         os.makedirs(output_dir, exist_ok=True)
 
-        # print_master(self.model.encoder)
-        
-        # Get model state_dict (the entire wrapper)
         if state_dict is None:
             state_dict = self.model.state_dict()
-
-        prefix = "encoder."
+        prefix = 'encoder.'
         assert all(k.startswith(prefix) for k in state_dict.keys()), list(state_dict.keys())
-
         state_dict = {k[len(prefix):]: v for k, v in state_dict.items()}
+        self.model.encoder.save_pretrained(
+            output_dir, state_dict=state_dict, safe_serialization=self.args.save_safetensors
+        )
 
-        encoder = self.model.encoder
-        if hasattr(encoder, "base"):
-            # Save only the LoRA model inside wrapper
-            print_master("Detected wrapper — saving only LoRA model (encoder.base).")
-            lora_state = encoder.base.state_dict()
-            encoder.base.save_pretrained(
-                output_dir, 
-                state_dict=lora_state,
-                safe_serialization=self.args.save_safetensors
-            )
-            # save tail token:
-            tail_path = os.path.join(output_dir, "tail_token.pt")
-            torch.save(encoder.tail_token.detach().cpu(), tail_path)
-            print_master(f"Saved tail token to {tail_path}")
-        else:
-            # If not wrapper, save directly
-            encoder.save_pretrained(
-                output_dir,
-                state_dict=state_dict,
-                safe_serialization=self.args.save_safetensors
-            )
-
-        # Save tokenizer and args
         if self.tokenizer is not None:
             self.tokenizer.save_pretrained(output_dir)
 
         torch.save(self.args, os.path.join(output_dir, TRAINING_ARGS_NAME))
-        self.model.encoder.config.to_json_file(os.path.join(output_dir, "config.json"))
+        self.model.encoder.config.to_json_file(os.path.join(output_dir, 'config.json'))
+
+    # def _save(self, output_dir: Optional[str] = None, state_dict=None):
+    #     print_master(f"Saving model to {output_dir}")
+    #     os.makedirs(output_dir, exist_ok=True)
+
+    #     # print_master(self.model.encoder)
+        
+    #     # Get model state_dict (the entire wrapper)
+    #     if state_dict is None:
+    #         state_dict = self.model.state_dict()
+
+    #     prefix = "encoder."
+    #     assert all(k.startswith(prefix) for k in state_dict.keys()), list(state_dict.keys())
+
+    #     state_dict = {k[len(prefix):]: v for k, v in state_dict.items()}
+
+    #     encoder = self.model.encoder
+
+    #     encoder.save_pretrained(
+    #         output_dir,
+    #         state_dict=state_dict,
+    #         safe_serialization=self.args.save_safetensors
+    #     )
+
+    #     # save tail token:
+    #     tail_path = os.path.join(output_dir, "tail_token.pt")
+    #     torch.save(encoder.tail_emb.detach().cpu(), tail_path)
+    #     print_master(f"Saved tail token to {tail_path}")
+
+    #     # Save tokenizer and args
+    #     if self.tokenizer is not None:
+    #         self.tokenizer.save_pretrained(output_dir)
+
+    #     torch.save(self.args, os.path.join(output_dir, TRAINING_ARGS_NAME))
+    #     self.model.encoder.config.to_json_file(os.path.join(output_dir, "config.json"))
 

@@ -1029,12 +1029,11 @@ class Qwen2VLModel(Qwen2VLPreTrainedModel):
         hidden_states = inputs_embeds
 
         # create position embeddings to be shared across the decoder layers
-        # position_embeddings = self.rotary_emb(hidden_states, position_ids)
-        q_rot, k_rot = self.rotary_emb(hidden_states, position_ids)
-        zero_q = torch.zeros_like(q_rot)
-        zero_k = torch.zeros_like(k_rot)
-
-        position_embeddings = (zero_q, zero_k)
+        position_embeddings = self.rotary_emb(hidden_states, position_ids)
+        # q_rot, k_rot = self.rotary_emb(hidden_states, position_ids)
+        # zero_q = torch.zeros_like(q_rot)
+        # zero_k = torch.zeros_like(k_rot)
+        # position_embeddings = (zero_q, zero_k)
 
         # decoder layers
         all_hidden_states = () if output_hidden_states else None
@@ -1897,7 +1896,7 @@ class Qwen2VLForConditionalGenerationWithTail(Qwen2VLForConditionalGeneration):
     def __init__(self, config):
         super().__init__(config)
 
-        self.tail_emb = nn.Parameter(torch.randn(1, 1, config.hidden_size) * 0.01)
+        self.tail_emb = nn.Parameter(torch.randn(1, 1, config.hidden_size) * 5e-6)
 
     # forward: mainly copied from father, but add tail prompt
     def forward(
@@ -2107,7 +2106,10 @@ class Qwen2VLForConditionalGenerationWithTail(Qwen2VLForConditionalGeneration):
             if attention_mask is not None:
                 attention_mask = attention_mask.to(inputs_embeds.device)
 
-        tail = self.tail_emb.expand(inputs_embeds.shape[0], 1, -1).to(inputs_embeds.device, dtype=inputs_embeds.dtype)
+        # tail = self.tail_emb.expand(inputs_embeds.shape[0], 1, -1).to(inputs_embeds.device, dtype=inputs_embeds.dtype)
+        # tail = self.tail_emb.expand(inputs_embeds.shape[0], 1, -1)
+
+        tail = inputs_embeds[:, -1:, :].clone()  # copy the last token embedding
         all_embeds = torch.cat([inputs_embeds, tail], dim=1)
 
         add = torch.ones(attention_mask.shape[0], 1, device=attention_mask.device, dtype=attention_mask.dtype)

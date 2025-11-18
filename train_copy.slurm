@@ -2,7 +2,7 @@
 #SBATCH --job-name=tr            # Name of your job
 #SBATCH --output=./slurm_results/%x/%j.out
 #SBATCH --error=./slurm_results/%x/%j.err
-#SBATCH --partition=3090              # Partition to submit to (A100, V100, etc.)
+#SBATCH --partition=audible              # Partition to submit to (A100, V100, etc.)
 #SBATCH --gres=gpu:2                 # Request 2 GPUs
 #SBATCH --cpus-per-task=4             # Request 8 CPU cores
 #SBATCH --mem=30G                     # Request 32 GB of memory

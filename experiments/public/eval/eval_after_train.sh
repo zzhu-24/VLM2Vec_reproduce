@@ -55,10 +55,10 @@ BATCH_SIZE=24
 # MODEL_TYPE="05Nov_tail_grad_only-Qwen"
 # MODEL_TYPE="05Nov_tail_only-Qwen"
 # MODEL_TYPE="original-Qwen"
-MODEL_TYPE="12Nov_tail_train_only-Qwen"
+MODEL_TYPE="1Nov_AddTail-Qwen"
 
 
-CHECKPOINT_PATH="checkpoint-500"
+CHECKPOINT_PATH="checkpoint-300"
 
 
 DATA_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_eval/MMEB-V2"
@@ -122,7 +122,7 @@ for spec in "${MODEL_SPECS[@]}"; do
       --tgt_chosen_layer "$L" \
       --checkpoint_path /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/$MODEL_TYPE/Qwen2-VL-2B-Instruct/$CHECKPOINT_PATH \
       --plus_one_token True \
-      --tail_token_train_only True \
+      # --tail_token_train_only True \
       # --tail_gradient_flow_only True\
       &> "$OUTPUT_PATH/eval.log"
 

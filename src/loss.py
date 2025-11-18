@@ -2,7 +2,7 @@ from torch import Tensor
 import torch.distributed as dist
 import torch
 import torch.nn.functional as F
-
+from src.utils import print_master
 
 class SimpleContrastiveLoss:
     def __init__(self, temperature: float = 0.02):
@@ -14,6 +14,17 @@ class SimpleContrastiveLoss:
             target = torch.arange(
                 0, x.size(0) * target_per_qry, target_per_qry, device=x.device, dtype=torch.long)
         logits = torch.matmul(x, y.transpose(0, 1))
+
+        print_master(f"logits max:, {torch.max(logits).item()}")
+        print_master(f"logits min:, {torch.min(logits).item()}")
+        print_master(f"any nan:, {torch.isnan(logits).any().item()}")
+        print_master(f"any inf:, {torch.isinf(logits).any().item()}")
+
+        print_master(f"target max:, {target.max().item()}")
+        print_master(f"logits shape:, {logits.shape}")
+        print_master(f"target shape:, {target.shape}")
+
+
         loss = F.cross_entropy(logits / self.temperature, target, reduction=reduction)
         return loss
 

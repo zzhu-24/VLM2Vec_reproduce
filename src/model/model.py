@@ -122,7 +122,7 @@ class MMEBModel(nn.Module):
             if left_padding:
                 # print_master("LEFT_PADDING")
                 # Get the vectors at the last position
-                reps = last_hidden_state[torch.arange(batch_size), 0, :]
+                reps = last_hidden_state[torch.arange(batch_size), -1, :]
             else:
                 # Calculate last 1 position in the original tensor
                 eos_indices = attention_mask.sum(dim=1) - 1
@@ -228,6 +228,9 @@ class MMEBModel(nn.Module):
                 inference_mode=False
             )
             lora_model = get_peft_model(base_model, lora_config)
+            if model_args.tail_token_train_only:
+                for name, param in lora_model.named_parameters():
+                    param.requires_grad = False
             lora_model.base_model.tail_emb.requires_grad = True # prevent from being set to False in get_peft_model
 
             # if model_args.plus_one_token:
@@ -374,7 +377,6 @@ class MMEBModel(nn.Module):
         loss = self.cross_entropy(scores / self.temperature, target)
         if self.is_ddp:
             loss = loss * self.world_size
-
         return loss
 
     def _dist_gather_tensor(self, t: Tensor):
@@ -387,5 +389,3 @@ class MMEBModel(nn.Module):
 
     def compute_similarity(self, q_reps, p_reps):
         return torch.matmul(q_reps, p_reps.transpose(0, 1))
-
-

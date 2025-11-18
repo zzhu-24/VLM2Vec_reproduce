@@ -1,0 +1,7 @@
+==> Environment
+Python: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python
+Version: Python 3.10.18
+
+/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/18Nov-Qwen/Qwen2-VL-2B-Instruct
+❌ Script failed at line 37
+Job finished at: Tue Nov 18 08:17:10 CET 2025

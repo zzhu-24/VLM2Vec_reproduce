@@ -3,6 +3,9 @@ import logging
 import os.path
 import sys
 
+import torch
+torch.autograd.set_detect_anomaly(True)
+
 logging.basicConfig(
     level=logging.INFO, format='[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s',
     handlers=[logging.StreamHandler(sys.stdout)]  # Ensures logs appear in stdout
