@@ -5,6 +5,8 @@ import sys
 
 import torch
 torch.autograd.set_detect_anomaly(True)
+from numpy import ndarray
+torch.serialization.add_safe_globals([ndarray])
 
 logging.basicConfig(
     level=logging.INFO, format='[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s',

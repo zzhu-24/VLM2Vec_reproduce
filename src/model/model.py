@@ -180,6 +180,7 @@ class MMEBModel(nn.Module):
                     torch_dtype=torch.bfloat16,
                     low_cpu_mem_usage=True,
                 )
+                torch.nn.init.normal_(base_model.tail_emb, mean=0.0, std=1e-4)
             else:
                 base_model = backbone2model[model_backbone].from_pretrained(
                     model_args.model_name,
@@ -231,7 +232,19 @@ class MMEBModel(nn.Module):
             if model_args.tail_token_train_only:
                 for name, param in lora_model.named_parameters():
                     param.requires_grad = False
-            lora_model.base_model.tail_emb.requires_grad = True # prevent from being set to False in get_peft_model
+                
+                # Set LoRA weights to zero
+                for name, module in lora_model.named_modules():
+                    if hasattr(module, "lora_A"):
+                        for k, p in module.lora_A.items():
+                            p.weight.data.zero_()
+                    if hasattr(module, "lora_B"):
+                        for k, p in module.lora_B.items():
+                            p.weight.data.zero_()
+                print_master("All LoRA parameters are set to 0.")
+
+            if hasattr(lora_model.base_model, "tail_emb"):
+                lora_model.base_model.tail_emb.requires_grad = True # prevent from being set to False in get_peft_model
 
             # if model_args.plus_one_token:
                 # lora_model = TailTokenDetachPrefixWrapper(lora_model, merged=False, freeze_text_embeddings=True, tail_token_train_only=model_args.tail_token_train_only, tail_gradient_flow_only=model_args.tail_gradient_flow_only)

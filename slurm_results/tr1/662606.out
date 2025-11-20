@@ -1,222 +1,0 @@
-==> Environment
-Python: /home/infres/zzhu-24/anaconda3/envs/vlm2vec/bin/python
-Version: Python 3.10.18
-
-/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/1Nov_AddTail_freeze-Qwen/Qwen2-VL-2B-Instruct
-CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=2207 --max_restarts=0 train.py --lora --lora_r 16 --model_name Qwen/Qwen2-VL-2B-Instruct --bf16 --pooling eos --normalize True --temperature 0.02 --dataloader_num_workers 1 --dataset_config /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/retrieval.yaml --data_basedir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train --run_name 1Nov_AddTail_freeze-Qwen/Qwen2-VL-2B-Instruct --output_dir /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/1Nov_AddTail_freeze-Qwen/Qwen2-VL-2B-Instruct --grad_cache True --per_device_train_batch_size 16 --gc_q_chunk_size 8 --gc_p_chunk_size 8 --interleave_batch_size 0 --lr_scheduler_type linear --learning_rate 1e-5 --max_steps 6000 --warmup_steps 100 --save_steps 500 --logging_steps 1 --save_safetensors True --remove_unused_columns False --resume_from auto --plus_one_token True --tail_token_train_only True --report_to wandb 2>&1 | tee /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/1Nov_AddTail_freeze-Qwen/Qwen2-VL-2B-Instruct/train.log
-W1118 10:57:32.292000 135076934461248 torch/distributed/run.py:779] 
-W1118 10:57:32.292000 135076934461248 torch/distributed/run.py:779] *****************************************
-W1118 10:57:32.292000 135076934461248 torch/distributed/run.py:779] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
-W1118 10:57:32.292000 135076934461248 torch/distributed/run.py:779] *****************************************
-/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
-  warnings.warn(
-/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
-  warnings.warn(
-/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-DropoutAddRMSNorm of flash_attn is not installed!!!DropoutAddRMSNorm of flash_attn is not installed!!!
-
-/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
-  @torch.cuda.amp.autocast(enabled=False)
-/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
-  @torch.cuda.amp.autocast(enabled=False)
-Distributed init debug info:
-RANK: 0
-LOCAL_RANK: 0
-WORLD_SIZE: 2
-MASTER_ADDR: 127.0.0.1
-MASTER_PORT: 2207
-torch.distributed.is_initialized: True
-torch.distributed.get_rank(): 0
-torch.distributed.get_world_size(): 2
-[2025-11-18 10:57:40,111] INFO [src.utils:10] rank0: init wandb
-Distributed init debug info:
-RANK: 1
-LOCAL_RANK: 1
-WORLD_SIZE: 2
-MASTER_ADDR: 127.0.0.1
-MASTER_PORT: 2207
-torch.distributed.is_initialized: True
-torch.distributed.get_rank(): 1
-torch.distributed.get_world_size(): 2
-You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  5.91it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 11.34it/s]
-Some weights of Qwen2VLForConditionalGenerationWithTail were not initialized from the model checkpoint at Qwen/Qwen2-VL-2B-Instruct and are newly initialized: ['tail_emb']
-You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-wandb: Currently logged in as: zhuzhehua16 (zhuzhehua16-t-l-com-paris) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
-wandb: Tracking run with wandb version 0.22.1
-wandb: Run data is saved locally in /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/1Nov_AddTail_freeze-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251118_105742-8xkoqof7
-wandb: Run `wandb offline` to turn off syncing.
-wandb: Syncing run 1Nov_AddTail_freeze-Qwen/Qwen2-VL-2B-Instruct
-wandb: ⭐️ View project at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train
-wandb: 🚀 View run at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train/runs/8xkoqof7
-[2025-11-18 10:57:43,141] INFO [src.utils:19] Loading backbone [qwen2_vl] from Qwen/Qwen2-VL-2B-Instruct
-You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  6.04it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 11.55it/s]
-Some weights of Qwen2VLForConditionalGenerationWithTail were not initialized from the model checkpoint at Qwen/Qwen2-VL-2B-Instruct and are newly initialized: ['tail_emb']
-You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-[2025-11-18 10:57:43,682] INFO [src.utils:19] Loading lora adapter from Qwen2VLForConditionalGenerationWithTail(
-  (visual): Qwen2VisionTransformerPretrainedModel(
-    (patch_embed): PatchEmbed(
-      (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
-    )
-    (rotary_pos_emb): VisionRotaryEmbedding()
-    (blocks): ModuleList(
-      (0-31): 32 x Qwen2VLVisionBlock(
-        (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
-        (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
-        (attn): VisionFlashAttention2(
-          (qkv): Linear(in_features=1280, out_features=3840, bias=True)
-          (proj): Linear(in_features=1280, out_features=1280, bias=True)
-        )
-        (mlp): VisionMlp(
-          (fc1): Linear(in_features=1280, out_features=5120, bias=True)
-          (act): QuickGELUActivation()
-          (fc2): Linear(in_features=5120, out_features=1280, bias=True)
-        )
-      )
-    )
-    (merger): PatchMerger(
-      (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
-      (mlp): Sequential(
-        (0): Linear(in_features=5120, out_features=5120, bias=True)
-        (1): GELU(approximate='none')
-        (2): Linear(in_features=5120, out_features=1536, bias=True)
-      )
-    )
-  )
-  (model): Qwen2VLModel(
-    (embed_tokens): Embedding(151936, 1536)
-    (layers): ModuleList(
-      (0-27): 28 x Qwen2VLDecoderLayer(
-        (self_attn): Qwen2VLFlashAttention2(
-          (q_proj): Linear(in_features=1536, out_features=1536, bias=True)
-          (k_proj): Linear(in_features=1536, out_features=256, bias=True)
-          (v_proj): Linear(in_features=1536, out_features=256, bias=True)
-          (o_proj): Linear(in_features=1536, out_features=1536, bias=False)
-          (rotary_emb): Qwen2VLRotaryEmbedding()
-        )
-        (mlp): Qwen2MLP(
-          (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
-          (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
-          (down_proj): Linear(in_features=8960, out_features=1536, bias=False)
-          (act_fn): SiLU()
-        )
-        (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
-        (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
-      )
-    )
-    (norm): Qwen2RMSNorm((1536,), eps=1e-06)
-    (rotary_emb): Qwen2VLRotaryEmbedding()
-  )
-  (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
-)
-[2025-11-18 10:57:48,711] INFO [src.utils:10] rank1: model_backbone: qwen2_vl
-[2025-11-18 10:57:51,155] INFO [src.utils:10] rank0: model_backbone: qwen2_vl
-[2025-11-18 10:57:51,155] INFO [src.utils:19] Loading processor from: Qwen/Qwen2-VL-2B-Instruct
-[2025-11-18 10:57:54,929] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
-[2025-11-18 10:57:54,929] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=50.0
-[2025-11-18 10:57:55,733] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
-[2025-11-18 10:57:55,733] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=50.0
-[2025-11-18 10:57:55,733] INFO [src.utils:19] 
-Initializing interleave datasets:
-		world_size=2
-		total num rows=213287
-		global batch size=32
-		estimated num step per epoch=6665.21875
-		interleave_batch_size=0.0
-[2025-11-18 10:57:55,734] INFO [src.utils:19] ==================================================
-[2025-11-18 10:57:55,734] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
-[2025-11-18 10:57:55,734] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
-[2025-11-18 10:57:55,735] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
-[2025-11-18 10:57:55,735] INFO [src.utils:19] ==================================================
-[2025-11-18 10:57:57,311] INFO [src.trainer:350] ***** Running training *****
-[2025-11-18 10:57:57,311] INFO [src.trainer:350] ***** Running training *****
-[2025-11-18 10:57:57,311] INFO [src.trainer:351]   Num examples = 192,000
-[2025-11-18 10:57:57,311] INFO [src.trainer:352]   Num Epochs = 9,223,372,036,854,775,807
-[2025-11-18 10:57:57,311] INFO [src.trainer:353]   Instantaneous batch size per device = 16
-[2025-11-18 10:57:57,311] INFO [src.trainer:356]   Total train batch size (w. parallel, distributed & accumulation) = 32
-[2025-11-18 10:57:57,311] INFO [src.trainer:357]   Gradient Accumulation steps = 1
-[2025-11-18 10:57:57,311] INFO [src.trainer:358]   Total optimization steps = 6,000
-[2025-11-18 10:57:57,312] INFO [src.trainer:351]   Num examples = 192,000
-[2025-11-18 10:57:57,312] INFO [src.trainer:352]   Num Epochs = 9,223,372,036,854,775,807
-[2025-11-18 10:57:57,312] INFO [src.trainer:353]   Instantaneous batch size per device = 16
-[2025-11-18 10:57:57,312] INFO [src.trainer:356]   Total train batch size (w. parallel, distributed & accumulation) = 32
-[2025-11-18 10:57:57,313] INFO [src.trainer:357]   Gradient Accumulation steps = 1
-[2025-11-18 10:57:57,313] INFO [src.trainer:358]   Total optimization steps = 6,000
-[2025-11-18 10:57:57,315] INFO [src.trainer:359]   Number of trainable parameters = 1,536
-[2025-11-18 10:57:57,316] INFO [src.trainer:359]   Number of trainable parameters = 1,536
-[2025-11-18 10:57:57,317] INFO [src.trainer:360]   Trainable Parameters = ['module.encoder.base_model.model.tail_emb']
-[2025-11-18 10:57:57,319] INFO [src.trainer:360]   Trainable Parameters = ['module.encoder.base_model.model.tail_emb']
-  0%|          | 0/6000 [00:00<?, ?it/s]You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
-You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
-[rank0]:[W1118 10:57:59.559833499 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
-[rank1]:[W1118 10:58:00.569890722 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
-  0%|          | 1/6000 [00:03<5:33:00,  3.33s/it]                                                  {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 1.0000000000000001e-07, 'epoch': 0.0}
-  0%|          | 1/6000 [00:03<5:33:00,  3.33s/it]  0%|          | 2/6000 [00:05<4:01:49,  2.42s/it]                                                  {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 2.0000000000000002e-07, 'epoch': 0.0}
-  0%|          | 2/6000 [00:05<4:01:49,  2.42s/it]  0%|          | 3/6000 [00:06<3:37:18,  2.17s/it]                                                  {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 3.0000000000000004e-07, 'epoch': 0.0}
-  0%|          | 3/6000 [00:06<3:37:18,  2.17s/it]  0%|          | 4/6000 [00:08<3:24:47,  2.05s/it]                                                  {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 4.0000000000000003e-07, 'epoch': 0.0}
-  0%|          | 4/6000 [00:08<3:24:47,  2.05s/it]  0%|          | 5/6000 [00:10<3:16:40,  1.97s/it]                                                  {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 5.000000000000001e-07, 'epoch': 0.0}
-  0%|          | 5/6000 [00:10<3:16:40,  1.97s/it]  0%|          | 6/6000 [00:12<3:13:34,  1.94s/it]                                                  {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 6.000000000000001e-07, 'epoch': 0.0}
-  0%|          | 6/6000 [00:12<3:13:34,  1.94s/it]  0%|          | 7/6000 [00:14<3:11:07,  1.91s/it]                                                  {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 7.000000000000001e-07, 'epoch': 0.0}
-  0%|          | 7/6000 [00:14<3:11:07,  1.91s/it]  0%|          | 8/6000 [00:16<3:06:46,  1.87s/it]                                                  {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 8.000000000000001e-07, 'epoch': 0.0}
-  0%|          | 8/6000 [00:16<3:06:46,  1.87s/it]  0%|          | 9/6000 [00:18<3:08:11,  1.88s/it]                                                  {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 9.000000000000001e-07, 'epoch': 0.0}
-  0%|          | 9/6000 [00:18<3:08:11,  1.88s/it]  0%|          | 10/6000 [00:19<3:04:54,  1.85s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 1.0000000000000002e-06, 'epoch': 0.0}
-  0%|          | 10/6000 [00:19<3:04:54,  1.85s/it]  0%|          | 11/6000 [00:21<3:06:44,  1.87s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 1.1e-06, 'epoch': 0.0}
-  0%|          | 11/6000 [00:21<3:06:44,  1.87s/it]  0%|          | 12/6000 [00:23<3:07:18,  1.88s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 1.2000000000000002e-06, 'epoch': 0.0}
-  0%|          | 12/6000 [00:23<3:07:18,  1.88s/it]  0%|          | 13/6000 [00:25<3:05:10,  1.86s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 1.3e-06, 'epoch': 0.0}
-  0%|          | 13/6000 [00:25<3:05:10,  1.86s/it]  0%|          | 14/6000 [00:27<3:03:30,  1.84s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 1.4000000000000001e-06, 'epoch': 0.0}
-  0%|          | 14/6000 [00:27<3:03:30,  1.84s/it]  0%|          | 15/6000 [00:29<3:02:53,  1.83s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 1.5e-06, 'epoch': 0.0}
-  0%|          | 15/6000 [00:29<3:02:53,  1.83s/it]  0%|          | 16/6000 [00:30<3:03:59,  1.84s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 1.6000000000000001e-06, 'epoch': 0.0}
-  0%|          | 16/6000 [00:30<3:03:59,  1.84s/it]  0%|          | 17/6000 [00:32<3:03:57,  1.84s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 1.7000000000000002e-06, 'epoch': 0.0}
-  0%|          | 17/6000 [00:32<3:03:57,  1.84s/it]  0%|          | 18/6000 [00:34<3:03:10,  1.84s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 1.8000000000000001e-06, 'epoch': 0.0}
-  0%|          | 18/6000 [00:34<3:03:10,  1.84s/it]  0%|          | 19/6000 [00:36<3:02:07,  1.83s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 1.9000000000000002e-06, 'epoch': 0.0}
-  0%|          | 19/6000 [00:36<3:02:07,  1.83s/it]  0%|          | 20/6000 [00:38<3:02:05,  1.83s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 2.0000000000000003e-06, 'epoch': 0.0}
-  0%|          | 20/6000 [00:38<3:02:05,  1.83s/it]  0%|          | 21/6000 [00:40<3:02:36,  1.83s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 2.1000000000000002e-06, 'epoch': 0.0}
-  0%|          | 21/6000 [00:40<3:02:36,  1.83s/it]  0%|          | 22/6000 [00:41<3:01:44,  1.82s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 2.2e-06, 'epoch': 0.0}
-  0%|          | 22/6000 [00:41<3:01:44,  1.82s/it]  0%|          | 23/6000 [00:43<3:03:42,  1.84s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 2.3000000000000004e-06, 'epoch': 0.0}
-  0%|          | 23/6000 [00:43<3:03:42,  1.84s/it]  0%|          | 24/6000 [00:45<3:05:41,  1.86s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 2.4000000000000003e-06, 'epoch': 0.0}
-  0%|          | 24/6000 [00:45<3:05:41,  1.86s/it]  0%|          | 25/6000 [00:47<3:06:17,  1.87s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 2.5e-06, 'epoch': 0.0}
-  0%|          | 25/6000 [00:47<3:06:17,  1.87s/it]  0%|          | 26/6000 [00:49<3:06:50,  1.88s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 2.6e-06, 'epoch': 0.0}
-  0%|          | 26/6000 [00:49<3:06:50,  1.88s/it]  0%|          | 27/6000 [00:51<3:06:02,  1.87s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 2.7000000000000004e-06, 'epoch': 0.0}
-  0%|          | 27/6000 [00:51<3:06:02,  1.87s/it]  0%|          | 28/6000 [00:53<3:16:14,  1.97s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 2.8000000000000003e-06, 'epoch': 0.0}
-  0%|          | 28/6000 [00:53<3:16:14,  1.97s/it]  0%|          | 29/6000 [00:55<3:12:22,  1.93s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 2.9e-06, 'epoch': 0.0}
-  0%|          | 29/6000 [00:55<3:12:22,  1.93s/it]  0%|          | 30/6000 [00:57<3:10:15,  1.91s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 3e-06, 'epoch': 0.01}
-  0%|          | 30/6000 [00:57<3:10:15,  1.91s/it]  1%|          | 31/6000 [00:59<3:07:24,  1.88s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 3.1000000000000004e-06, 'epoch': 0.01}
-  1%|          | 31/6000 [00:59<3:07:24,  1.88s/it]  1%|          | 32/6000 [01:00<3:07:31,  1.89s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 3.2000000000000003e-06, 'epoch': 0.01}
-  1%|          | 32/6000 [01:00<3:07:31,  1.89s/it]  1%|          | 33/6000 [01:02<3:05:54,  1.87s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 3.3000000000000006e-06, 'epoch': 0.01}
-  1%|          | 33/6000 [01:02<3:05:54,  1.87s/it]  1%|          | 34/6000 [01:04<3:04:13,  1.85s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 3.4000000000000005e-06, 'epoch': 0.01}
-  1%|          | 34/6000 [01:04<3:04:13,  1.85s/it]  1%|          | 35/6000 [01:06<3:04:21,  1.85s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 3.5e-06, 'epoch': 0.01}
-  1%|          | 35/6000 [01:06<3:04:21,  1.85s/it]  1%|          | 36/6000 [01:08<3:02:48,  1.84s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 3.6000000000000003e-06, 'epoch': 0.01}
-  1%|          | 36/6000 [01:08<3:02:48,  1.84s/it]  1%|          | 37/6000 [01:10<3:01:34,  1.83s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 3.7e-06, 'epoch': 0.01}
-  1%|          | 37/6000 [01:10<3:01:34,  1.83s/it]  1%|          | 38/6000 [01:11<3:01:44,  1.83s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 3.8000000000000005e-06, 'epoch': 0.01}
-  1%|          | 38/6000 [01:11<3:01:44,  1.83s/it]  1%|          | 39/6000 [01:13<3:00:46,  1.82s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 3.900000000000001e-06, 'epoch': 0.01}
-  1%|          | 39/6000 [01:13<3:00:46,  1.82s/it]  1%|          | 40/6000 [01:15<3:00:41,  1.82s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 4.000000000000001e-06, 'epoch': 0.01}
-  1%|          | 40/6000 [01:15<3:00:41,  1.82s/it]  1%|          | 41/6000 [01:17<2:59:29,  1.81s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 4.1e-06, 'epoch': 0.01}
-  1%|          | 41/6000 [01:17<2:59:29,  1.81s/it]  1%|          | 42/6000 [01:19<2:59:33,  1.81s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 4.2000000000000004e-06, 'epoch': 0.01}
-  1%|          | 42/6000 [01:19<2:59:33,  1.81s/it]  1%|          | 43/6000 [01:21<3:12:29,  1.94s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 4.3e-06, 'epoch': 0.01}
-  1%|          | 43/6000 [01:21<3:12:29,  1.94s/it]  1%|          | 44/6000 [01:23<3:13:38,  1.95s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 4.4e-06, 'epoch': 0.01}
-  1%|          | 44/6000 [01:23<3:13:38,  1.95s/it]  1%|          | 45/6000 [01:25<3:10:38,  1.92s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 4.5e-06, 'epoch': 0.01}
-  1%|          | 45/6000 [01:25<3:10:38,  1.92s/it]  1%|          | 46/6000 [01:27<3:08:04,  1.90s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 4.600000000000001e-06, 'epoch': 0.01}
-  1%|          | 46/6000 [01:27<3:08:04,  1.90s/it]  1%|          | 47/6000 [01:28<3:06:36,  1.88s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 4.7e-06, 'epoch': 0.01}
-  1%|          | 47/6000 [01:28<3:06:36,  1.88s/it]  1%|          | 48/6000 [01:30<3:06:12,  1.88s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 4.800000000000001e-06, 'epoch': 0.01}
-  1%|          | 48/6000 [01:30<3:06:12,  1.88s/it]  1%|          | 49/6000 [01:32<3:04:14,  1.86s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 4.9000000000000005e-06, 'epoch': 0.01}
-  1%|          | 49/6000 [01:32<3:04:14,  1.86s/it]  1%|          | 50/6000 [01:34<3:04:33,  1.86s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 5e-06, 'epoch': 0.01}
-  1%|          | 50/6000 [01:34<3:04:33,  1.86s/it]  1%|          | 51/6000 [01:36<3:04:25,  1.86s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 5.1e-06, 'epoch': 0.01}
-  1%|          | 51/6000 [01:36<3:04:25,  1.86s/it]  1%|          | 52/6000 [01:38<3:03:16,  1.85s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 5.2e-06, 'epoch': 0.01}
-  1%|          | 52/6000 [01:38<3:03:16,  1.85s/it]  1%|          | 53/6000 [01:40<3:04:11,  1.86s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 5.300000000000001e-06, 'epoch': 0.01}
-  1%|          | 53/6000 [01:40<3:04:11,  1.86s/it]  1%|          | 54/6000 [01:41<3:02:23,  1.84s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 5.400000000000001e-06, 'epoch': 0.01}
-  1%|          | 54/6000 [01:41<3:02:23,  1.84s/it]  1%|          | 55/6000 [01:43<3:01:47,  1.83s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 5.500000000000001e-06, 'epoch': 0.01}
-  1%|          | 55/6000 [01:43<3:01:47,  1.83s/it]  1%|          | 56/6000 [01:45<3:02:18,  1.84s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 5.600000000000001e-06, 'epoch': 0.01}
-  1%|          | 56/6000 [01:45<3:02:18,  1.84s/it]  1%|          | 57/6000 [01:47<3:03:05,  1.85s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 5.7e-06, 'epoch': 0.01}
-  1%|          | 57/6000 [01:47<3:03:05,  1.85s/it]  1%|          | 58/6000 [01:49<3:01:41,  1.83s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 5.8e-06, 'epoch': 0.01}
-  1%|          | 58/6000 [01:49<3:01:41,  1.83s/it]  1%|          | 59/6000 [01:50<3:00:00,  1.82s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 5.9e-06, 'epoch': 0.01}
-  1%|          | 59/6000 [01:50<3:00:00,  1.82s/it]  1%|          | 60/6000 [01:52<2:59:30,  1.81s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 6e-06, 'epoch': 0.01}
-  1%|          | 60/6000 [01:52<2:59:30,  1.81s/it]  1%|          | 61/6000 [01:54<3:00:20,  1.82s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 6.1e-06, 'epoch': 0.01}
-  1%|          | 61/6000 [01:54<3:00:20,  1.82s/it]  1%|          | 62/6000 [01:56<3:00:02,  1.82s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 6.200000000000001e-06, 'epoch': 0.01}
-  1%|          | 62/6000 [01:56<3:00:02,  1.82s/it]  1%|          | 63/6000 [01:58<3:00:13,  1.82s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 6.300000000000001e-06, 'epoch': 0.01}
-  1%|          | 63/6000 [01:58<3:00:13,  1.82s/it]  1%|          | 64/6000 [01:59<2:58:59,  1.81s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 6.4000000000000006e-06, 'epoch': 0.01}
-  1%|          | 64/6000 [01:59<2:58:59,  1.81s/it]  1%|          | 65/6000 [02:01<2:59:05,  1.81s/it]                                                   {'loss': 0.0, 'grad_norm': nan, 'learning_rate': 6.5000000000000004e-06, 'epoch': 0.01}
-  1%|          | 65/6000 [02:01<2:59:05,  1.81s/it]

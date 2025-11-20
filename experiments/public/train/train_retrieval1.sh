@@ -22,7 +22,7 @@ export WANDB_PROJECT=vlm2vec_train
 export WANDB_API_KEY=151b985aec8f2669c89875abb20b1c822ecdb9ad
 # export HUGGING_FACE_HUB_TOKEN=...
 # export WANDB_PROJECT=...
-export WANDB_RUN_GROUP=1Nov_AddTail_freeze
+export WANDB_RUN_GROUP=19Nov_AddTail_TrainOnly
 export MODEL_NAME=Qwen/Qwen2-VL-2B-Instruct
 # export MODEL_NAME=Alibaba-NLP/gme-Qwen2-VL-2B-Instruct
 export WANDB_NAME="${WANDB_RUN_GROUP}-${MODEL_NAME}"
@@ -38,7 +38,7 @@ rm -rf $EXP_DIR/wandb/*
 
 cd /home/infres/zzhu-24/PRIM/VLM2Vec/
 
-cmd="CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=2207 --max_restarts=0 train.py 
+cmd="CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=29121 --max_restarts=0 train.py 
     --lora
     --lora_r 16
     --model_name $MODEL_NAME
@@ -60,7 +60,7 @@ cmd="CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=2207 --m
     --learning_rate 1e-5 
     --max_steps 6000
     --warmup_steps 100
-    --save_steps 500
+    --save_steps 50
     --logging_steps 1
     --save_safetensors True
     --remove_unused_columns False

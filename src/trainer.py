@@ -162,25 +162,6 @@ class MMEBTrainer(Trainer):
         self.model = MMEBModel.load(self.model_args)
         self.model_wrapped = self.model
 
-    ## --------------------------------------------------------------------------------------------
-    # def create_optimizer_and_scheduler(self, num_training_steps: int):
-    #     if getattr(self.model_args, "plus_one_token", True):
-    #         print_master("✅ Custom optimizer (gme.learnable_token only) enabled")
-
-    #         for name, param in self.model.named_parameters():
-    #             param.requires_grad = ("tail_token" in name)
-
-    #         self.optimizer = torch.optim.AdamW(
-    #                 [self.model.encoder.tail_token],
-    #                 lr=1e-3
-    #             )
-            
-    #         self.create_scheduler(num_training_steps=num_training_steps, optimizer=self.optimizer)
-    #     else:
-    #         super().create_optimizer_and_scheduler(num_training_steps)
-    ## --------------------------------------------------------------------------------------------
-
-
     def _inner_training_loop(
         self, batch_size=None, args=None, resume_from_checkpoint=None, trial=None, ignore_keys_for_eval=None
     ):

@@ -51,14 +51,12 @@ CUDA_VISIBLE_DEVICES="0"
 BATCH_SIZE=24
 
 
-# MODEL_TYPE="05NovA200-Qwen"
-# MODEL_TYPE="05Nov_tail_grad_only-Qwen"
-# MODEL_TYPE="05Nov_tail_only-Qwen"
 # MODEL_TYPE="original-Qwen"
-MODEL_TYPE="1Nov_AddTail-Qwen"
+# MODEL_TYPE="19Nov_AddTail-Qwen"
+MODEL_TYPE="19Nov_AddTail_TrainOnly-Qwen"
+# MODEL_TYPE="19Nov_AddTail_TrainOnly_Replace-Qwen"
 
-
-CHECKPOINT_PATH="checkpoint-300"
+CHECKPOINT_PATH="checkpoint-6000"
 
 
 DATA_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_eval/MMEB-V2"
@@ -66,7 +64,7 @@ DATA_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_
 OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/DEBUG_${MODEL_TYPE}"
 # # colpali cannot use average token
 
-LAYER_START=28
+LAYER_START=1
 LAYER_END=28
 # # colpali baseline layer index 0-18
 
@@ -122,8 +120,7 @@ for spec in "${MODEL_SPECS[@]}"; do
       --tgt_chosen_layer "$L" \
       --checkpoint_path /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/$MODEL_TYPE/Qwen2-VL-2B-Instruct/$CHECKPOINT_PATH \
       --plus_one_token True \
-      # --tail_token_train_only True \
-      # --tail_gradient_flow_only True\
+      --tail_token_train_only True \
       &> "$OUTPUT_PATH/eval.log"
 
     end_time_layer=$(date +%s)

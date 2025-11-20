@@ -1896,7 +1896,8 @@ class Qwen2VLForConditionalGenerationWithTail(Qwen2VLForConditionalGeneration):
     def __init__(self, config):
         super().__init__(config)
 
-        self.tail_emb = nn.Parameter(torch.randn(1, 1, config.hidden_size) * 5e-6)
+        self.tail_emb = nn.Parameter(torch.randn(1, 1, config.hidden_size) * 1e-5)
+        # self.tail_emb = nn.Embedding(1, config.hidden_size)
 
     # forward: mainly copied from father, but add tail prompt
     def forward(
@@ -2107,27 +2108,32 @@ class Qwen2VLForConditionalGenerationWithTail(Qwen2VLForConditionalGeneration):
                 attention_mask = attention_mask.to(inputs_embeds.device)
 
         # tail = self.tail_emb.expand(inputs_embeds.shape[0], 1, -1).to(inputs_embeds.device, dtype=inputs_embeds.dtype)
-        # tail = self.tail_emb.expand(inputs_embeds.shape[0], 1, -1)
+        tail = self.tail_emb.expand(inputs_embeds.shape[0], 1, -1)
+        # tail = inputs_embeds[:, -1:, :].clone()  # copy the last token embedding
 
-        tail = inputs_embeds[:, -1:, :].clone()  # copy the last token embedding
-        all_embeds = torch.cat([inputs_embeds, tail], dim=1)
-
-        add = torch.ones(attention_mask.shape[0], 1, device=attention_mask.device, dtype=attention_mask.dtype)
-        attention_mask = torch.cat([attention_mask, add], dim=1)
+        replace = True
+        if replace:
+            all_embeds = torch.cat([inputs_embeds[:, :-1], tail], dim=1)
+        else:
+            all_embeds = torch.cat([inputs_embeds, tail], dim=1)
+            add = torch.ones(attention_mask.shape[0], 1, device=attention_mask.device, dtype=attention_mask.dtype)
+            attention_mask = torch.cat([attention_mask, add], dim=1)
 
         # if we get 4D attention mask we cannot calculate rope deltas anymore. TODO @raushan fixme
         if position_ids is None and (attention_mask is None or attention_mask.ndim == 2):
             # calculate RoPE index once per generation in the pre-fill stage only
             if (cache_position is not None and cache_position[0] == 0) or self.rope_deltas is None:
-                # position_ids, rope_deltas = self.get_rope_index(
-                #     input_ids, image_grid_thw, video_grid_thw, attention_mask
-                # )
-                tail_token_ids = input_ids[:, -1:].clone()
-                extended_input_ids = torch.cat([input_ids, tail_token_ids], dim=1)
+                if replace:
+                    position_ids, rope_deltas = self.get_rope_index(
+                        input_ids, image_grid_thw, video_grid_thw, attention_mask
+                    )
+                else:
+                    tail_token_ids = input_ids[:, -1:].clone()
+                    extended_input_ids = torch.cat([input_ids, tail_token_ids], dim=1)
 
-                position_ids, rope_deltas = self.get_rope_index(
-                    extended_input_ids, image_grid_thw, video_grid_thw, attention_mask
-                )
+                    position_ids, rope_deltas = self.get_rope_index(
+                        extended_input_ids, image_grid_thw, video_grid_thw, attention_mask
+                    )
                 self.rope_deltas = rope_deltas
             # then use the prev pre-calculated rope-deltas to get the correct position ids
             else:

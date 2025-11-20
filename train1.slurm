@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=tr            # Name of your job
+#SBATCH --job-name=tr1            # Name of your job
 #SBATCH --output=./slurm_results/%x/%j.out
 #SBATCH --error=./slurm_results/%x/%j.err
 #SBATCH --partition=audible              # Partition to submit to (A100, V100, etc.)
@@ -11,7 +11,7 @@
 source ~/anaconda3/etc/profile.d/conda.sh
 conda activate vlm2vec
 cd /home/infres/zzhu-24/PRIM/VLM2Vec
-bash /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/train_retrieval.sh
+bash /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/train_retrieval1.sh
 
 
 echo "Job finished at: $(date)"
