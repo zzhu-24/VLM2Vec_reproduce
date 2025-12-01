@@ -32,6 +32,8 @@ class ModelArguments:
     plus_one_token: bool = field(default=False, metadata={"help": "add a learnable token at the end of the sequence"})
     tail_token_train_only: bool = field(default=False, metadata={"help": "only train the tail token when plus_one_token is enabled"})
     tail_gradient_flow_only: bool = field(default=False, metadata={"help": "gradient is only passed through the tail token when plus_one_token is enabled"})
+    delete_L: int = field(default=28, metadata={"help": "the last layer to be deleted"})
+    delete_n: int = field(default=0, metadata={"help": "number of layers to be deleted from the L-th layer"})
 
 @dataclass
 class DataArguments:

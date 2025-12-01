@@ -149,6 +149,10 @@ class MMEBModel(nn.Module):
         config = AutoConfig.from_pretrained(model_args.model_name, trust_remote_code=True)
         model_backbone = get_backbone_name(hf_config=config)
         print_master(f'Loading backbone [{model_backbone}] from {model_args.model_name}')
+
+        config.delete_L = model_args.delete_L
+        config.delete_n = model_args.delete_n
+
         # Loading the base model
         if model_backbone == PHI3V:
             config._attn_implementation = "eager"
@@ -180,7 +184,13 @@ class MMEBModel(nn.Module):
                     torch_dtype=torch.bfloat16,
                     low_cpu_mem_usage=True,
                 )
-                torch.nn.init.normal_(base_model.tail_emb, mean=0.0, std=1e-4)
+                # torch.nn.init.normal_(base_model.tail_emb, mean=0.0, std=1e-4)
+                eos_token_id = config.eos_token_id
+                with torch.no_grad():
+                    emb = base_model.get_input_embeddings().weight
+                    base_model.tail_emb.copy_(emb[eos_token_id])
+                    # Frozen the tail embedding to eos embedding, for debug
+                    base_model.tail_emb.requires_grad = False
             else:
                 base_model = backbone2model[model_backbone].from_pretrained(
                     model_args.model_name,
@@ -286,6 +296,10 @@ class MMEBModel(nn.Module):
             config = AutoConfig.from_pretrained(model_args.model_name, trust_remote_code=True)
             config._attn_implementation = model_args.attn_implementation
             config.vision_config._attn_implementation = model_args.attn_implementation
+
+            config.delete_L = model_args.delete_L
+            config.delete_n = model_args.delete_n
+            
             base_model = backbone2model[model_args.model_backbone].from_pretrained(
                 model_args.model_name,
                 torch_dtype=torch.bfloat16,

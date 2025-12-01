@@ -51,20 +51,27 @@ CUDA_VISIBLE_DEVICES="0"
 BATCH_SIZE=24
 
 
-# MODEL_TYPE="original-Qwen"
-# MODEL_TYPE="19Nov_AddTail-Qwen"
-MODEL_TYPE="19Nov_AddTail-Qwen"
-# MODEL_TYPE="27Nov_NewDatasets_TailEosInit-Qwen"
+MODEL_TYPE="19Nov_AddTail_Replace-Qwen"
 
-CHECKPOINT_PATH="checkpoint-1500"
-
+CHECKPOINT_LIST=(
+  "checkpoint-100"
+  "checkpoint-200"
+  "checkpoint-300"
+  "checkpoint-400"
+  "checkpoint-500"
+  "checkpoint-600"
+  "checkpoint-700"
+  "checkpoint-800"
+  "checkpoint-900"
+  "checkpoint-1000"
+)
 
 DATA_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_eval/MMEB-V2"
 # OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/vlm2vec_retrieval"
 OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/DEBUG_${MODEL_TYPE}"
 # # colpali cannot use average token
 
-LAYER_START=23
+LAYER_START=10
 LAYER_END=28
 # # colpali baseline layer index 0-18
 
@@ -98,48 +105,58 @@ for spec in "${MODEL_SPECS[@]}"; do
 
   start_time_model=$(date +%s)
 
-  for L in $(seq $LAYER_START $LAYER_END); do
-    OUTPUT_PATH="$BASE_OUTPUT_PATH/$CHECKPOINT_PATH/layer_${L}/retrieval"
-    mkdir -p "$OUTPUT_PATH"
+  for CKPT in "${CHECKPOINT_LIST[@]}"; do
+    echo "==============================================="
+    echo "🔎 Using checkpoint: $CKPT"
+    echo "==============================================="
 
-    echo "  ▶ Layer $L → output: $OUTPUT_PATH"
-    start_time_layer=$(date +%s)
+    # Path for checkpoint
+    CKPT_PATH="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/${MODEL_TYPE}/Qwen2-VL-2B-Instruct/${CKPT}"
 
-    CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES CUDA_LAUNCH_BLOCKING=1 TORCH_USE_CUDA_DSA=1 python eval.py \
-      --lora True \
-      --lora_r 16 \
-      --pooling eos \
-      --normalize true \
-      --per_device_eval_batch_size "$BATCH_SIZE" \
-      --model_backbone "$MODEL_BACKBONE" \
-      --model_name "$MODEL_NAME" \
-      --dataset_config "$DATA_CONFIG_PATH" \
-      --encode_output_path "$OUTPUT_PATH" \
-      --data_basedir "$DATA_BASEDIR" \
-      --qry_chosen_layer "$L" \
-      --tgt_chosen_layer "$L" \
-      --checkpoint_path /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/$MODEL_TYPE/Qwen2-VL-2B-Instruct/$CHECKPOINT_PATH \
-      &> "$OUTPUT_PATH/eval.log"
 
-    end_time_layer=$(date +%s)
-    elapsed_layer=$((end_time_layer - start_time_layer))
-    echo "    ✅ Finished layer $L in ${elapsed_layer}s"
+    for L in $(seq $LAYER_START $LAYER_END); do
+      OUTPUT_PATH="$BASE_OUTPUT_PATH/$CKPT/layer_${L}/retrieval"
+      mkdir -p "$OUTPUT_PATH"
 
-    # ===============================
-    # Cleanup except for the first run
-    # ===============================
-    if [ "$first_run" = false ]; then
-        echo "    ➤ Cleaning temporary files under $OUTPUT_PATH"
-        find "$OUTPUT_PATH" -maxdepth 1 -type f \( \
-            -name "*_tgt" -o \
-            -name "*_qry" -o \
-            -name "*_pred.jsonl" -o \
-            -name "*_info.jsonl" \
-        \) -delete
-    else
-        echo "    ➤ First iteration: skipping cleanup"
-        first_run=false
-    fi
+      echo "  ▶ Layer $L → output: $OUTPUT_PATH"
+      start_time_layer=$(date +%s)
+
+      CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES CUDA_LAUNCH_BLOCKING=1 TORCH_USE_CUDA_DSA=1 python eval.py \
+        --lora True \
+        --lora_r 16 \
+        --pooling eos \
+        --normalize true \
+        --per_device_eval_batch_size "$BATCH_SIZE" \
+        --model_backbone "$MODEL_BACKBONE" \
+        --model_name "$MODEL_NAME" \
+        --dataset_config "$DATA_CONFIG_PATH" \
+        --encode_output_path "$OUTPUT_PATH" \
+        --data_basedir "$DATA_BASEDIR" \
+        --qry_chosen_layer "$L" \
+        --tgt_chosen_layer "$L" \
+        --checkpoint_path "$CKPT_PATH" \
+        &> "$OUTPUT_PATH/eval.log"
+
+      end_time_layer=$(date +%s)
+      elapsed_layer=$((end_time_layer - start_time_layer))
+      echo "    ✅ Finished layer $L in ${elapsed_layer}s"
+
+      # ===============================
+      # Cleanup except for the first run
+      # ===============================
+      if [ "$first_run" = false ]; then
+          echo "    ➤ Cleaning temporary files under $OUTPUT_PATH"
+          find "$OUTPUT_PATH" -maxdepth 1 -type f \( \
+              -name "*_tgt" -o \
+              -name "*_qry" -o \
+              -name "*_pred.jsonl" -o \
+              -name "*_info.jsonl" \
+          \) -delete
+      else
+          echo "    ➤ First iteration: skipping cleanup"
+          first_run=false
+      fi
+    done
   done
 
   end_time_model=$(date +%s)

@@ -22,7 +22,7 @@ export WANDB_PROJECT=vlm2vec_train
 export WANDB_API_KEY=151b985aec8f2669c89875abb20b1c822ecdb9ad
 # export HUGGING_FACE_HUB_TOKEN=...
 # export WANDB_PROJECT=...
-export WANDB_RUN_GROUP=19Nov_AddTail_TrainOnly_Replace
+export WANDB_RUN_GROUP=2Dec_AddTail_Replace_EOSInit_freezeTail
 export MODEL_NAME=Qwen/Qwen2-VL-2B-Instruct
 # export MODEL_NAME=Alibaba-NLP/gme-Qwen2-VL-2B-Instruct
 export WANDB_NAME="${WANDB_RUN_GROUP}-${MODEL_NAME}"
@@ -66,7 +66,6 @@ cmd="CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=29121 --
     --remove_unused_columns False
     --resume_from auto
     --plus_one_token True
-    --tail_token_train_only True
     --report_to wandb 2>&1 | tee $EXP_DIR/train.log"
 
 echo $cmd
