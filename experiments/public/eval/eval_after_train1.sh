@@ -5,75 +5,27 @@
 # ===========================================
 
 set -e  # Stop on error
-trap 'echo "❌ Script failed at line $LINENO"; exit 1' ERR
+trap 'echo "Script failed at line $LINENO"; exit 1' ERR
 
 echo "==> Environment"
 echo "Python: $(which python)"
 echo "Version: $(python --version)"
 echo ""
 
-
-# ==============================================================================
-# GPU Availability Check
-# ==============================================================================
-echo "==> Checking available GPUs..."
-
-# Check if any GPU is visible
-if ! command -v nvidia-smi &> /dev/null; then
-  echo "❌ nvidia-smi not found! Make sure CUDA drivers are installed."
-  exit 1
-fi
-
-# List available GPUs
-AVAILABLE_GPUS=$(nvidia-smi --query-gpu=index,memory.used,memory.total --format=csv,noheader | awk '{print $1}' | xargs)
-if [ -z "$AVAILABLE_GPUS" ]; then
-  echo "❌ No GPUs detected on this node!"
-  exit 1
-fi
-
-echo "Detected GPUs: $AVAILABLE_GPUS"
-
-# Optionally check if the selected GPUs are busy
-BUSY_GPUS=$(nvidia-smi --query-gpu=index,utilization.gpu --format=csv,noheader | awk '$2 > 50 {print $1}')
-if [ -n "$BUSY_GPUS" ]; then
-  echo "⚠️ Warning: Some GPUs are currently under high utilization (>50%): $BUSY_GPUS"
-else
-  echo "✅ GPUs are free and ready to use."
-fi
-
-echo ""
-
-# ==============================================================================
-# Configuration
-# ==============================================================================
-
 CUDA_VISIBLE_DEVICES="0"
 BATCH_SIZE=24
-
-
-# MODEL_TYPE="original-Qwen"
-# MODEL_TYPE="19Nov_AddTail-Qwen"
-# MODEL_TYPE="19Nov_AddTail-Qwen"
-# MODEL_TYPE="27Nov_NewDatasets_TailEosInit-Qwen"
-MODEL_TYPE="28Nov_TrLayer8-Qwen"
-
+MODEL_TYPE="7DecAddLoss_28_16-Qwen"
 CHECKPOINT_LIST=(
-  "checkpoint-1000"
-  "checkpoint-2000"
-  "checkpoint-3000"
-  "checkpoint-4000"
-  "checkpoint-5000"
-  "checkpoint-6000"
+  # "checkpoint-1800"
+  # "checkpoint-300"
+  # "checkpoint-600"
+  # "checkpoint-1000"
+  # "checkpoint-5000"
+  "checkpoint-4650"
 )
-
 DATA_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_eval/MMEB-V2"
 # OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/vlm2vec_retrieval"
 OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/DEBUG_${MODEL_TYPE}"
-# # colpali cannot use average token
-
-LAYER_START=1
-LAYER_END=8
-# # colpali baseline layer index 0-18
 
 # ==> Model specs: format "MODEL_NAME;BACKBONE;OUTPUT_DIR"
 declare -a MODEL_SPECS
@@ -86,84 +38,66 @@ MODEL_SPECS+=("Qwen/Qwen2-VL-2B-Instruct;qwen2_vl;$OUTPUT_BASEDIR/qwen-Qwen2-VL-
 # MODEL_SPECS+=("code-kunkun/LamRA-Ret;lamra;$OUTPUT_BASEDIR/LamRA-Ret")
 # MODEL_SPECS+=("vidore/colpali-v1.3;colpali;$OUTPUT_BASEDIR/colpali-v1.3")
 
-# ==============================================================================
-# Main Loop
-# ==============================================================================
+
+
 for spec in "${MODEL_SPECS[@]}"; do
   IFS=';' read -r MODEL_NAME MODEL_BACKBONE BASE_OUTPUT_PATH <<< "$spec"
 
   echo "================================================="
-  echo "🚀 Evaluating Model: $MODEL_NAME"
+  echo "Evaluating Model: $MODEL_NAME"
   echo "================================================="
 
   DATA_CONFIG_PATH="experiments/public/eval/retrieval.yaml"
 
   echo "  ➤ Dataset config: $DATA_CONFIG_PATH"
   echo "  ➤ Output base path: $BASE_OUTPUT_PATH"
-  echo "  ➤ Layer range: $LAYER_START to $((LAYER_END))"
   echo ""
 
   start_time_model=$(date +%s)
 
   for CKPT in "${CHECKPOINT_LIST[@]}"; do
     echo "==============================================="
-    echo "🔎 Using checkpoint: $CKPT"
+    echo "Using checkpoint: $CKPT"
     echo "==============================================="
 
-    # Path for checkpoint
     CKPT_PATH="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/${MODEL_TYPE}/Qwen2-VL-2B-Instruct/${CKPT}"
+    OUTPUT_PATH="$BASE_OUTPUT_PATH/$CKPT/retrieval"
+    mkdir -p "$OUTPUT_PATH"
 
+    CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES CUDA_LAUNCH_BLOCKING=1 TORCH_USE_CUDA_DSA=1 python eval.py \
+      --lora True \
+      --lora_r 16 \
+      --pooling eos \
+      --normalize true \
+      --per_device_eval_batch_size "$BATCH_SIZE" \
+      --model_backbone "$MODEL_BACKBONE" \
+      --model_name "$MODEL_NAME" \
+      --dataset_config "$DATA_CONFIG_PATH" \
+      --encode_output_path "$OUTPUT_PATH" \
+      --data_basedir "$DATA_BASEDIR" \
+      --delete_L 28 \
+      --delete_n 0 \
+      --eval_layers 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 \
+      --checkpoint_path "$CKPT_PATH" \
+      &> "$OUTPUT_PATH/eval.log"
 
-    for L in $(seq $LAYER_START $LAYER_END); do
-      OUTPUT_PATH="$BASE_OUTPUT_PATH/$CKPT/layer_${L}/retrieval"
-      mkdir -p "$OUTPUT_PATH"
-
-      echo "  ▶ Layer $L → output: $OUTPUT_PATH"
-      start_time_layer=$(date +%s)
-
-      CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES CUDA_LAUNCH_BLOCKING=1 TORCH_USE_CUDA_DSA=1 python eval.py \
-        --lora True \
-        --lora_r 16 \
-        --pooling eos \
-        --normalize true \
-        --per_device_eval_batch_size "$BATCH_SIZE" \
-        --model_backbone "$MODEL_BACKBONE" \
-        --model_name "$MODEL_NAME" \
-        --dataset_config "$DATA_CONFIG_PATH" \
-        --encode_output_path "$OUTPUT_PATH" \
-        --data_basedir "$DATA_BASEDIR" \
-        --qry_chosen_layer "$L" \
-        --tgt_chosen_layer "$L" \
-        --checkpoint_path "$CKPT_PATH" \
-        &> "$OUTPUT_PATH/eval.log"
-
-      end_time_layer=$(date +%s)
-      elapsed_layer=$((end_time_layer - start_time_layer))
-      echo "    ✅ Finished layer $L in ${elapsed_layer}s"
-
-      # ===============================
-      # Cleanup except for the first run
-      # ===============================
-      if [ "$first_run" = false ]; then
-          echo "    ➤ Cleaning temporary files under $OUTPUT_PATH"
-          find "$OUTPUT_PATH" -maxdepth 1 -type f \( \
-              -name "*_tgt" -o \
-              -name "*_qry" -o \
-              -name "*_pred.jsonl" -o \
-              -name "*_info.jsonl" \
-          \) -delete
-      else
-          echo "    ➤ First iteration: skipping cleanup"
-          first_run=false
-      fi
-    done
+    # Cleanup
+    echo " ➤ Cleaning temporary files under $OUTPUT_PATH"
+    find "$OUTPUT_PATH" -maxdepth 1 -type f \( \
+        -name "*_tgt" -o \
+        -name "*_qry" -o \
+        -name "*_pred.jsonl" -o \
+        -name "*_info.jsonl" \
+    \) -delete
+else
+    echo "    ➤ First iteration: skipping cleanup"
   done
 
   end_time_model=$(date +%s)
   elapsed_model=$((end_time_model - start_time_model))
   echo "-------------------------------------------------"
-  echo "✅ Finished $MODEL_NAME (layers ${LAYER_START}-${LAYER_END}) in ${elapsed_model}s"
+  echo "Finished $MODEL_NAME in ${elapsed_model}s"
   echo "-------------------------------------------------"
 done
 
-echo "🎯 All per-layer retrieval evaluations completed."
+echo "All retrieval evaluations completed."

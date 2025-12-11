@@ -12,9 +12,9 @@ MSCOCO_t2i:
     image_root: image-tasks/
     eval_type: local
 
-FashionIQ:
-    dataset_parser: image_i2i_vg
-    dataset_name: FashionIQ
-    dataset_split: test
-    image_root: image-tasks/
-    eval_type: local
+# FashionIQ:
+#     dataset_parser: image_i2i_vg
+#     dataset_name: FashionIQ
+#     dataset_split: test
+#     image_root: image-tasks/
+#     eval_type: local

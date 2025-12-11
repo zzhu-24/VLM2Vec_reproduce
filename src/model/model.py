@@ -45,75 +45,75 @@ class MMEBModel(nn.Module):
             self.process_rank = dist.get_rank()
             self.world_size = dist.get_world_size()
 
-    def encode_input(self, input, chosen_layer):
-        if getattr(self, "model_backbone", None) == INTERNVIDEO2:
-            if "input_ids" in input.keys():
-                # text side
-                text_output = self.encoder.get_text_encoder()(
-                    input["input_ids"],
-                    attention_mask=input["attention_mask"],
-                    return_dict=True,
-                    mode="text",
-                )
-                text_embeds = text_output.last_hidden_state
-                pooled_text_embeds = text_embeds[:, 0]
-                pooled_output = self.encoder.text_proj(pooled_text_embeds)
-                pooled_output /= pooled_output.norm(dim=-1, keepdim=True)
-                return pooled_output
-            else:
-                _, vfeat = self.encoder.encode_vision(input["pixel_values"], test=True)
-                vfeat = self.encoder.vision_proj(vfeat)
-                vfeat /= vfeat.norm(dim=-1, keepdim=True)
-                return vfeat
-        elif getattr(self, "model_backbone", None) in [GME, LamRA, LamRA_QWEN2_5]:
-            # pooled_output = self.encoder(**input, return_dict=True, output_hidden_states=True)
-            texts = [text.replace(VLM_IMAGE_TOKENS[QWEN2_VL] + '\n', '') for text in input["texts"]] # we are actually passing video queries so this should not happen
-            images = []
-            for imgs in input['images']:
-                # if multi images are given, select the middle frame only
-                if isinstance(imgs, list):
-                    imgs = imgs[len(imgs) // 2]
-                    assert not isinstance(imgs, list) # make sure we have extracted the middle frame and it is no longer a list
-                    images.append(imgs)
-                else:
-                    images.append(imgs)
-            try:
-                self.encoder.set_chosen_layer(chosen_layer)
-            except AttributeError:
-                print("Layer choice not implemented.")
-            try:
-                self.encoder.set_pooling(self.pooling)
-            except AttributeError:
-                print("Pooling not implemented.")
-            pooled_output = self.encoder.get_fused_embeddings(texts=texts, images=images)
-            return pooled_output
-        elif getattr(self, "model_backbone", None) == COLPALI:
-            try:
-                self.encoder.set_chosen_layer(chosen_layer)
-            except AttributeError:
-                print("Layer choice not implemented.")
-            try:
-                self.encoder.set_pooling(self.pooling)
-            except AttributeError:
-                print("Pooling not implemented.")
-            pooled_output = self.encoder(**input, return_dict=True, output_hidden_states=True)
-            return pooled_output
-        elif getattr(self, "model_backbone", None) == LLAVA_NEXT:
-            input['pixel_values'] = input['pixel_values'].squeeze(dim=1)
-            input['image_sizes'] = input['image_sizes'].squeeze(dim=1)
-            hidden_states = self.encoder(**input, return_dict=True, output_hidden_states=True)
-            hidden_states = hidden_states.hidden_states[chosen_layer]
-            pooled_output = self._pooling(hidden_states, input['attention_mask'])
-            return pooled_output
-        else:
-            hidden_states = self.encoder(**input, return_dict=True, output_hidden_states=True)
-            hidden_states = hidden_states.hidden_states[chosen_layer]
-            # print_master("HIDDEN_STATES:")
-            # print_master(hidden_states.shape)
-            pooled_output = self._pooling(hidden_states, input['attention_mask'])
-            # print_master("POOLED_OUTPUT:")
-            # print_master(pooled_output.shape)
-            return pooled_output
+    def encode_input(self, input, selected_layers):
+        # if getattr(self, "model_backbone", None) == INTERNVIDEO2:
+        #     if "input_ids" in input.keys():
+        #         # text side
+        #         text_output = self.encoder.get_text_encoder()(
+        #             input["input_ids"],
+        #             attention_mask=input["attention_mask"],
+        #             return_dict=True,
+        #             mode="text",
+        #         )
+        #         text_embeds = text_output.last_hidden_state
+        #         pooled_text_embeds = text_embeds[:, 0]
+        #         pooled_output = self.encoder.text_proj(pooled_text_embeds)
+        #         pooled_output /= pooled_output.norm(dim=-1, keepdim=True)
+        #         return pooled_output
+        #     else:
+        #         _, vfeat = self.encoder.encode_vision(input["pixel_values"], test=True)
+        #         vfeat = self.encoder.vision_proj(vfeat)
+        #         vfeat /= vfeat.norm(dim=-1, keepdim=True)
+        #         return vfeat
+        # elif getattr(self, "model_backbone", None) in [GME, LamRA, LamRA_QWEN2_5]:
+        #     # pooled_output = self.encoder(**input, return_dict=True, output_hidden_states=True)
+        #     texts = [text.replace(VLM_IMAGE_TOKENS[QWEN2_VL] + '\n', '') for text in input["texts"]] # we are actually passing video queries so this should not happen
+        #     images = []
+        #     for imgs in input['images']:
+        #         # if multi images are given, select the middle frame only
+        #         if isinstance(imgs, list):
+        #             imgs = imgs[len(imgs) // 2]
+        #             assert not isinstance(imgs, list) # make sure we have extracted the middle frame and it is no longer a list
+        #             images.append(imgs)
+        #         else:
+        #             images.append(imgs)
+        #     try:
+        #         self.encoder.set_chosen_layer(chosen_layer)
+        #     except AttributeError:
+        #         print("Layer choice not implemented.")
+        #     try:
+        #         self.encoder.set_pooling(self.pooling)
+        #     except AttributeError:
+        #         print("Pooling not implemented.")
+        #     pooled_output = self.encoder.get_fused_embeddings(texts=texts, images=images)
+        #     return pooled_output
+        # elif getattr(self, "model_backbone", None) == COLPALI:
+        #     try:
+        #         self.encoder.set_chosen_layer(chosen_layer)
+        #     except AttributeError:
+        #         print("Layer choice not implemented.")
+        #     try:
+        #         self.encoder.set_pooling(self.pooling)
+        #     except AttributeError:
+        #         print("Pooling not implemented.")
+        #     pooled_output = self.encoder(**input, return_dict=True, output_hidden_states=True)
+        #     return pooled_output
+        # elif getattr(self, "model_backbone", None) == LLAVA_NEXT:
+        #     input['pixel_values'] = input['pixel_values'].squeeze(dim=1)
+        #     input['image_sizes'] = input['image_sizes'].squeeze(dim=1)
+        #     hidden_states = self.encoder(**input, return_dict=True, output_hidden_states=True)
+        #     hidden_states = hidden_states.hidden_states[chosen_layer]
+        #     pooled_output = self._pooling(hidden_states, input['attention_mask'])
+        #     return pooled_output
+
+        # else: # qwen implementation
+        hidden_states = self.encoder(**input, return_dict=True, output_hidden_states=True)
+        all_outputs = []
+        for layer in selected_layers:
+            layer_hidden_states = hidden_states.hidden_states[layer]
+            pooled_output = self._pooling(layer_hidden_states, input['attention_mask'])
+            all_outputs.append(pooled_output)
+        return all_outputs
 
     def _pooling(self, last_hidden_state, attention_mask):
         if self.pooling == 'last' or self.pooling == 'eos':
@@ -154,78 +154,77 @@ class MMEBModel(nn.Module):
         config.delete_n = model_args.delete_n
 
         # Loading the base model
-        if model_backbone == PHI3V:
-            config._attn_implementation = "eager"
-            config.padding_side = "right"
-            config.use_cache = False
-            base_model = Phi3VForCausalLM.from_pretrained(
+        # if model_backbone == PHI3V:
+        #     config._attn_implementation = "eager"
+        #     config.padding_side = "right"
+        #     config.use_cache = False
+        #     base_model = Phi3VForCausalLM.from_pretrained(
+        #         model_args.model_name,
+        #         config=config,
+        #         torch_dtype=torch.bfloat16,
+        #         low_cpu_mem_usage=True,
+        #     )
+        # elif model_backbone == LLAVA_NEXT:
+        #     config.use_cache = False
+        #     config.padding_side = "left"
+        #     base_model = LlavaNextForConditionalGeneration.from_pretrained(
+        #         model_args.model_name,
+        #         config=config,
+        #         torch_dtype=torch.bfloat16,
+        #         low_cpu_mem_usage=True,
+        #     )
+
+        # elif model_backbone in [QWEN2_VL, QWEN2_5_VL]: 
+        config._attn_implementation = "flash_attention_2"
+        config.padding_side = "left"
+        config.use_cache = False
+        if model_args.plus_one_token:
+            base_model = backbone2model['qwen2_vl_tail'].from_pretrained(
                 model_args.model_name,
                 config=config,
                 torch_dtype=torch.bfloat16,
                 low_cpu_mem_usage=True,
             )
-        elif model_backbone == LLAVA_NEXT:
-            config.use_cache = False
-            config.padding_side = "left"
-            base_model = LlavaNextForConditionalGeneration.from_pretrained(
-                model_args.model_name,
-                config=config,
-                torch_dtype=torch.bfloat16,
-                low_cpu_mem_usage=True,
-            )
-        elif model_backbone in [QWEN2_VL, QWEN2_5_VL]:
-            config._attn_implementation = "flash_attention_2"
-            config.padding_side = "left"
-            config.use_cache = False
-            if model_args.plus_one_token:
-                base_model = backbone2model['qwen2_vl_tail'].from_pretrained(
-                    model_args.model_name,
-                    config=config,
-                    torch_dtype=torch.bfloat16,
-                    low_cpu_mem_usage=True,
-                )
-                # torch.nn.init.normal_(base_model.tail_emb, mean=0.0, std=1e-4)
-                eos_token_id = config.eos_token_id
-                with torch.no_grad():
-                    emb = base_model.get_input_embeddings().weight
-                    base_model.tail_emb.copy_(emb[eos_token_id])
-                    # Frozen the tail embedding to eos embedding, for debug
-                    base_model.tail_emb.requires_grad = False
-            else:
-                base_model = backbone2model[model_backbone].from_pretrained(
-                    model_args.model_name,
-                    config=config,
-                    torch_dtype=torch.bfloat16,
-                    low_cpu_mem_usage=True,
-                )
-
-
-        elif model_backbone in [QWEN2_VL_TOKENSELECTION, QWEN2_5_VL_TOKENSELECTION]:
-            config._attn_implementation = "flash_attention_2"
-            config.padding_side = "left"
-            config.use_cache = False
-
-            from src.utils import parse_layer_type
-            lm_qwen_layer = 28
-            vis_qwen_layer = 32
-            lm_skip_layer = parse_layer_type(model_args.lm_skip_layer, lm_qwen_layer)
-            vis_skip_layer = parse_layer_type(model_args.vis_skip_layer, vis_qwen_layer)
-
+            # torch.nn.init.normal_(base_model.tail_emb, mean=0.0, std=1e-4)
+            eos_token_id = config.eos_token_id
+            with torch.no_grad():
+                emb = base_model.get_input_embeddings().weight
+                base_model.tail_emb.copy_(emb[eos_token_id])
+                # # Frozen the tail embedding to eos embedding, for debug
+                # base_model.tail_emb.requires_grad = False
+        else:
             base_model = backbone2model[model_backbone].from_pretrained(
                 model_args.model_name,
                 config=config,
                 torch_dtype=torch.bfloat16,
                 low_cpu_mem_usage=True,
-                lm_skip_layer=lm_skip_layer,
-                vis_skip_layer=vis_skip_layer,
             )
-        else:
-            config.use_cache = False
-            base_model = cls.TRANSFORMER_CLS.from_pretrained(
-                model_args.model_name, **kwargs, config=config,
-                attn_implementation="flash_attention_2",
-                torch_dtype=torch.bfloat16,
-                trust_remote_code=True)
+
+        # elif model_backbone in [QWEN2_VL_TOKENSELECTION, QWEN2_5_VL_TOKENSELECTION]:
+        #     config._attn_implementation = "flash_attention_2"
+        #     config.padding_side = "left"
+        #     config.use_cache = False
+
+        #     from src.utils import parse_layer_type
+        #     lm_qwen_layer = 28
+        #     vis_qwen_layer = 32
+        #     lm_skip_layer = parse_layer_type(model_args.lm_skip_layer, lm_qwen_layer)
+        #     vis_skip_layer = parse_layer_type(model_args.vis_skip_layer, vis_qwen_layer)
+
+        #     base_model = backbone2model[model_backbone].from_pretrained(
+        #         model_args.model_name,
+        #         config=config,
+        #         torch_dtype=torch.bfloat16,
+        #         low_cpu_mem_usage=True,
+        #         lm_skip_layer=lm_skip_layer,
+        #         vis_skip_layer=vis_skip_layer,
+        #     )
+        # else:
+        #     config.use_cache = False
+        #     base_model = cls.TRANSFORMER_CLS.from_pretrained(
+        #         model_args.model_name, **kwargs, config=config,
+        #         torch_dtype=torch.bfloat16,
+        #         trust_remote_code=True)
 
         if model_args.lora:
             print_master(f'Loading lora adapter from {base_model}')
@@ -253,8 +252,8 @@ class MMEBModel(nn.Module):
                             p.weight.data.zero_()
                 print_master("All LoRA parameters are set to 0.")
 
-            if hasattr(lora_model.base_model, "tail_emb"):
-                lora_model.base_model.tail_emb.requires_grad = True # prevent from being set to False in get_peft_model
+            # if hasattr(lora_model.base_model, "tail_emb"):
+            #     lora_model.base_model.tail_emb.requires_grad = True # prevent from being set to False in get_peft_model
 
             # if model_args.plus_one_token:
                 # lora_model = TailTokenDetachPrefixWrapper(lora_model, merged=False, freeze_text_embeddings=True, tail_token_train_only=model_args.tail_token_train_only, tail_gradient_flow_only=model_args.tail_gradient_flow_only)
@@ -276,8 +275,8 @@ class MMEBModel(nn.Module):
 
 
 
-        model.qry_chosen_layer = model_args.qry_chosen_layer
-        model.tgt_chosen_layer = model_args.tgt_chosen_layer
+        model.eval_layers = model_args.eval_layers
+        model.joint_training_layers = model_args.joint_training_layers
 
         
         return model
@@ -294,8 +293,6 @@ class MMEBModel(nn.Module):
         print_master(f'Loading backbone [{model_args.model_backbone}] from {model_name_or_path}')
         if model_args.model_backbone in {LLAVA_NEXT, QWEN2_VL, QWEN2_5_VL, QWEN2_VL_TOKENSELECTION, QWEN2_5_VL_TOKENSELECTION, E5_V}:
             config = AutoConfig.from_pretrained(model_args.model_name, trust_remote_code=True)
-            config._attn_implementation = model_args.attn_implementation
-            config.vision_config._attn_implementation = model_args.attn_implementation
 
             config.delete_L = model_args.delete_L
             config.delete_n = model_args.delete_n
@@ -306,6 +303,17 @@ class MMEBModel(nn.Module):
                 low_cpu_mem_usage=True,
                 config=config
             )
+            if model_args.plus_one_token:
+                base_model = backbone2model['qwen2_vl_tail'].from_pretrained(
+                    model_args.model_name,
+                    config=config,
+                    torch_dtype=torch.bfloat16,
+                    low_cpu_mem_usage=True,
+                )
+                eos_token_id = config.eos_token_id
+                with torch.no_grad():
+                    emb = base_model.get_input_embeddings().weight
+                    base_model.tail_emb.copy_(emb[eos_token_id])
 
         elif model_args.model_backbone == PHI3V:
             config = AutoConfig.from_pretrained(model_args.model_name, trust_remote_code=True)
@@ -322,8 +330,6 @@ class MMEBModel(nn.Module):
                                                                                    trust_remote_code=True)
         elif model_args.model_backbone == GME:
             base_model = GmeQwen2VL(model_args.model_name, processor=kwargs['processor'])
-            config._attn_implementation = model_args.attn_implementation
-            config.vision_config._attn_implementation = model_args.attn_implementation
             setattr(base_model, 'config', config)
         elif model_args.model_backbone == LamRA:
             base_model = LamRAQwen2VL(model_args.model_name)
@@ -332,7 +338,6 @@ class MMEBModel(nn.Module):
             base_model = LamRAQwen25VL(model_args.model_name)
             setattr(base_model, 'config', config)
         elif model_args.model_backbone == COLPALI:
-            config._attn_implementation = model_args.attn_implementation
             base_model = ColPali.from_pretrained(model_args.model_name)
             setattr(base_model, 'config', config)
         else:
@@ -373,38 +378,54 @@ class MMEBModel(nn.Module):
                 temperature=model_args.temperature
             )
 
-        model.model_backbone = model_args.model_backbone
-        model.qry_chosen_layer = model_args.qry_chosen_layer
-        model.tgt_chosen_layer = model_args.tgt_chosen_layer
-        # print_master(model.encoder)
+        model.eval_layers = model_args.eval_layers
+        model.joint_training_layers = model_args.joint_training_layers
         return model
 
     def save(self, output_dir: str):
         self.encoder.save_pretrained(output_dir)
 
-    def forward(self, qry: Dict[str, Tensor] = None, tgt: Dict[str, Tensor] = None, *args, **kwargs):
+    def forward(self, 
+                qry: Dict[str, Tensor] = None, 
+                tgt: Dict[str, Tensor] = None, 
+                *args, 
+                **kwargs):
 
-        qry_reps = self.encode_input(qry, self.qry_chosen_layer) if qry else None  # (bsz_per_device, dim)
-        tgt_reps = self.encode_input(tgt, self.tgt_chosen_layer) if tgt else None # (bsz_per_device, dim)
+        # inference mode
+        # if qry is None or tgt is None: 
+        if not self.training:
+            qry_reps_list = self.encode_input(qry, self.eval_layers) if qry else None  # list of (bsz_per_device, dim)
+            tgt_reps_list = self.encode_input(tgt, self.eval_layers) if tgt else None # list of (bsz_per_device, dim)
+            return {"qry_reps": qry_reps_list, "tgt_reps": tgt_reps_list}
+        
+        # training mode
+        
+        qry_reps_list = self.encode_input(qry, self.joint_training_layers) if qry else None  # list of (bsz_per_device, dim)
+        tgt_reps_list = self.encode_input(tgt, self.joint_training_layers) if tgt else None # list of (bsz_per_device, dim)
 
-        if qry_reps is None or tgt_reps is None:
-            return {"qry_reps": qry_reps, "tgt_reps": tgt_reps}
+        # first pass of grad cache
+        if qry_reps_list is None or tgt_reps_list is None:
+            return {"qry_reps": qry_reps_list if qry_reps_list else None, 
+                    "tgt_reps": tgt_reps_list if tgt_reps_list else None}
 
-        if self.is_ddp:
-            all_qry_reps = self._dist_gather_tensor(qry_reps)
-            all_tgt_reps = self._dist_gather_tensor(tgt_reps)
-        else:
-            all_qry_reps = qry_reps
-            all_tgt_reps = tgt_reps
+        loss_list = []
+        for qry_reps, tgt_reps in zip(qry_reps_list, tgt_reps_list):
+            if self.is_ddp:
+                all_qry_reps = self._dist_gather_tensor(qry_reps)
+                all_tgt_reps = self._dist_gather_tensor(tgt_reps)
+            else:
+                all_qry_reps = qry_reps
+                all_tgt_reps = tgt_reps
+            scores = self.compute_similarity(all_qry_reps, all_tgt_reps)
+            scores = scores.view(all_qry_reps.size(0), -1)
+            target = torch.arange(scores.size(0), device=scores.device, dtype=torch.long)
+            target = target * (all_qry_reps.size(0) // all_tgt_reps.size(0))
+            loss = self.cross_entropy(scores / self.temperature, target)
+            if self.is_ddp:
+                loss = loss * self.world_size
+            loss_list.append(loss)
+        return sum(loss_list) / len(loss_list)
 
-        scores = self.compute_similarity(all_qry_reps, all_tgt_reps)
-        scores = scores.view(all_qry_reps.size(0), -1)
-        target = torch.arange(scores.size(0), device=scores.device, dtype=torch.long)
-        target = target * (all_qry_reps.size(0) // all_tgt_reps.size(0))
-        loss = self.cross_entropy(scores / self.temperature, target)
-        if self.is_ddp:
-            loss = loss * self.world_size
-        return loss
 
     def _dist_gather_tensor(self, t: Tensor):
         t = t.contiguous()

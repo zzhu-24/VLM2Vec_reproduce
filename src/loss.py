@@ -28,9 +28,14 @@ class DistributedContrastiveLoss(SimpleContrastiveLoss):
         self.temperature = temperature
 
     def __call__(self, x: Tensor, y: Tensor, **kwargs):
-        dist_x = self.gather_tensor(x)
-        dist_y = self.gather_tensor(y)
-        loss = super().__call__(dist_x, dist_y, **kwargs)
+        N, B, D = x.shape
+        total_loss = 0.0
+        for k in range(N):
+            dist_x = self.gather_tensor(x[k, :, :].contiguous())
+            dist_y = self.gather_tensor(y[k, :, :].contiguous())
+            loss_k = super().__call__(dist_x, dist_y, **kwargs)
+            total_loss += loss_k
+        loss = total_loss / N
         if self.scale_loss:
             loss = loss * self.word_size
         return loss

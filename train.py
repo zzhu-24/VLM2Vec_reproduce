@@ -43,6 +43,9 @@ def main():
     data_args: DataArguments
     training_args: TrainingArguments
 
+    print(f"Model args: {model_args}")
+    print(f"Data args: {data_args}")
+    print(f"Training args: {training_args}")
 
     # DEBUG PRINTS for Distributed Setup
     print("Distributed init debug info:")

@@ -54,16 +54,17 @@ BATCH_SIZE=24
 MODEL_TYPE="19Nov_AddTail_Replace-Qwen"
 
 CHECKPOINT_LIST=(
-  "checkpoint-100"
-  "checkpoint-200"
-  "checkpoint-300"
-  "checkpoint-400"
   "checkpoint-500"
-  "checkpoint-600"
-  "checkpoint-700"
-  "checkpoint-800"
-  "checkpoint-900"
   "checkpoint-1000"
+  "checkpoint-1500"
+  "checkpoint-2000"
+  "checkpoint-2500"
+  "checkpoint-3000"
+  "checkpoint-3500"
+  "checkpoint-4000"
+  "checkpoint-4500"
+  "checkpoint-5000"
+  "checkpoint-5500"
 )
 
 DATA_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_eval/MMEB-V2"
@@ -71,7 +72,7 @@ DATA_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_
 OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/DEBUG_${MODEL_TYPE}"
 # # colpali cannot use average token
 
-LAYER_START=10
+LAYER_START=25
 LAYER_END=28
 # # colpali baseline layer index 0-18
 

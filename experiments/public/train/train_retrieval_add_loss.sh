@@ -6,6 +6,10 @@
 # echo "Python location: $(which python)"
 # echo "Python version: $(python --version)"
 
+export FLASH_ATTENTION_DISABLED=1
+export CUDA_LAUNCH_BLOCKING=1
+export TORCH_USE_CUDA_DSA=1
+
 set -e  # Stop on error
 trap 'echo "❌ Script failed at line $LINENO"; exit 1' ERR
 
@@ -14,7 +18,6 @@ echo "Python: $(which python)"
 echo "Version: $(python --version)"
 echo ""
 
-
 # export HF_DATASETS_CACHE=...
 # export HF_HOME=...
 export WANDB_DISABLED=false
@@ -22,7 +25,7 @@ export WANDB_PROJECT=vlm2vec_train
 export WANDB_API_KEY=151b985aec8f2669c89875abb20b1c822ecdb9ad
 # export HUGGING_FACE_HUB_TOKEN=...
 # export WANDB_PROJECT=...
-export WANDB_RUN_GROUP=28Nov_TrLayer8
+export WANDB_RUN_GROUP=10DecAddLoss_28_16
 export MODEL_NAME=Qwen/Qwen2-VL-2B-Instruct
 # export MODEL_NAME=Alibaba-NLP/gme-Qwen2-VL-2B-Instruct
 export WANDB_NAME="${WANDB_RUN_GROUP}-${MODEL_NAME}"
@@ -38,7 +41,7 @@ rm -rf $EXP_DIR/wandb/*
 
 cd /home/infres/zzhu-24/PRIM/VLM2Vec/
 
-cmd="CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=2207 --max_restarts=0 train.py 
+cmd="CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node=1 --master_port=2207 --max_restarts=0 train.py 
     --lora
     --lora_r 16
     --model_name $MODEL_NAME
@@ -52,7 +55,7 @@ cmd="CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=2207 --m
     --run_name $EXP_NAME
     --output_dir $EXP_DIR
     --grad_cache True
-    --per_device_train_batch_size 16
+    --per_device_train_batch_size 32
     --gc_q_chunk_size 8
     --gc_p_chunk_size 8
     --interleave_batch_size 0
@@ -65,8 +68,10 @@ cmd="CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=2207 --m
     --save_safetensors True
     --remove_unused_columns False
     --resume_from auto
-    --qry_chosen_layer 8
-    --tgt_chosen_layer 8
+    --delete_L 28
+    --delete_n 0
+    --joint_training_layers 16 28
+    --eval_layers -1
     --report_to wandb 2>&1 | tee $EXP_DIR/train.log"
 
 echo $cmd

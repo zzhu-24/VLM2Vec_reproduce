@@ -64,7 +64,7 @@ def encode_embeddings(
     # Check if the model is a late-interaction type
     is_late_interaction = (model_args.model_backbone == COLPALI)
 
-    local_embeds = []
+    local_embeds_list = [[] for _ in range(len(model.eval_layers))]
     local_gt_infos = []
     local_max_len = 0
 
@@ -76,68 +76,78 @@ def encode_embeddings(
                 # Determine if encoding query or target based on available keys
                 if encode_side == "qry":
                     output = model(qry=inputs)
-                    reps = output["qry_reps"].detach()
+                    for i, reps in enumerate(output["qry_reps"]):
+                        reps = reps.detach()
+                        local_embeds_list[i].append(reps)
                     local_gt_infos.extend(dataset_info)  # to retain all information per query
                 else:
                     output = model(tgt=inputs)
-                    reps = output["tgt_reps"].detach()
+                    for i, reps in enumerate(output["tgt_reps"]):
+                        reps = reps.detach()
+                        local_embeds_list[i].append(reps)
                     local_gt_infos.extend([info["cand_name"] for info in dataset_info])  # to retain ground-truth labels
 
             if is_late_interaction and reps.dim() == 3:
                 local_max_len = max(local_max_len, reps.shape[1])
 
-            local_embeds.append(reps)
+            # local_embeds.append(reps)
 
-    if not local_embeds:
+    if not local_embeds_list:
         # Handle cases where a rank gets no data
-        return np.array([]), []
+        return np.array([[]]), []
+    
+    final_embeddings_dict = {}
+    for layer_idx, local_embeds in zip(model_args.eval_layers, local_embeds_list):
+        # === DDP Synchronization and Padding for Late-Interaction Models ===
+        if is_late_interaction:
+            if dist.is_initialized():
+                # 1. Find the global maximum sequence length across all ranks
+                local_max_len_tensor = torch.tensor(local_max_len, device=training_args.device)
+                dist.all_reduce(local_max_len_tensor, op=dist.ReduceOp.MAX)
+                global_max_len = local_max_len_tensor.item()
+            else:
+                global_max_len = local_max_len
 
-    # === DDP Synchronization and Padding for Late-Interaction Models ===
-    if is_late_interaction:
-        if dist.is_initialized():
-            # 1. Find the global maximum sequence length across all ranks
-            local_max_len_tensor = torch.tensor(local_max_len, device=training_args.device)
-            dist.all_reduce(local_max_len_tensor, op=dist.ReduceOp.MAX)
-            global_max_len = local_max_len_tensor.item()
+            # 2. Pad all local embeddings to the global max length
+            padded_embeds = []
+            for reps_batch in local_embeds:
+                if reps_batch.dim() == 3:
+                    B, L, H = reps_batch.shape
+                    padding_size = global_max_len - L
+                    padded_batch = F.pad(reps_batch, (0, 0, 0, padding_size), "constant", 0)
+                    padded_embeds.append(padded_batch)
+                else: # Should not happen if model is consistently late-interaction
+                    padded_embeds.append(reps_batch)
+
+            embeds_tensor = torch.cat(padded_embeds, dim=0).contiguous()
+        else: # Standard dense models
+            embeds_tensor = torch.cat(local_embeds, dim=0).contiguous()
+
+
+        # === Gather embeddings and keys from all ranks ===
+        if dist.is_initialized() and full_dataset.num_rows >= world_size:
+            print_master(f"Gathering {encode_side} embeddings across all ranks...")
+
+            # Use the more efficient all_gather_into_tensor for tensors
+            output_shape = list(embeds_tensor.shape)
+            output_shape[0] = full_dataset.num_rows
+            embeds_tensor = embeds_tensor.to(training_args.device)
+            gathered_embeds_tensor = torch.empty(output_shape, dtype=embeds_tensor.dtype, device=training_args.device)
+            dist.all_gather_into_tensor(gathered_embeds_tensor, embeds_tensor)
+            final_embeddings = gathered_embeds_tensor.cpu().float().numpy()
+            # Gather metadata, for which all_gather_object is appropriate
+            gathered_gt_infos = [None for _ in range(world_size)]
+            dist.all_gather_object(gathered_gt_infos, local_gt_infos)
+            all_gt_infos = [key for rank_keys in gathered_gt_infos for key in rank_keys]
         else:
-            global_max_len = local_max_len
+            all_gt_infos = local_gt_infos
+            final_embeddings = embeds_tensor.cpu().float().numpy()
 
-        # 2. Pad all local embeddings to the global max length
-        padded_embeds = []
-        for reps_batch in local_embeds:
-            if reps_batch.dim() == 3:
-                B, L, H = reps_batch.shape
-                padding_size = global_max_len - L
-                padded_batch = F.pad(reps_batch, (0, 0, 0, padding_size), "constant", 0)
-                padded_embeds.append(padded_batch)
-            else: # Should not happen if model is consistently late-interaction
-                padded_embeds.append(reps_batch)
+        final_embeddings_dict[layer_idx] = final_embeddings
 
-        embeds_tensor = torch.cat(padded_embeds, dim=0).contiguous()
-    else: # Standard dense models
-        embeds_tensor = torch.cat(local_embeds, dim=0).contiguous()
-
-
-    # === Gather embeddings and keys from all ranks ===
-    if dist.is_initialized() and full_dataset.num_rows >= world_size:
-        print_master(f"Gathering {encode_side} embeddings across all ranks...")
-
-        # Use the more efficient all_gather_into_tensor for tensors
-        output_shape = list(embeds_tensor.shape)
-        output_shape[0] = full_dataset.num_rows
-        embeds_tensor = embeds_tensor.to(training_args.device)
-        gathered_embeds_tensor = torch.empty(output_shape, dtype=embeds_tensor.dtype, device=training_args.device)
-        dist.all_gather_into_tensor(gathered_embeds_tensor, embeds_tensor)
-        final_embeddings = gathered_embeds_tensor.cpu().float().numpy()
-        # Gather metadata, for which all_gather_object is appropriate
-        gathered_gt_infos = [None for _ in range(world_size)]
-        dist.all_gather_object(gathered_gt_infos, local_gt_infos)
-        all_gt_infos = [key for rank_keys in gathered_gt_infos for key in rank_keys]
-    else:
-        all_gt_infos = local_gt_infos
-        final_embeddings = embeds_tensor.cpu().float().numpy()
-
-    return final_embeddings, all_gt_infos
+    # all_gt_infos are uniform across all layers
+    # final embeddings vary across layers
+    return final_embeddings_dict, all_gt_infos
 
 
 def main():
@@ -205,15 +215,15 @@ def main():
             dist.barrier()
         print_master(f"--- Evaluating {dataset_name} ---")
 
-        query_embed_path = os.path.join(data_args.encode_output_path, f"{dataset_name}_qry")
-        cand_embed_path = os.path.join(data_args.encode_output_path, f"{dataset_name}_tgt")
+        # query_embed_path = os.path.join(data_args.encode_output_path, f"{dataset_name}_qry")
+        # cand_embed_path = os.path.join(data_args.encode_output_path, f"{dataset_name}_tgt")
         dataset_info_path = os.path.join(data_args.encode_output_path, f"{dataset_name}_info.jsonl")
 
         # ======================================================================================================
-        do_query = not os.path.exists(query_embed_path) or not os.path.exists(dataset_info_path)
-        do_cand = not os.path.exists(cand_embed_path)
-        # do_query=True
-        # do_cand=True
+        # do_query = not os.path.exists(query_embed_path) or not os.path.exists(dataset_info_path)
+        # do_cand = not os.path.exists(cand_embed_path)
+        do_query=True
+        do_cand=True
         # ======================================================================================================
 
         if do_query or do_cand:
@@ -240,16 +250,26 @@ def main():
             print_master("Encoding queries...")
             eval_qry_collator = MultimodalEvalDataCollator(processor, model_args, data_args, "qry")
             eval_qry_loader = DataLoader(eval_qry_dataset, batch_size=training_args.per_device_eval_batch_size, collate_fn=eval_qry_collator, num_workers=training_args.dataloader_num_workers)
-            query_embeds, gt_infos = encode_embeddings(model, eval_qry_loader, training_args, model_args, padded_qry_dataset, encode_side="qry", description=f"Queries for {dataset_name}")
-            query_embeds = query_embeds[:len(full_eval_qry_dataset)]  # world_size>1, trim the padded data points
+            query_embeds_dict, gt_infos = encode_embeddings(model, eval_qry_loader, training_args, model_args, padded_qry_dataset, encode_side="qry", description=f"Queries for {dataset_name}")
+
             gt_infos = gt_infos[:len(full_eval_qry_dataset)]
-            if local_rank == 0:
-                with open(query_embed_path, 'wb') as f:
-                    pickle.dump(query_embeds, f)
-                with open(dataset_info_path, 'w') as f:
-                    for info in gt_infos:
-                        f.write(json.dumps(info) + '\n')
-                print_master(f"Saved query embeddings to {query_embed_path}")
+            with open(dataset_info_path, 'w') as f:
+                for info in gt_infos:
+                    f.write(json.dumps(info) + '\n')
+
+            for layer_idx, query_embeds in query_embeds_dict.items():
+                query_embeds = query_embeds[:len(full_eval_qry_dataset)]  # world_size>1, trim the padded data points
+                
+                if local_rank == 0:
+                    layer_query_embed_dir = os.path.join(data_args.encode_output_path, f"layer_{layer_idx}")
+                    os.makedirs(layer_query_embed_dir, exist_ok=True)
+                    layer_query_embed_path = os.path.join(layer_query_embed_dir, f"{dataset_name}_qry")
+                    if os.path.exists(layer_query_embed_path):
+                        print_master(f"Query embeddings for layer {layer_idx} already exist at {layer_query_embed_path}, skipping saving.")
+                        continue
+                    with open(layer_query_embed_path, 'wb') as f:
+                        pickle.dump(query_embeds, f)
+                    print_master(f"Saved query embeddings to {layer_query_embed_path}")
             if dist.is_initialized():
                 dist.barrier()
 
@@ -259,15 +279,23 @@ def main():
             print_master("Encoding candidates...")
             eval_cand_collator = MultimodalEvalDataCollator(processor, model_args, data_args, "cand")
             eval_cand_loader = DataLoader(eval_cand_dataset, batch_size=training_args.per_device_eval_batch_size, collate_fn=eval_cand_collator, num_workers=training_args.dataloader_num_workers)
-
-            cand_embeds, all_cand_ids = encode_embeddings(model, eval_cand_loader, training_args, model_args, padded_cand_dataset, encode_side="cand", description=f"Candidates for {dataset_name}")
-            cand_embeds = cand_embeds[:len(full_eval_cand_dataset)]  # world_size>1, trim the padded data points
+            layer_cand_embeds_dict, all_cand_ids = encode_embeddings(model, eval_cand_loader, training_args, model_args, padded_cand_dataset, encode_side="cand", description=f"Candidates for {dataset_name}")
+            
             all_cand_ids = all_cand_ids[:len(full_eval_cand_dataset)]
+            for layer_idx, cand_embeds in layer_cand_embeds_dict.items():
+                cand_embeds = cand_embeds[:len(full_eval_cand_dataset)]  # world_size>1, trim the padded data points
 
-            if local_rank == 0:
-                cand_embed_dict = {cand_id: embed for cand_id, embed in zip(all_cand_ids, cand_embeds)}
-                with open(cand_embed_path, 'wb') as f: pickle.dump(cand_embed_dict, f)
-                print_master(f"Saved candidate embeddings to {cand_embed_path}")
+                if local_rank == 0:
+                    cand_embed_dict = {cand_id: embed for cand_id, embed in zip(all_cand_ids, cand_embeds)}
+                    layer_cand_embed_dir = os.path.join(data_args.encode_output_path, f"layer_{layer_idx}")
+                    os.makedirs(layer_cand_embed_dir, exist_ok=True)
+                    layer_cand_embed_path = os.path.join(layer_cand_embed_dir, f"{dataset_name}_tgt")
+                    if os.path.exists(layer_cand_embed_path):
+                        print_master(f"Target embeddings for layer {layer_idx} already exist at {layer_cand_embed_path}, skipping saving.")
+                        continue
+                    with open(layer_cand_embed_path, 'wb') as f: 
+                        pickle.dump(cand_embed_dict, f)
+                    print_master(f"Saved candidate embeddings to {layer_cand_embed_path}")
 
         if dist.is_initialized():
             dist.barrier()
@@ -275,82 +303,86 @@ def main():
             
         # --- 3. Compute Scores (on master rank only) ---        
         if local_rank == 0:
-            score_path = os.path.join(data_args.encode_output_path, f"{dataset_name}_score.json")
-            if os.path.exists(score_path):
-                try:
-                    with open(score_path, "r") as f:
-                        score_dict = json.load(f)
-                    print_master(f"Score of {dataset_name} (loaded from previous run): {score_path}")
-                    formatted = {k: f"{v:.4f}" for k, v in score_dict.items()}
-                    print_master(formatted)
-                    continue
-                except Exception as e:
-                    print_master(f"Failed to load score for {dataset_name}, skipping {dataset_name}")
-            with open(query_embed_path, 'rb') as f: qry_embeds = pickle.load(f)
-            with open(cand_embed_path, 'rb') as f: cand_embed_dict = pickle.load(f)
-            gt_infos = [json.loads(l) for l in open(dataset_info_path)]
-            pred_dicts = []
+            for layer_idx in model.eval_layers:
+                print_master(f"--- Scoring for layer {layer_idx} ---")
+                score_path = os.path.join(data_args.encode_output_path, f"layer_{layer_idx}", f"{dataset_name}_score.json")
+                if os.path.exists(score_path):
+                    try:
+                        with open(score_path, "r") as f:
+                            score_dict = json.load(f)
+                        print_master(f"Score of {dataset_name} (loaded from previous run): {score_path}")
+                        formatted = {k: f"{v:.4f}" for k, v in score_dict.items()}
+                        print_master(formatted)
+                        continue
+                    except Exception as e:
+                        print_master(f"Failed to load score for {dataset_name}, skipping {dataset_name}")
+                layer_query_embed_path = os.path.join(data_args.encode_output_path, f"layer_{layer_idx}", f"{dataset_name}_qry")
+                layer_cand_embed_path = os.path.join(data_args.encode_output_path, f"layer_{layer_idx}", f"{dataset_name}_tgt")
+                with open(layer_query_embed_path, 'rb') as f: qry_embeds = pickle.load(f)
+                with open(layer_cand_embed_path, 'rb') as f: cand_embed_dict = pickle.load(f)
+                gt_infos = [json.loads(l) for l in open(dataset_info_path)]
+                pred_dicts = []
 
-            rank_against_all_candidates = task_config.get("eval_type", "global") == "global"
-            if rank_against_all_candidates:
-                cand_keys = list(cand_embed_dict.keys())
-                cand_embeds = np.stack([cand_embed_dict[key] for key in cand_keys])
-                # Handle late-interaction scoring
-                if qry_embeds.ndim == 3: # Query: [N_q, L_q, H] | Candidate: [N_c, L_c, H]
-                    qry_embed = torch.from_numpy(qry_embeds)
-                    cand_embeds = [torch.from_numpy(np.array(t)) for t in cand_embeds]
-                    scores = processor.score(qry_embed, cand_embeds, batch_size=64)  # use ColPali score function
-                    ranked_candids = torch.argsort(-scores, dim=1).cpu().numpy().tolist()
-                else: # Dense
-                    cosine_scores = np.dot(qry_embeds, cand_embeds.T)
-                    ranked_candids = np.argsort(-cosine_scores, axis=1)
-                for qid, (ranked_candid, gt_info) in tqdm(enumerate(zip(ranked_candids, gt_infos)), desc=f"Calculating scores for {dataset_name}"):
-                    rel_docids = gt_info["label_name"] if isinstance(gt_info["label_name"], list) else [gt_info["label_name"]]
-                    rel_scores = gt_info["rel_scores"] if "rel_scores" in gt_info else None
-                    assert rel_scores is None or len(rel_docids) == len(rel_scores)
-                    pred_dicts.append({
-                        "prediction": [cand_keys[i] for i in ranked_candid],
-                        "label": rel_docids,
-                        "rel_scores": rel_scores,
-                    })
-            else:
-                for qid, (qry_embed, gt_info) in tqdm(enumerate(zip(qry_embeds, gt_infos)), desc=f"Calculating scores for {dataset_name}"):
-                    cand_embeds = np.stack([cand_embed_dict[key] for key in gt_info["cand_names"]])
+                rank_against_all_candidates = task_config.get("eval_type", "global") == "global"
+                if rank_against_all_candidates:
+                    cand_keys = list(cand_embed_dict.keys())
+                    cand_embeds = np.stack([cand_embed_dict[key] for key in cand_keys])
+                    # Handle late-interaction scoring
                     if qry_embeds.ndim == 3: # Query: [N_q, L_q, H] | Candidate: [N_c, L_c, H]
-                        qry_embed = torch.from_numpy(np.array(qry_embed)).unsqueeze(0)
+                        qry_embed = torch.from_numpy(qry_embeds)
                         cand_embeds = [torch.from_numpy(np.array(t)) for t in cand_embeds]
-                        scores = processor.score(qry_embed, cand_embeds, batch_size=1024)  # use ColPali score function
-                        ranked_candids = torch.argsort(-scores, dim=1).cpu().numpy().tolist()[0]
-                    else:
-                        cosine_score = np.dot(qry_embed, cand_embeds.T)
-                        ranked_candids = np.argsort(-cosine_score)
-                    rel_docids = gt_info["label_name"] if isinstance(gt_info["label_name"], list) else [gt_info["label_name"]]
-                    rel_scores = gt_info["rel_scores"] if "rel_scores" in gt_info else None
+                        scores = processor.score(qry_embed, cand_embeds, batch_size=64)  # use ColPali score function
+                        ranked_candids = torch.argsort(-scores, dim=1).cpu().numpy().tolist()
+                    else: # Dense
+                        cosine_scores = np.dot(qry_embeds, cand_embeds.T)
+                        ranked_candids = np.argsort(-cosine_scores, axis=1)
+                    for qid, (ranked_candid, gt_info) in tqdm(enumerate(zip(ranked_candids, gt_infos)), desc=f"Calculating scores for {dataset_name}"):
+                        rel_docids = gt_info["label_name"] if isinstance(gt_info["label_name"], list) else [gt_info["label_name"]]
+                        rel_scores = gt_info["rel_scores"] if "rel_scores" in gt_info else None
+                        assert rel_scores is None or len(rel_docids) == len(rel_scores)
+                        pred_dicts.append({
+                            "prediction": [cand_keys[i] for i in ranked_candid],
+                            "label": rel_docids,
+                            "rel_scores": rel_scores,
+                        })
+                else:
+                    for qid, (qry_embed, gt_info) in tqdm(enumerate(zip(qry_embeds, gt_infos)), desc=f"Calculating scores for {dataset_name}"):
+                        cand_embeds = np.stack([cand_embed_dict[key] for key in gt_info["cand_names"]])
+                        if qry_embeds.ndim == 3: # Query: [N_q, L_q, H] | Candidate: [N_c, L_c, H]
+                            qry_embed = torch.from_numpy(np.array(qry_embed)).unsqueeze(0)
+                            cand_embeds = [torch.from_numpy(np.array(t)) for t in cand_embeds]
+                            scores = processor.score(qry_embed, cand_embeds, batch_size=1024)  # use ColPali score function
+                            ranked_candids = torch.argsort(-scores, dim=1).cpu().numpy().tolist()[0]
+                        else:
+                            cosine_score = np.dot(qry_embed, cand_embeds.T)
+                            ranked_candids = np.argsort(-cosine_score)
+                        rel_docids = gt_info["label_name"] if isinstance(gt_info["label_name"], list) else [gt_info["label_name"]]
+                        rel_scores = gt_info["rel_scores"] if "rel_scores" in gt_info else None
 
-                    assert rel_scores is None or len(rel_docids) == len(rel_scores)
-                    pred_dicts.append({
-                        "prediction": [gt_info["cand_names"][i] for i in ranked_candids],
-                        "label": rel_docids,
-                        "rel_scores": rel_scores,
-                    })
+                        assert rel_scores is None or len(rel_docids) == len(rel_scores)
+                        pred_dicts.append({
+                            "prediction": [gt_info["cand_names"][i] for i in ranked_candids],
+                            "label": rel_docids,
+                            "rel_scores": rel_scores,
+                        })
 
-            score_path = os.path.join(data_args.encode_output_path, f"{dataset_name}_score.json")
-            pred_path = os.path.join(data_args.encode_output_path, f"{dataset_name}_pred.jsonl")
+                score_path = os.path.join(data_args.encode_output_path, f"layer_{layer_idx}", f"{dataset_name}_score.json")
+                pred_path = os.path.join(data_args.encode_output_path, f"layer_{layer_idx}", f"{dataset_name}_pred.jsonl")
 
-            metrics_to_report = task_config["metrics"] if task_config.get("metrics", None) is not None else ["hit", "ndcg", "precision", "recall", "f1", "map", "mrr"]
-            metrics = RankingMetrics(metrics_to_report)
-            score_dict = metrics.evaluate(pred_dicts)
-            formatted = {k: f"{v:.4f}" for k, v in score_dict.items()}
-            score_dict["num_pred"] = len(pred_dicts)
-            score_dict["num_data"] = len(gt_infos)
-            print_master(f"Score of {dataset_name}:")
-            print_master(formatted)
-            print_master(f"Outputting final score to: {score_path}")
-            with open(score_path, "w") as f:
-                json.dump(score_dict, f, indent=4)
-            with open(pred_path, "w") as f:
-                for pred in pred_dicts:
-                    f.write(json.dumps(pred) + '\n')
+                metrics_to_report = task_config["metrics"] if task_config.get("metrics", None) is not None else ["hit", "ndcg", "precision", "recall", "f1", "map", "mrr"]
+                metrics = RankingMetrics(metrics_to_report)
+                score_dict = metrics.evaluate(pred_dicts)
+                formatted = {k: f"{v:.4f}" for k, v in score_dict.items()}
+                score_dict["num_pred"] = len(pred_dicts)
+                score_dict["num_data"] = len(gt_infos)
+                print_master(f"Score of {dataset_name}:")
+                print_master(formatted)
+                print_master(f"Outputting final score to: {score_path}")
+                with open(score_path, "w") as f:
+                    json.dump(score_dict, f, indent=4)
+                with open(pred_path, "w") as f:
+                    for pred in pred_dicts:
+                        f.write(json.dumps(pred) + '\n')
 
 
 

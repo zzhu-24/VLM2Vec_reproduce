@@ -26,14 +26,14 @@ class ModelArguments:
     uimask_rand: bool = field(default=False, metadata={"help": "Enable random token selection instead of uniform selection"})
     lm_skip_layer: str = field(default='[1,28,0]', metadata={"help": "Specify the layers of the language model to skip for token selection"})
     vis_skip_layer: str = field(default='[1,32,0]', metadata={"help": "Specify the layers of the vision model to skip for token selection"})
-    qry_chosen_layer: int = field(default=-1, metadata={"help": "Specify the lm layer to be used to extract the final query embedding"})
-    tgt_chosen_layer: int = field(default=-1, metadata={"help": "Specify the lm layer to be used to extract final target embeddings"})
-    attn_implementation: str = field(default="flash_attention_2", metadata={"help": "flash attention or eager"})
     plus_one_token: bool = field(default=False, metadata={"help": "add a learnable token at the end of the sequence"})
     tail_token_train_only: bool = field(default=False, metadata={"help": "only train the tail token when plus_one_token is enabled"})
     tail_gradient_flow_only: bool = field(default=False, metadata={"help": "gradient is only passed through the tail token when plus_one_token is enabled"})
     delete_L: int = field(default=28, metadata={"help": "the last layer to be deleted"})
     delete_n: int = field(default=0, metadata={"help": "number of layers to be deleted from the L-th layer"})
+    joint_training_layers: list[int] = field(default_factory=lambda: [-1], metadata={"help": "Specify the lm layers to be used in joint training"})
+    eval_layers: list[int] = field(default_factory=lambda: [-1], metadata={"help": "Specify the lm layer to be used to extract the final query embedding"})
+
 
 @dataclass
 class DataArguments:

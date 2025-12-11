@@ -8,6 +8,7 @@ import torch
 from torch import nn, Tensor
 from torch.cuda.amp import GradScaler, autocast
 from src.grad_cache.context_managers import RandContext
+from src.utils import print_master
 
 logger = logging.getLogger(__name__)
 
@@ -182,13 +183,14 @@ class GradCache:
         model_reps = []
 
         with torch.no_grad():
-            for x in model_inputs:
+            for x in model_inputs: # whthin each chunk
                 rnd_states.append(RandContext(*self.get_input_tensors(x)))
                 y = self.model_call(model, x)
-                model_reps.append(self.get_reps(y))
+                tensor_y = torch.stack(self.get_reps(y), dim=0) # N * [B/C,D] --> [N,B/C,D]
+                model_reps.append(tensor_y) 
 
         # concatenate all sub-batch representations
-        model_reps = torch.cat(model_reps, dim=0)
+        model_reps = torch.cat(model_reps, dim=1) # C * [N,B/C,D] --> [N, B/C * C, D]
         return model_reps, rnd_states
 
     def build_cache(self, *reps: Tensor, **loss_kwargs) -> [List[Tensor], Tensor]:
@@ -228,18 +230,19 @@ class GradCache:
         :param no_sync_except_last: If True, under distributed setup, only trigger gradient reduction across processes
         for the last sub-batch's forward-backward pass.
         """
-        if no_sync_except_last:
-            sync_contexts = [model.no_sync for _ in range(len(model_inputs) - 1)] + [nullcontext]
-        else:
-            sync_contexts = [nullcontext for _ in range(len(model_inputs))]
+        # if no_sync_except_last:
+        #     sync_contexts = [model.no_sync for _ in range(len(model_inputs) - 1)] + [nullcontext]
+        # else:
+        #     sync_contexts = [nullcontext for _ in range(len(model_inputs))]
+        sync_contexts = [nullcontext for _ in range(len(model_inputs))]
 
         for x, state, gradient, sync_context in zip(model_inputs, random_states, cached_gradients, sync_contexts):
             with sync_context():
                 with state:
                     y = self.model_call(model, x)
-                reps = self.get_reps(y)
-
-                surrogate = torch.dot(reps.flatten(), gradient.flatten())
+                reps = self.get_reps(y) # N * [B/C,D]
+                surrogates = [torch.dot(reps[k].flatten(), gradient[k].flatten()) for k in range(len(reps))]
+                surrogate = torch.sum(torch.stack(surrogates, dim=0), dim=0)
                 surrogate.backward()
 
     def cache_step(
@@ -259,13 +262,10 @@ class GradCache:
         all_reps = []
         all_rnd_states = []
 
-        if no_sync_except_last:
-            assert all(map(lambda m: isinstance(m, nn.parallel.DistributedDataParallel), self.models)), \
-                'Some of models are not wrapped in DistributedDataParallel. Make sure you are running DDP with ' \
-                'proper initializations.'
-
-            
-        
+        # if no_sync_except_last:
+        #     assert all(map(lambda m: isinstance(m, nn.parallel.DistributedDataParallel), self.models)), \
+        #         'Some of models are not wrapped in DistributedDataParallel. Make sure you are running DDP with ' \
+        #         'proper initializations.'
 
         model_inputs = [self.split_inputs(x, chunk_size) for x, chunk_size in zip(model_inputs, self.chunk_sizes)]
         if self.process_fn:
@@ -282,15 +282,15 @@ class GradCache:
             model_inputs = _model_inputs
 
         for model, x in zip(self.models, model_inputs):
-            model_reps, rnd_states = self.forward_no_grad(model, x)
-            all_reps.append(model_reps)
+            # x: [{'qry':..., ..}, {'qry':..., ..}] and [{'tgt':..., ..}, {'tgt':..., ..}], here C=2
+            model_reps, rnd_states = self.forward_no_grad(model, x) # [N, B, D]
+            all_reps.append(model_reps) # 2-element list of [N, B, D]
             all_rnd_states.append(rnd_states)
 
-        cache, loss = self.build_cache(*all_reps, **loss_kwargs)
-        cache = [c.split(chunk_size) for c, chunk_size in zip(cache, self.chunk_sizes)]
+        cache, loss = self.build_cache(*all_reps, **loss_kwargs) # cache: 2-element list of [N, B, D]
+        cache = [c.split(chunk_size, dim=1) for c, chunk_size in zip(cache, self.chunk_sizes)] # cache: 2-element list of (B/C, [N, C, D])
 
-        for model, x, model_cache, rnd_states in zip(
-                self.models, model_inputs, cache, all_rnd_states):
+        for model, x, model_cache, rnd_states in zip(self.models, model_inputs, cache, all_rnd_states):
             self.forward_backward(model, x, model_cache, rnd_states, no_sync_except_last=no_sync_except_last)
 
         return loss
