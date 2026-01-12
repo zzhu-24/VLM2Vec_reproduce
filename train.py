@@ -79,7 +79,7 @@ def main():
     if 'wandb' in training_args.report_to:
         if (torch.distributed.is_initialized() and torch.distributed.get_rank() == 0) or (not torch.distributed.is_initialized()):
             print_rank('init wandb')
-            wandb.init(project=training_args.project_name, name=training_args.run_name, mode="online")
+            wandb.init(project=training_args.project_name, name=training_args.run_name, mode="online", settings=wandb.Settings(init_timeout=120))
             wandb.config.update(model_args)
             wandb.config.update(data_args)
             wandb.config.update(training_args)
