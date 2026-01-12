@@ -312,13 +312,54 @@ class MMEBTrainer(Trainer):
             self.deepspeed = self.model_wrapped
 
         # Check if saved optimizer or scheduler states exist
+        # #region agent log
+        import json
+        log_path = "/home/infres/zzhu-24/PRIM/VLM2Vec/.cursor/debug.log"
+        try:
+            with open(log_path, "a") as f:
+                f.write(json.dumps({"sessionId": "debug-session", "runId": "run1", "hypothesisId": "A", "location": "trainer.py:315", "message": "Before _load_optimizer_and_scheduler", "data": {"resume_from_checkpoint": str(resume_from_checkpoint), "torch_version": torch.__version__}, "timestamp": int(time.time() * 1000)}) + "\n")
+        except: pass
+        # #endregion
         try:
             self._load_optimizer_and_scheduler(resume_from_checkpoint)
+            # #region agent log
+            try:
+                with open(log_path, "a") as f:
+                    f.write(json.dumps({"sessionId": "debug-session", "runId": "run1", "hypothesisId": "A", "location": "trainer.py:318", "message": "Successfully loaded optimizer and scheduler", "data": {}, "timestamp": int(time.time() * 1000)}) + "\n")
+            except: pass
+            # #endregion
         except ValueError as e:
+            # #region agent log
+            try:
+                with open(log_path, "a") as f:
+                    f.write(json.dumps({"sessionId": "debug-session", "runId": "run1", "hypothesisId": "B,C,E", "location": "trainer.py:321", "message": "Caught ValueError in _load_optimizer_and_scheduler", "data": {"error_type": type(e).__name__, "error_message": str(e), "error_str_contains_parameter_group": "parameter group" in str(e), "error_str_contains_torch_load": "torch.load" in str(e) or "torch" in str(e).lower()}, "timestamp": int(time.time() * 1000)}) + "\n")
+            except: pass
+            # #endregion
             if "parameter group" in str(e):
+                # #region agent log
+                try:
+                    with open(log_path, "a") as f:
+                        f.write(json.dumps({"sessionId": "debug-session", "runId": "run1", "hypothesisId": "C", "location": "trainer.py:324", "message": "Reinitializing optimizer and scheduler due to parameter group mismatch", "data": {}, "timestamp": int(time.time() * 1000)}) + "\n")
+                except: pass
+                # #endregion
                 self.log({"warn": "optimizer state incompatible; reinitializing optimizer and scheduler"})
                 self.create_optimizer_and_scheduler(self.args.max_steps)
+            elif "torch.load" in str(e) or ("torch" in str(e).lower() and ("2.6" in str(e) or "v2.6" in str(e))) or "vulnerability" in str(e).lower():
+                # #region agent log
+                try:
+                    with open(log_path, "a") as f:
+                        f.write(json.dumps({"sessionId": "debug-session", "runId": "run1", "hypothesisId": "E", "location": "trainer.py:329", "message": "Detected torch.load version error, reinitializing optimizer and scheduler", "data": {}, "timestamp": int(time.time() * 1000)}) + "\n")
+                except: pass
+                # #endregion
+                self.log({"warn": "torch.load version restriction; reinitializing optimizer and scheduler (training will continue from saved global_step but optimizer state will be reset)"})
+                self.create_optimizer_and_scheduler(self.args.max_steps)
             else:
+                # #region agent log
+                try:
+                    with open(log_path, "a") as f:
+                        f.write(json.dumps({"sessionId": "debug-session", "runId": "run1", "hypothesisId": "B", "location": "trainer.py:334", "message": "Raising ValueError (not handled)", "data": {}, "timestamp": int(time.time() * 1000)}) + "\n")
+                except: pass
+                # #endregion
                 raise
 
             
@@ -338,7 +379,7 @@ class MMEBTrainer(Trainer):
         logger.info(f"  Gradient Accumulation steps = {args.gradient_accumulation_steps}")
         logger.info(f"  Total optimization steps = {max_steps:,}")
         logger.info(f"  Number of trainable parameters = {get_model_param_count(model, trainable_only=True):,}")
-        logger.info(f"  Trainable Parameters = {[name for name, p in model.named_parameters() if p.requires_grad]}")
+        # logger.info(f"  Trainable Parameters = {[name for name, p in model.named_parameters() if p.requires_grad]}")
 
         self.state.epoch = 0
         start_time = time.time()

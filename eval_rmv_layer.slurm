@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=eval2               # Name of your job
+#SBATCH --job-name=eval_RmvLayer               # Name of your job
 #SBATCH --output=./slurm_results/%x/%j.out
 #SBATCH --error=./slurm_results/%x/%j.err
-#SBATCH --partition=audible              # Partition to submit to (A100, V100, etc.)
+#SBATCH --partition=3090              # Partition to submit to (A100, V100, etc.)
 #SBATCH --gres=gpu:1                  # Request 1 GPU
 #SBATCH --cpus-per-task=8             # Request 8 CPU cores
 #SBATCH --mem=30G                     # Request 32 GB of memory
@@ -11,7 +11,7 @@
 source ~/anaconda3/etc/profile.d/conda.sh
 conda activate vlm2vec
 cd /home/infres/zzhu-24/PRIM/VLM2Vec
-bash /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/eval/eval_after_train2.sh
+bash /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/eval/eval_after_train_RmvLayer.sh
 
 
 echo "Job finished at: $(date)"

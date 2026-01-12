@@ -25,7 +25,7 @@ export WANDB_PROJECT=vlm2vec_train
 export WANDB_API_KEY=151b985aec8f2669c89875abb20b1c822ecdb9ad
 # export HUGGING_FACE_HUB_TOKEN=...
 # export WANDB_PROJECT=...
-export WANDB_RUN_GROUP=10DecAddLoss_28_16
+export WANDB_RUN_GROUP=12DecAddLoss_28_8
 export MODEL_NAME=Qwen/Qwen2-VL-2B-Instruct
 # export MODEL_NAME=Alibaba-NLP/gme-Qwen2-VL-2B-Instruct
 export WANDB_NAME="${WANDB_RUN_GROUP}-${MODEL_NAME}"
@@ -55,22 +55,22 @@ cmd="CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node=1 --master_port=2207
     --run_name $EXP_NAME
     --output_dir $EXP_DIR
     --grad_cache True
-    --per_device_train_batch_size 32
+    --per_device_train_batch_size 16
     --gc_q_chunk_size 8
     --gc_p_chunk_size 8
     --interleave_batch_size 0
     --lr_scheduler_type linear
     --learning_rate 1e-5 
-    --max_steps 6000
+    --max_steps 4000
     --warmup_steps 100
-    --save_steps 50
+    --save_steps 500
     --logging_steps 1
     --save_safetensors True
     --remove_unused_columns False
     --resume_from auto
     --delete_L 28
     --delete_n 0
-    --joint_training_layers 16 28
+    --joint_training_layers 8 28
     --eval_layers -1
     --report_to wandb 2>&1 | tee $EXP_DIR/train.log"
 

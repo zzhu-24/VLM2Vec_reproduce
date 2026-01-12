@@ -84,7 +84,19 @@ def main():
             wandb.config.update(data_args)
             wandb.config.update(training_args)
 
-    model = MMEBModel.build(model_args)
+    # If checkpoint_path is provided and contains LoRA adapter, use load() instead of build()
+    # to load the trained LoRA weights instead of creating new random ones
+    if model_args.checkpoint_path and model_args.lora:
+        adapter_config_path = os.path.join(model_args.checkpoint_path, 'adapter_config.json')
+        if os.path.exists(adapter_config_path):
+            logger.info(f"Found LoRA adapter in checkpoint_path, loading model with trained weights from {model_args.checkpoint_path}")
+            model = MMEBModel.load(model_args, is_trainable=True)
+        else:
+            logger.info(f"No LoRA adapter found in checkpoint_path, building new model")
+            model = MMEBModel.build(model_args)
+    else:
+        model = MMEBModel.build(model_args)
+    
     model_backbone = get_backbone_name(hf_config=model.config)
     setattr(model_args, 'model_backbone', model_backbone)
     setattr(training_args, 'model_backbone', model_backbone)

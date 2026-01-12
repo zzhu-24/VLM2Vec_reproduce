@@ -46,6 +46,8 @@ from transformers.utils import (
 )
 from .configuration_qwen2_vl import Qwen2VLConfig, Qwen2VLVisionConfig
 from src.utils import print_master
+from src.utils import print_rank
+
 
 if is_flash_attn_2_available():
     from flash_attn import flash_attn_varlen_func
@@ -53,7 +55,6 @@ if is_flash_attn_2_available():
     from transformers.modeling_flash_attention_utils import _flash_attention_forward
 else:
     flash_attn_varlen_func = None
-from src.utils import print_rank
 
 logger = logging.get_logger(__name__)
 

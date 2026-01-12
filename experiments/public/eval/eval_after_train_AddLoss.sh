@@ -14,14 +14,15 @@ echo ""
 
 CUDA_VISIBLE_DEVICES="0"
 BATCH_SIZE=24
-MODEL_TYPE="7DecAddLoss_28_16-Qwen"
+# MODEL_TYPE="10DecAddLoss_28_16-Qwen"
+MODEL_TYPE="12DecAddLoss_28_8-Qwen"
 CHECKPOINT_LIST=(
-  # "checkpoint-1800"
-  # "checkpoint-300"
-  # "checkpoint-600"
   # "checkpoint-1000"
+  # "checkpoint-2000"
+  "checkpoint-3000"
+  "checkpoint-4000"
   # "checkpoint-5000"
-  "checkpoint-4650"
+  # "checkpoint-4650"
 )
 DATA_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_eval/MMEB-V2"
 # OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/vlm2vec_retrieval"
@@ -89,8 +90,6 @@ for spec in "${MODEL_SPECS[@]}"; do
         -name "*_pred.jsonl" -o \
         -name "*_info.jsonl" \
     \) -delete
-else
-    echo "    ➤ First iteration: skipping cleanup"
   done
 
   end_time_model=$(date +%s)

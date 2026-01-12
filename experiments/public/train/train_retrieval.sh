@@ -22,8 +22,8 @@ export WANDB_PROJECT=vlm2vec_train
 export WANDB_API_KEY=151b985aec8f2669c89875abb20b1c822ecdb9ad
 # export HUGGING_FACE_HUB_TOKEN=...
 # export WANDB_PROJECT=...
-export WANDB_RUN_GROUP=28Nov_TrLayer16
-export MODEL_NAME=Qwen/Qwen2-VL-2B-Instruct
+export WANDB_RUN_GROUP=30Dec_Qwen3VL4b_original
+export MODEL_NAME=Qwen/Qwen3-VL-4B-Instruct
 # export MODEL_NAME=Alibaba-NLP/gme-Qwen2-VL-2B-Instruct
 export WANDB_NAME="${WANDB_RUN_GROUP}-${MODEL_NAME}"
 export EXP_NAME=$WANDB_NAME
@@ -38,35 +38,36 @@ rm -rf $EXP_DIR/wandb/*
 
 cd /home/infres/zzhu-24/PRIM/VLM2Vec/
 
-cmd="CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=2207 --max_restarts=0 train.py 
+cmd="CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node=2 --master_port=2208 --max_restarts=0 train.py 
     --lora
-    --lora_r 16
+    --lora_r 8
     --model_name $MODEL_NAME
     --bf16
     --pooling eos
     --normalize True
     --temperature 0.02
-    --dataloader_num_workers 1
+    --dataloader_num_workers 2
     --dataset_config /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/retrieval.yaml
     --data_basedir "$DATA_BASEDIR"
     --run_name $EXP_NAME
     --output_dir $EXP_DIR
     --grad_cache True
-    --per_device_train_batch_size 16
-    --gc_q_chunk_size 8
-    --gc_p_chunk_size 8
+    --per_device_train_batch_size 8
+    --gc_q_chunk_size 4
+    --gc_p_chunk_size 4
     --interleave_batch_size 0
     --lr_scheduler_type linear
     --learning_rate 1e-5 
-    --max_steps 6000
+    --max_steps 12000
     --warmup_steps 100
-    --save_steps 50
+    --save_steps 500
     --logging_steps 1
     --save_safetensors True
     --remove_unused_columns False
-    --resume_from auto
-    --qry_chosen_layer 16
-    --tgt_chosen_layer 16
+    --delete_L 36
+    --delete_n 0
+    --joint_training_layers -1
+    --eval_layers -1
     --report_to wandb 2>&1 | tee $EXP_DIR/train.log"
 
 echo $cmd

@@ -17,10 +17,11 @@ from src.model.vlm_backbone.qwen2_vl import Qwen2VLForConditionalGeneration, Qwe
 from src.model.vlm_backbone.qwen2_vl_tokenselection import \
     Qwen2VLForConditionalGeneration as Qwen2VLTokenSelectionForConditionalGeneration, \
     Qwen2VLProcessor as Qwen2VLTokenSelectionProcessor
-from src.model.baseline_backbone.internvideo2.modeling_internvideo2 import InternVideo2_Stage2
+# from src.model.baseline_backbone.internvideo2.modeling_internvideo2 import InternVideo2_Stage2
 from src.model.vlm_backbone.qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
 from src.model.vlm_backbone.qwen2_5_vl_tokenselection import \
     Qwen2_5_VLForConditionalGeneration as Qwen2_5_VL_TokenSelectionForConditionalGeneration
+from src.model.vlm_backbone.qwen3_vl import Qwen3VLForConditionalGeneration, Qwen3VLProcessor
 
 
 PHI_IMAGE_TOKEN_MAX_INPUT_ID = int(1e9)
@@ -32,6 +33,7 @@ QWEN2_VL = 'qwen2_vl'
 QWEN2_VL_TAIL = 'qwen2_vl_tail'
 QWEN2_VL_TOKENSELECTION = 'qwen2_vl'
 QWEN2_5_VL = 'qwen2_5_vl'
+QWEN3_VL = 'qwen3_vl'  # Qwen3-VL independent implementation
 QWEN2_VL_TOKENSELECTION = 'qwen2_vl_tokenselection'
 QWEN2_5_VL_TOKENSELECTION = 'qwen2_5_vl_tokenselection'
 INTERNVIDEO2 = 'internvideo2'
@@ -46,6 +48,7 @@ MODEL2BACKBONE = {  # keys are from hf_config.model_type or manually added if no
     'qwen2_vl': QWEN2_VL,
     # 'qwen2_vl_tokenselection': QWEN2_VL,
     'qwen2_5_vl': QWEN2_5_VL,
+    'qwen3_vl': QWEN3_VL,  # Qwen3-VL independent implementation
     'qwen2_vl_tokenselection': QWEN2_VL_TOKENSELECTION,
     'qwen2_5_vl_tokenselection': QWEN2_5_VL_TOKENSELECTION,
     'internvideo2': INTERNVIDEO2,
@@ -62,6 +65,7 @@ VLM_IMAGE_TOKENS = {
     LLAVA_NEXT: "<image>",
     QWEN2_VL: "<|image_pad|>",
     QWEN2_5_VL: "<|image_pad|>",
+    QWEN3_VL: "<|image_pad|>",
     QWEN2_VL_TOKENSELECTION: "<|image_pad|>",
     QWEN2_5_VL_TOKENSELECTION: "<|image_pad|>",
     GME: "<|image_pad|>",
@@ -76,6 +80,7 @@ VLM_VIDEO_TOKENS = {
     LLAVA_NEXT: "<image>",
     QWEN2_VL: "<|video_pad|>",
     QWEN2_5_VL: "<|video_pad|>",
+    QWEN3_VL: "<|video_pad|>",
     QWEN2_VL_TOKENSELECTION: "<|video_pad|>",
     QWEN2_5_VL_TOKENSELECTION: "<|video_pad|>",
     GME: "<|video_pad|>",
@@ -92,9 +97,10 @@ backbone2model = {
     QWEN2_VL: Qwen2VLForConditionalGeneration,
     QWEN2_VL_TAIL: Qwen2VLForConditionalGenerationWithTail,
     QWEN2_5_VL: Qwen2_5_VLForConditionalGeneration,
+    QWEN3_VL: Qwen3VLForConditionalGeneration,
     QWEN2_VL_TOKENSELECTION: Qwen2VLTokenSelectionForConditionalGeneration,
     QWEN2_5_VL_TOKENSELECTION: Qwen2_5_VL_TokenSelectionForConditionalGeneration,
-    INTERNVIDEO2: InternVideo2_Stage2,
+    # INTERNVIDEO2: InternVideo2_Stage2,
     E5_V: LlavaNextForConditionalGeneration,
 }
 
@@ -151,6 +157,14 @@ def load_processor(model_args, data_args=None):
             uigraph_diff=model_args.uigraph_diff,  uigraph_rand=model_args.uigraph_rand,
             uimask_ratio=model_args.uimask_ratio, uimask_rand=model_args.uimask_rand
         )
+    elif model_args.model_backbone == QWEN3_VL:
+        from src.model.vlm_backbone.qwen3_vl.processing_qwen3_vl import Qwen3VLProcessor
+        min_pixels, max_pixels = None, None
+        if data_args is not None:
+            min_pixels, max_pixels = data_args.resize_min_pixels, data_args.resize_max_pixels
+        # Qwen3-VL processor only accepts standard size keys, not min_pixels/max_pixels
+        size = {"shortest_edge": min_pixels, "longest_edge": max_pixels}
+        processor = Qwen3VLProcessor.from_pretrained(model_name_or_path, size=size)
     elif model_args.model_backbone in [QWEN2_5_VL, LamRA_QWEN2_5]:
         from src.model.vlm_backbone.qwen2_5_vl.processing_qwen2_5_vl import Qwen2_5_VLProcessor
         from src.model.vlm_backbone.qwen2_5_vl.image_processing_qwen2_5_vl import Qwen2_5_VLImageProcessor
@@ -369,6 +383,243 @@ def Qwen2_VL_process_fn(model_inputs: dict, processor: Qwen2VLProcessor, max_len
         'texts': texts,
         'images': visual_inputs,
     }
+    inputs['pixel_values'] = pixel_values
+    inputs['image_grid_thw'] = image_grid_thw
+    inputs['pixel_values_videos'] = pixel_values_videos
+    inputs['video_grid_thw'] = video_grid_thw
+
+    return inputs
+
+
+def Qwen3_VL_process_fn(model_inputs: dict, processor: Qwen3VLProcessor, max_length=None):
+    """
+    Process inputs for Qwen3-VL model.
+    This function is specifically designed for Qwen3-VL which uses fast image processor
+    that only supports PyTorch tensors (return_tensors="pt").
+    """
+    input_ids, pixel_values, image_grid_thw, pixel_values_videos, video_grid_thw = [], [], [], [], []
+    texts, visual_inputs = model_inputs['text'], model_inputs['images']
+    image_exists = False
+    vlm_image_token, vlm_video_token = VLM_IMAGE_TOKENS[QWEN3_VL], VLM_VIDEO_TOKENS[QWEN3_VL]
+
+    # Qwen3-VL uses fast image processor that only supports PyTorch tensors
+    return_tensors_format = "pt"
+
+    # 1. Iterate each pair and process
+    for text, images in zip(texts, visual_inputs):
+        if images is None or (type(images) == list and any(i is None for i in images)):
+            # Text-only sample
+            inputs = processor(
+                text=[text], 
+                images=None, 
+                return_tensors=return_tensors_format, 
+                max_length=max_length, 
+                truncation=True
+            )
+            # Convert PyTorch tensor to numpy for consistency
+            if "input_ids" in inputs:
+                if hasattr(inputs["input_ids"], "cpu"):
+                    input_id = inputs["input_ids"].cpu().numpy().squeeze().tolist()
+                else:
+                    input_id = inputs["input_ids"].numpy().squeeze().tolist()
+            else:
+                input_id = []
+            
+            if isinstance(input_id, int):
+                input_id = [input_id]
+            input_ids.append(input_id)
+            pixel_values.append(None)
+            image_grid_thw.append(None)
+            pixel_values_videos.append(None)
+            video_grid_thw.append(None)
+        else:
+            image_exists = True
+            try:
+                # Normalize images to list and ensure they are PIL Images
+                if isinstance(images, PIL.Image.Image):
+                    images = [images]
+                elif not isinstance(images, list):
+                    images = [images]
+                
+                # Ensure all images are PIL Image objects and in RGB mode
+                processed_images = []
+                for iid, image in enumerate(images):
+                    # Skip None images
+                    if image is None:
+                        continue
+                    
+                    # Convert to PIL Image if it's not already
+                    if not isinstance(image, PIL.Image.Image):
+                        if hasattr(image, 'numpy'):
+                            # It's a numpy array or tensor, convert to PIL
+                            import numpy as np
+                            if hasattr(image, 'cpu'):
+                                img_array = image.cpu().numpy()
+                            else:
+                                img_array = np.array(image)
+                            # Handle different array shapes
+                            if len(img_array.shape) == 3:
+                                if img_array.shape[0] == 3 or img_array.shape[0] == 1:
+                                    # CHW format, convert to HWC
+                                    img_array = img_array.transpose(1, 2, 0)
+                                if img_array.shape[2] == 1:
+                                    # Grayscale, convert to RGB
+                                    img_array = np.repeat(img_array, 3, axis=2)
+                                # Normalize from [0, 1] or [-1, 1] to [0, 255]
+                                if img_array.max() <= 1.0:
+                                    img_array = (img_array * 255).astype(np.uint8)
+                                image = PIL.Image.fromarray(img_array)
+                            else:
+                                raise ValueError(f"Unexpected image array shape: {img_array.shape}")
+                        else:
+                            raise ValueError(f"Unexpected image type: {type(image)}")
+                    
+                    # Ensure RGB mode
+                    if image.mode != 'RGB':
+                        image = image.convert('RGB')
+                    
+                    # Resize tiny images (rare case in MMEB eval)
+                    if image.size[0] < 28 or image.size[1] < 28:
+                        image = image.resize((56, 56))
+                    
+                    processed_images.append(image)
+                
+                if len(processed_images) == 0:
+                    raise ValueError("No valid images found after processing")
+                
+                images = processed_images
+                
+                # Process based on visual token type
+                if vlm_image_token in text:
+                    # Qwen3-VL fast image processor may not support input_data_format parameter
+                    # Try without it first
+                    try:
+                        inputs = processor(
+                            text=[text], 
+                            images=images, 
+                            return_tensors=return_tensors_format, 
+                            max_length=None, 
+                            truncation=False
+                        )
+                    except (TypeError, ValueError) as e:
+                        # Fallback: try with input_data_format if the error suggests it
+                        if "input_data_format" in str(e).lower() or "unexpected keyword" in str(e).lower():
+                            inputs = processor(
+                                text=[text], 
+                                images=images, 
+                                return_tensors=return_tensors_format, 
+                                max_length=None, 
+                                truncation=False,
+                                input_data_format=ChannelDimension.LAST
+                            )
+                        else:
+                            raise e
+                    # Keep PyTorch tensors (Qwen3-VL model expects tensors, not numpy arrays)
+                    if 'pixel_values' in inputs:
+                        pixel_values.append(inputs['pixel_values'])
+                        if 'image_grid_thw' in inputs:
+                            image_grid_thw.append(inputs['image_grid_thw'])
+                        else:
+                            image_grid_thw.append(None)
+                        pixel_values_videos.append(None)
+                        video_grid_thw.append(None)
+                    else:
+                        pixel_values.append(None)
+                        image_grid_thw.append(None)
+                        pixel_values_videos.append(None)
+                        video_grid_thw.append(None)
+                    
+                    # Convert input_ids to list for padding
+                    if "input_ids" in inputs:
+                        if hasattr(inputs["input_ids"], "cpu"):
+                            input_id = inputs["input_ids"].cpu().numpy().squeeze().tolist()
+                        else:
+                            input_id = inputs["input_ids"].numpy().squeeze().tolist()
+                    else:
+                        input_id = []
+                    
+                elif vlm_video_token in text:
+                    # Qwen3-VL fast image processor may not support input_data_format parameter
+                    try:
+                        inputs = processor(
+                            text=[text], 
+                            videos=[images], 
+                            return_tensors=return_tensors_format, 
+                            max_length=None, 
+                            truncation=False
+                        )
+                    except (TypeError, ValueError) as e:
+                        # Fallback: try with input_data_format if the error suggests it
+                        if "input_data_format" in str(e).lower() or "unexpected keyword" in str(e).lower():
+                            inputs = processor(
+                                text=[text], 
+                                videos=[images], 
+                                return_tensors=return_tensors_format, 
+                                max_length=None, 
+                                truncation=False,
+                                input_data_format=ChannelDimension.LAST
+                            )
+                        else:
+                            raise e
+                    # Keep PyTorch tensors (Qwen3-VL model expects tensors, not numpy arrays)
+                    if 'pixel_values_videos' in inputs:
+                        pixel_values_videos.append(inputs['pixel_values_videos'])
+                        if 'video_grid_thw' in inputs:
+                            video_grid_thw.append(inputs['video_grid_thw'])
+                        else:
+                            video_grid_thw.append(None)
+                        pixel_values.append(None)
+                        image_grid_thw.append(None)
+                    else:
+                        pixel_values.append(None)
+                        image_grid_thw.append(None)
+                        pixel_values_videos.append(None)
+                        video_grid_thw.append(None)
+                    
+                    # Convert input_ids to list for padding
+                    if "input_ids" in inputs:
+                        if hasattr(inputs["input_ids"], "cpu"):
+                            input_id = inputs["input_ids"].cpu().numpy().squeeze().tolist()
+                        else:
+                            input_id = inputs["input_ids"].numpy().squeeze().tolist()
+                    else:
+                        input_id = []
+                else:
+                    raise NotImplementedError(
+                        f"No visual token found ({vlm_image_token} or {vlm_video_token}) in the text: {text}"
+                    )
+                
+                if isinstance(input_id, int):
+                    input_id = [input_id]
+                input_ids.append(input_id)
+                
+            except Exception as e:
+                # Better error handling for debugging
+                error_info = f"Error processing sample. Text: {text[:100] if text else 'None'}, "
+                error_info += f"Images: {len(images) if images else 0} image(s), "
+                if images:
+                    for i, img in enumerate(images):
+                        if hasattr(img, 'size'):
+                            error_info += f"Image[{i}] size: {img.size}, "
+                        else:
+                            error_info += f"Image[{i}] type: {type(img)}, "
+                error_info += f"Error: {str(e)}"
+                logger.error(error_info)
+                raise e
+
+    # 2. Pad input_ids
+    batch_encoding = processor.tokenizer.pad({'input_ids': input_ids}, return_tensors="pt")
+    input_ids, attention_mask = batch_encoding['input_ids'], batch_encoding['attention_mask']
+    
+    # Manually enforce long type for compatibility
+    inputs = {
+        'input_ids': input_ids.long(),
+        'attention_mask': attention_mask.long(), 
+        'texts': texts,
+        'images': visual_inputs,
+    }
+    
+    # Add visual inputs
     inputs['pixel_values'] = pixel_values
     inputs['image_grid_thw'] = image_grid_thw
     inputs['pixel_values_videos'] = pixel_values_videos
@@ -737,6 +988,7 @@ process_vlm_inputs_fns = {
     LLAVA_NEXT: Llava_NEXT_process_fn,
     QWEN2_VL: Qwen2_VL_process_fn,
     QWEN2_5_VL: Qwen2_VL_process_fn,
+    QWEN3_VL: Qwen3_VL_process_fn,  # Qwen3-VL has its own dedicated processing function
     QWEN2_VL_TOKENSELECTION: Qwen2_VL_TokenSelection_process_fn,
     QWEN2_5_VL_TOKENSELECTION: Qwen2_VL_TokenSelection_process_fn,
     INTERNVIDEO2: InternVideo2_process_fn,

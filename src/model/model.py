@@ -8,7 +8,7 @@ from peft import LoraConfig, get_peft_model, PeftModel
 from src.model.processor import QWEN2_5_VL_TOKENSELECTION
 from src.arguments import ModelArguments, TrainingArguments
 from src.model.processor import LLAVA_NEXT, QWEN2_VL, PHI3V, get_backbone_name, print_master, QWEN2_5_VL, \
-    backbone2model, QWEN2_VL_TOKENSELECTION, QWEN2_5_VL_TOKENSELECTION, E5_V, QWEN2_VL_TAIL
+    backbone2model, QWEN2_VL_TOKENSELECTION, QWEN2_5_VL_TOKENSELECTION, E5_V, QWEN2_VL_TAIL, QWEN3_VL
 
 from src.arguments import ModelArguments
 from src.model.processor import LLAVA_NEXT, QWEN2_VL, PHI3V, get_backbone_name, print_master, QWEN2_5_VL, INTERNVIDEO2, \
@@ -107,6 +107,84 @@ class MMEBModel(nn.Module):
         #     return pooled_output
 
         # else: # qwen implementation
+        # Handle Qwen3-VL: convert pixel_values list to tensor if needed
+        # Qwen3-VL model expects pixel_values as tensor, not list (unlike Qwen2-VL which handles lists in forward)
+        # model_backbone = getattr(self, 'model_backbone', None) or getattr(self.config, 'model_backbone', None)
+        model_backbone = get_backbone_name(hf_config=self.config)
+        if model_backbone == QWEN3_VL:
+            # Qwen3-VL model expects pixel_values as tensor, not list
+            # Similar to Qwen2-VL, we need to handle mixed batches (some samples have images, some don't)
+
+            if 'pixel_values' in input and isinstance(input['pixel_values'], list):
+                bsz = input['input_ids'].shape[0]
+                # Find samples with images
+                if 'image_grid_thw' in input and isinstance(input['image_grid_thw'], list):
+                    idx_w_image = [i for i in range(bsz) if input['pixel_values'][i] is not None and 
+                                  input['image_grid_thw'][i] is not None]
+                else:
+                    idx_w_image = [i for i in range(bsz) if input['pixel_values'][i] is not None]
+
+                if len(idx_w_image) > 0:
+                    # Convert list of tensors to single tensor (concat along first dimension)
+                    valid_pixel_values = [
+                        input['pixel_values'][i] if isinstance(input['pixel_values'][i], torch.Tensor) 
+                        else torch.from_numpy(input['pixel_values'][i]) 
+                        for i in idx_w_image
+                    ]
+                    input['pixel_values'] = torch.cat(valid_pixel_values, dim=0).to(input['input_ids'].device)
+                    
+                    # Handle image_grid_thw similarly
+                    if 'image_grid_thw' in input and isinstance(input['image_grid_thw'], list):
+                        valid_grid_thw = [
+                            input['image_grid_thw'][i] if isinstance(input['image_grid_thw'][i], torch.Tensor) 
+                            else torch.from_numpy(input['image_grid_thw'][i]) 
+                            for i in idx_w_image
+                        ]
+                        input['image_grid_thw'] = torch.cat(valid_grid_thw, dim=0).to(input['input_ids'].device)
+                else:
+                    # No images in batch
+                    input['pixel_values'] = None
+                    if 'image_grid_thw' in input:
+                        input['image_grid_thw'] = None
+
+            # Handle videos: convert pixel_values_videos list to tensor if needed
+            # Qwen3-VL model expects pixel_values_videos as tensor, not list
+            if 'pixel_values_videos' in input and isinstance(input['pixel_values_videos'], list):
+                bsz = input['input_ids'].shape[0]
+                # Find samples with videos
+                if 'video_grid_thw' in input and isinstance(input['video_grid_thw'], list):
+                    idx_w_video = [i for i in range(bsz) if input['pixel_values_videos'][i] is not None and 
+                                  input['video_grid_thw'][i] is not None]
+                else:
+                    idx_w_video = [i for i in range(bsz) if input['pixel_values_videos'][i] is not None]
+                
+                if len(idx_w_video) > 0:
+                    # Convert list of tensors to single tensor (concat along first dimension)
+                    valid_pixel_values_videos = [
+                        input['pixel_values_videos'][i] if isinstance(input['pixel_values_videos'][i], torch.Tensor) 
+                        else torch.from_numpy(input['pixel_values_videos'][i]) 
+                        for i in idx_w_video
+                    ]
+                    input['pixel_values_videos'] = torch.cat(valid_pixel_values_videos, dim=0).to(input['input_ids'].device)
+                    
+                    # Handle video_grid_thw similarly
+                    if 'video_grid_thw' in input and isinstance(input['video_grid_thw'], list):
+                        valid_video_grid_thw = [
+                            input['video_grid_thw'][i] if isinstance(input['video_grid_thw'][i], torch.Tensor) 
+                            else torch.from_numpy(input['video_grid_thw'][i]) 
+                            for i in idx_w_video
+                        ]
+                        input['video_grid_thw'] = torch.cat(valid_video_grid_thw, dim=0).to(input['input_ids'].device)
+                else:
+                    # No videos in batch
+                    input['pixel_values_videos'] = None
+                    if 'video_grid_thw' in input:
+                        input['video_grid_thw'] = None
+                        
+        else:
+            # Qwen2-VL, Qwen2.5-VL, etc. - these models handle pixel_values and pixel_values_videos lists in their forward method
+            pass
+        
         hidden_states = self.encoder(**input, return_dict=True, output_hidden_states=True)
         all_outputs = []
         for layer in selected_layers:
@@ -291,7 +369,7 @@ class MMEBModel(nn.Module):
             model_backbone = get_backbone_name(hf_config=config, model_type=model_args.model_type)
             setattr(model_args, 'model_backbone', model_backbone)
         print_master(f'Loading backbone [{model_args.model_backbone}] from {model_name_or_path}')
-        if model_args.model_backbone in {LLAVA_NEXT, QWEN2_VL, QWEN2_5_VL, QWEN2_VL_TOKENSELECTION, QWEN2_5_VL_TOKENSELECTION, E5_V}:
+        if model_args.model_backbone in {LLAVA_NEXT, QWEN2_VL, QWEN2_5_VL, QWEN3_VL, QWEN2_VL_TOKENSELECTION, QWEN2_5_VL_TOKENSELECTION, E5_V}:
             config = AutoConfig.from_pretrained(model_args.model_name, trust_remote_code=True)
 
             config.delete_L = model_args.delete_L

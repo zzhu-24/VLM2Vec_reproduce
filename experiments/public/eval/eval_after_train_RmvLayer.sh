@@ -14,14 +14,14 @@ echo ""
 
 CUDA_VISIBLE_DEVICES="0"
 BATCH_SIZE=24
-MODEL_TYPE="17Dec_Qwen3VL4B_rmv_35_7-Qwen"
+MODEL_TYPE="5Jan_Qwen3VL4b_rmv_21_7-Qwen"
 BASE_MODEL="Qwen3-VL-4B-Instruct"
 CHECKPOINT_LIST=(
-  # "checkpoint-1000"
-  # "checkpoint-2000"
+  "checkpoint-1000"
+  "checkpoint-2000"
   "checkpoint-3000"
   "checkpoint-4000"
-  "checkpoint-4500"
+  # "checkpoint-4500"
   # "checkpoint-4650"
 )
 DATA_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_eval/MMEB-V2"
@@ -75,8 +75,8 @@ for spec in "${MODEL_SPECS[@]}"; do
       --dataset_config "$DATA_CONFIG_PATH" \
       --encode_output_path "$OUTPUT_PATH" \
       --data_basedir "$DATA_BASEDIR" \
-      --delete_L 36 \
-      --delete_n 0 \
+      --delete_L 21 \
+      --delete_n 7 \
       --eval_layers 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29\
       --checkpoint_path "$CKPT_PATH" \
       &> "$OUTPUT_PATH/eval.log"
