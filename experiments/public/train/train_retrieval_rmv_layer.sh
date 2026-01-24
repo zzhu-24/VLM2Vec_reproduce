@@ -22,8 +22,10 @@ export WANDB_PROJECT=vlm2vec_train
 export WANDB_API_KEY=151b985aec8f2669c89875abb20b1c822ecdb9ad
 # export HUGGING_FACE_HUB_TOKEN=...
 # export WANDB_PROJECT=...
-export WANDB_RUN_GROUP=12Jan_Qwen3VL4b_rmv_7_7
+export WANDB_RUN_GROUP=23Jan_Qwen3VL4B_rmv_28_14_more_datasets
 export MODEL_NAME=Qwen/Qwen3-VL-4B-Instruct
+export DATASET_CONFIG_PATH=/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/train_image.yaml
+
 # export MODEL_NAME=Alibaba-NLP/gme-Qwen2-VL-2B-Instruct
 export WANDB_NAME="${WANDB_RUN_GROUP}-${MODEL_NAME}"
 export EXP_NAME=$WANDB_NAME
@@ -47,7 +49,7 @@ cmd="CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node=2 --master_port=2208
     --normalize True
     --temperature 0.02
     --dataloader_num_workers 2
-    --dataset_config /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/retrieval.yaml
+    --dataset_config "$DATASET_CONFIG_PATH"
     --data_basedir "$DATA_BASEDIR"
     --run_name $EXP_NAME
     --output_dir $EXP_DIR
@@ -58,14 +60,14 @@ cmd="CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node=2 --master_port=2208
     --interleave_batch_size 0
     --lr_scheduler_type linear
     --learning_rate 1e-5 
-    --max_steps 6000
+    --max_steps 14700
     --warmup_steps 100
     --save_steps 500
     --logging_steps 1
     --save_safetensors True
     --remove_unused_columns False
-    --delete_L 7
-    --delete_n 7
+    --delete_L 28
+    --delete_n 14
     --joint_training_layers -1
     --eval_layers -1
     --report_to wandb 2>&1 | tee $EXP_DIR/train.log"

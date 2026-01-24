@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=eval               # Name of your job
+#SBATCH --job-name=eval_RmvLayer               # Name of your job
 #SBATCH --output=./slurm_results/%x/%j.out
 #SBATCH --error=./slurm_results/%x/%j.err
 #SBATCH --partition=3090              # Partition to submit to (A100, V100, etc.)

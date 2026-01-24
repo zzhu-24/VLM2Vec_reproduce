@@ -379,6 +379,7 @@ class MMEBTrainer(Trainer):
         logger.info(f"  Gradient Accumulation steps = {args.gradient_accumulation_steps}")
         logger.info(f"  Total optimization steps = {max_steps:,}")
         logger.info(f"  Number of trainable parameters = {get_model_param_count(model, trainable_only=True):,}")
+        logger.info(f"  Number of total parameters = {get_model_param_count(model, trainable_only=False):,}")
         # logger.info(f"  Trainable Parameters = {[name for name, p in model.named_parameters() if p.requires_grad]}")
 
         self.state.epoch = 0

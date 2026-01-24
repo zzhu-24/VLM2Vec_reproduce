@@ -39,10 +39,13 @@ def _apply_delete_layers_if_needed(model: PreTrainedModel, config) -> None:
       [0, ..., delete_L - delete_n - 1] + [delete_L, ..., num_hidden_layers - 1]
     i.e., removing `delete_n` layers right before index `delete_L`.
 
+    Now supports list form: delete_L and delete_n are lists, and elements are paired in order
+    to form multiple deletion segments. The shorter list determines the number of pairs.
+
     HF's Qwen3-VL doesn't support these knobs natively, so we prune the loaded language decoder layers in-place.
     """
     delete_n = getattr(config, "delete_n", None)
-    if delete_n is None or int(delete_n) <= 0:
+    if delete_n is None:
         return
 
     # Qwen3-VL uses nested configs; use text_config.num_hidden_layers as the reference total.
@@ -55,12 +58,36 @@ def _apply_delete_layers_if_needed(model: PreTrainedModel, config) -> None:
     if delete_L is None:
         delete_L = num_layers
 
-    delete_L = int(delete_L)
-    delete_n = int(delete_n)
-    # Clamp to valid range.
-    delete_L = max(0, min(delete_L, num_layers))
-    delete_n = max(0, min(delete_n, delete_L))
-    start = delete_L - delete_n
+    # Convert to lists if not already (for backward compatibility)
+    if not isinstance(delete_L, (list, tuple)):
+        delete_L = [delete_L]
+    if not isinstance(delete_n, (list, tuple)):
+        delete_n = [delete_n]
+
+    # Use the shorter list length (truncate the longer one)
+    min_len = min(len(delete_L), len(delete_n))
+    delete_L = list(delete_L[:min_len])
+    delete_n = list(delete_n[:min_len])
+
+    # If all delete_n are <= 0, no deletion needed
+    if all(int(n) <= 0 for n in delete_n):
+        return
+
+    # Convert to integers and clamp to valid ranges
+    delete_L = [max(0, min(int(L), num_layers)) for L in delete_L]
+    delete_n = [max(0, min(int(n), L)) for L, n in zip(delete_L, delete_n)]
+
+    # Collect all indices to delete
+    delete_indices_set = set()
+    for L, n in zip(delete_L, delete_n):
+        if n > 0:
+            start = L - n
+            # Delete layers from start to L-1 (inclusive)
+            delete_indices_set.update(range(start, L))
+
+    # If nothing to delete, return early
+    if not delete_indices_set:
+        return
 
     # Locate Qwen3 language model container.
     # - Transformers Qwen3VLForConditionalGeneration: model.model.language_model.layers
@@ -87,7 +114,8 @@ def _apply_delete_layers_if_needed(model: PreTrainedModel, config) -> None:
         # Already modified elsewhere; avoid double-pruning.
         return
 
-    keep_indices = list(range(0, start)) + list(range(delete_L, num_layers))
+    # Keep all indices that are not in delete_indices_set
+    keep_indices = [i for i in range(num_layers) if i not in delete_indices_set]
     # Re-wrap as ModuleList so parameters remain registered.
     language_model.layers = nn.ModuleList([layers[i] for i in keep_indices])
 

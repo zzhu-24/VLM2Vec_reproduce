@@ -13,20 +13,42 @@ echo "Version: $(python --version)"
 echo ""
 
 CUDA_VISIBLE_DEVICES="0"
-BATCH_SIZE=24
-MODEL_TYPE="5Jan_Qwen3VL4b_rmv_21_7-Qwen"
+BATCH_SIZE=8
+
+# MODEL_TYPE="17Dec_Qwen3VL4B_rmv_35_7-Qwen"
+# MODEL_TYPE="5Jan_Qwen3VL4b_rmv_28_7-Qwen"
+# MODEL_TYPE="9Jan_Qwen3VL4b_rmv_14_7-Qwen"
+# MODEL_TYPE="17Dec_Qwen3VL2B_original-Qwen"
+# MODEL_TYPE="original-Qwen"
+# MODEL_TYPE="18Jan_Qwen3VL4B_rmv_28_26_24_22_20_18_16-Qwen"
+# MODEL_TYPE="Qwen3VL4B_uploaded"
+MODEL_TYPE="21Jan_Qwen3VL4B_rmv_28_14-Qwen"
+
+# EVAL_TYPE="eval_after_train"
+# DATA_CONFIG_PATH="experiments/public/eval/retrieval.yaml"
+# EVAL_TYPE="eval_new_datasets"
+# DATA_CONFIG_PATH="experiments/public/eval/retrieval_new_datasets.yaml"
+# EVAL_TYPE="eval_cls_datasets"
+# DATA_CONFIG_PATH="experiments/public/eval/image_cls.yaml"
+EVAL_TYPE="eval_all"
+DATA_CONFIG_PATH="experiments/public/eval/image_all.yaml"
+
+
+
 BASE_MODEL="Qwen3-VL-4B-Instruct"
 CHECKPOINT_LIST=(
-  "checkpoint-1000"
-  "checkpoint-2000"
-  "checkpoint-3000"
-  "checkpoint-4000"
+  # "checkpoint-1000"
+  # "checkpoint-2000"
+  # "checkpoint-3000"
+  # "checkpoint-4000"
   # "checkpoint-4500"
-  # "checkpoint-4650"
+  # "checkpoint-5000"
+  "checkpoint-5500"
+  # "checkpoint-6000"
 )
 DATA_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_eval/MMEB-V2"
 # OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/vlm2vec_retrieval"
-OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/eval_after_train/DEBUG_${MODEL_TYPE}"
+OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/${EVAL_TYPE}/${MODEL_TYPE}"
 
 # ==> Model specs: format "MODEL_NAME;BACKBONE;OUTPUT_DIR"
 declare -a MODEL_SPECS
@@ -47,7 +69,6 @@ for spec in "${MODEL_SPECS[@]}"; do
   echo "Evaluating Model: $MODEL_NAME"
   echo "================================================="
 
-  DATA_CONFIG_PATH="experiments/public/eval/retrieval.yaml"
 
   echo "  ➤ Dataset config: $DATA_CONFIG_PATH"
   echo "  ➤ Output base path: $BASE_OUTPUT_PATH"
@@ -75,9 +96,9 @@ for spec in "${MODEL_SPECS[@]}"; do
       --dataset_config "$DATA_CONFIG_PATH" \
       --encode_output_path "$OUTPUT_PATH" \
       --data_basedir "$DATA_BASEDIR" \
-      --delete_L 21 \
-      --delete_n 7 \
-      --eval_layers 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29\
+      --delete_L 28 \
+      --delete_n 14 \
+      --eval_layers -1 \
       --checkpoint_path "$CKPT_PATH" \
       &> "$OUTPUT_PATH/eval.log"
 

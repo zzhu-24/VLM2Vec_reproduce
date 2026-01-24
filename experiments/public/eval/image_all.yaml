@@ -1,0 +1,66 @@
+MSCOCO_i2t:
+    dataset_parser: image_i2t
+    dataset_name: MSCOCO_i2t
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local
+MSCOCO_t2i:
+    dataset_parser: image_t2i
+    dataset_name: MSCOCO_t2i
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local
+N24News:
+    dataset_parser: image_cls
+    dataset_name: N24News
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local
+HatefulMemes:
+    dataset_parser: image_cls
+    dataset_name: HatefulMemes
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local
+VOC2007:
+    dataset_parser: image_cls
+    dataset_name: VOC2007
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local
+Place365:
+    dataset_parser: image_cls
+    dataset_name: Place365
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local
+Country211:
+    dataset_parser: image_cls
+    dataset_name: Country211
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local
+VisualNews_i2t:
+    dataset_parser: image_i2t
+    dataset_name: VisualNews_i2t
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local
+VisualNews_t2i:
+    dataset_parser: image_t2i
+    dataset_name: VisualNews_t2i
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local
+WebQA:
+    dataset_parser: image_t2i
+    dataset_name: WebQA
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local
+EDIS:
+    dataset_parser: image_t2i
+    dataset_name: EDIS
+    dataset_split: test
+    image_root: image-tasks/
+    eval_type: local

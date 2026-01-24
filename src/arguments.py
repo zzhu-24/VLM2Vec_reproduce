@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from transformers import TrainingArguments
-from typing import List
+from typing import List, Union
 
 
 @dataclass
@@ -29,8 +29,8 @@ class ModelArguments:
     plus_one_token: bool = field(default=False, metadata={"help": "add a learnable token at the end of the sequence"})
     tail_token_train_only: bool = field(default=False, metadata={"help": "only train the tail token when plus_one_token is enabled"})
     tail_gradient_flow_only: bool = field(default=False, metadata={"help": "gradient is only passed through the tail token when plus_one_token is enabled"})
-    delete_L: int = field(default=28, metadata={"help": "the last layer to be deleted"})
-    delete_n: int = field(default=0, metadata={"help": "number of layers to be deleted from the L-th layer"})
+    delete_L: list[int] = field(default_factory=lambda: [36], metadata={"help": "the last layer to be deleted (list, can be single value)"})
+    delete_n: list[int] = field(default_factory=lambda: [0], metadata={"help": "number of layers to be deleted from the L-th layer (list, can be single value)"})
     joint_training_layers: list[int] = field(default_factory=lambda: [-1], metadata={"help": "Specify the lm layers to be used in joint training"})
     eval_layers: list[int] = field(default_factory=lambda: [-1], metadata={"help": "Specify the lm layer to be used to extract the final query embedding"})
 

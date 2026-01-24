@@ -955,9 +955,45 @@ class Qwen2VLModel(Qwen2VLPreTrainedModel):
         self.vocab_size = config.vocab_size
 
         self.embed_tokens = nn.Embedding(config.vocab_size, config.hidden_size, self.padding_idx)
+        
+        # Handle delete_L and delete_n: support both list and int (for backward compatibility)
+        delete_L = getattr(config, "delete_L", None)
+        delete_n = getattr(config, "delete_n", None)
+        
+        if delete_L is None:
+            delete_L = config.num_hidden_layers
+        if delete_n is None:
+            delete_n = 0
+        
+        # Convert to lists if not already (for backward compatibility)
+        if not isinstance(delete_L, (list, tuple)):
+            delete_L = [delete_L]
+        if not isinstance(delete_n, (list, tuple)):
+            delete_n = [delete_n]
+        
+        # Use the shorter list length (truncate the longer one)
+        min_len = min(len(delete_L), len(delete_n))
+        delete_L = list(delete_L[:min_len])
+        delete_n = list(delete_n[:min_len])
+        
+        # Convert to integers and clamp to valid ranges
+        delete_L = [max(0, min(int(L), config.num_hidden_layers)) for L in delete_L]
+        delete_n = [max(0, min(int(n), L)) for L, n in zip(delete_L, delete_n)]
+        
+        # Collect all indices to delete
+        delete_indices_set = set()
+        for L, n in zip(delete_L, delete_n):
+            if n > 0:
+                start = L - n
+                # Delete layers from start to L-1 (inclusive)
+                delete_indices_set.update(range(start, L))
+        
+        # Build list of layer indices to keep
+        keep_indices = [i for i in range(config.num_hidden_layers) if i not in delete_indices_set]
+        
+        # Create layers in order
         self.layers = nn.ModuleList(
-            [Qwen2VLDecoderLayer(config, layer_idx) for layer_idx in range(config.delete_L - config.delete_n)] + 
-            [Qwen2VLDecoderLayer(config, layer_idx) for layer_idx in range(config.delete_L, config.num_hidden_layers)]
+            [Qwen2VLDecoderLayer(config, layer_idx) for layer_idx in keep_indices]
         )
         self._attn_implementation = config._attn_implementation
         self.norm = Qwen2RMSNorm(config.hidden_size, eps=config.rms_norm_eps)

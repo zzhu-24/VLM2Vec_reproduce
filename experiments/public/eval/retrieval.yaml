@@ -18,3 +18,38 @@ MSCOCO_t2i:
 #     dataset_split: test
 #     image_root: image-tasks/
 #     eval_type: local
+
+# VisualNews_i2t:
+#     dataset_parser: image_i2t
+#     dataset_name: VisualNews_i2t
+#     dataset_split: test
+#     image_root: image-tasks/
+#     eval_type: local
+
+# VisualNews_t2i:
+#     dataset_parser: image_t2i
+#     dataset_name: VisualNews_t2i
+#     dataset_split: test
+#     image_root: image-tasks/
+#     eval_type: local
+
+# WebQA:
+#     dataset_parser: image_t2i
+#     dataset_name: WebQA
+#     dataset_split: test
+#     image_root: image-tasks/
+#     eval_type: local
+
+# EDIS:
+#     dataset_parser: image_t2i
+#     dataset_name: EDIS
+#     dataset_split: test
+#     image_root: image-tasks/
+#     eval_type: local
+
+# Wiki-SS-NQ:
+#     dataset_parser: image_t2i
+#     dataset_name: Wiki-SS-NQ
+#     dataset_split: test
+#     image_root: image-tasks/
+#     eval_type: local
