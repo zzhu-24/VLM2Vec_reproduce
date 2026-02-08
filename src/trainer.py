@@ -41,6 +41,7 @@ from transformers.trainer_utils import (
 from transformers.trainer_pt_utils import (
     get_model_param_count,
 )
+from peft import PeftModel
 
 from transformers.trainer import FSDP_MODEL_NAME
 from transformers.utils import (
@@ -70,6 +71,62 @@ else:
     IS_XLA_FSDPV2_POST_2_2 = False
 
 logger = logging.get_logger(__name__)
+
+
+def get_base_model_param_count(model) -> Optional[int]:
+    """
+    统计纯基座模型参数（不含 LoRA adapter）。
+    若 encoder 为 PeftModel 则只计 base_model；否则计整个 encoder。
+    非本项目的模型结构时返回 None。
+    """
+    unwrapped = model.module if hasattr(model, "module") else model
+    if not hasattr(unwrapped, "encoder"):
+        return None
+    encoder = unwrapped.encoder
+    if isinstance(encoder, PeftModel):
+        base = encoder.get_base_model()
+        return sum(p.numel() for p in base.parameters())
+    return sum(p.numel() for p in encoder.parameters())
+
+
+def get_detailed_param_breakdown(model) -> dict:
+    """
+    按图像编码、merger、LLM 细分基座参数。
+    返回 dict: image_encoder, merger, llm, other, lora_total（若适用）。
+    若结构不支持（无 visual/model）则返回空 dict。
+    """
+    unwrapped = model.module if hasattr(model, "module") else model
+    if not hasattr(unwrapped, "encoder"):
+        return {}
+    encoder = unwrapped.encoder
+    is_peft = isinstance(encoder, PeftModel)
+    base = encoder.get_base_model() if is_peft else encoder
+    out = {"image_encoder": None, "merger": None, "llm": None, "other": None}
+    if not hasattr(base, "visual") or not hasattr(base, "model"):
+        return out
+    visual = base.visual
+    if hasattr(base, "language_model"):
+        llm_module = base.language_model
+    else:
+        llm_module = base.model
+    image_encoder_count = 0
+    merger_count = 0
+    for name, param in visual.named_parameters():
+        n = param.numel()
+        if "merger" in name:
+            merger_count += n
+        else:
+            image_encoder_count += n
+    out["image_encoder"] = image_encoder_count
+    out["merger"] = merger_count
+    out["llm"] = sum(p.numel() for p in llm_module.parameters())
+    base_total = sum(p.numel() for p in base.parameters())
+    out["other"] = max(0, base_total - (image_encoder_count + merger_count + out["llm"]))
+    out["lora_total"] = (
+        sum(p.numel() for p in encoder.parameters()) - base_total if is_peft else 0
+    )
+    return out
+
 
 class MMEBTrainer(Trainer):
     def __init__(self, *args, **kwargs):
@@ -380,6 +437,16 @@ class MMEBTrainer(Trainer):
         logger.info(f"  Total optimization steps = {max_steps:,}")
         logger.info(f"  Number of trainable parameters = {get_model_param_count(model, trainable_only=True):,}")
         logger.info(f"  Number of total parameters = {get_model_param_count(model, trainable_only=False):,}")
+        base_param_count = get_base_model_param_count(model)
+        if base_param_count is not None:
+            logger.info(f"  Number of base model parameters (excluding LoRA) = {base_param_count:,}")
+        breakdown = get_detailed_param_breakdown(model)
+        if breakdown and breakdown.get("image_encoder") is not None:
+            logger.info(f"  [Param breakdown] image encoder (ViT) = {breakdown['image_encoder']:,}, merger = {breakdown['merger']:,}, LLM = {breakdown['llm']:,}")
+            if breakdown.get("other", 0) > 0:
+                logger.info(f"  [Param breakdown] other = {breakdown['other']:,}")
+            if breakdown.get("lora_total", 0) > 0:
+                logger.info(f"  [Param breakdown] LoRA = {breakdown['lora_total']:,}")
         # logger.info(f"  Trainable Parameters = {[name for name, p in model.named_parameters() if p.requires_grad]}")
 
         self.state.epoch = 0
