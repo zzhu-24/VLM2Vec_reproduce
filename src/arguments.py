@@ -33,6 +33,8 @@ class ModelArguments:
     delete_n: list[int] = field(default_factory=lambda: [0], metadata={"help": "number of layers to be deleted from the L-th layer (list, can be single value)"})
     joint_training_layers: list[int] = field(default_factory=lambda: [-1], metadata={"help": "Specify the lm layers to be used in joint training"})
     eval_layers: list[int] = field(default_factory=lambda: [-1], metadata={"help": "Specify the lm layer to be used to extract the final query embedding"})
+    head_prune_config: str = field(default=None, metadata={"help": "Path to JSON file specifying per-layer KV groups to prune. Format: {layer_idx: [group_indices]}. Layer indices are post layer-deletion relative indices."})
+    head_prune_n: int = field(default=0, metadata={"help": "Number of KV groups to uniformly prune from every layer (0 = no pruning). Mutually exclusive with head_prune_config."})
 
 
 @dataclass

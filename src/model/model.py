@@ -231,6 +231,15 @@ class MMEBModel(nn.Module):
         config.delete_L = model_args.delete_L
         config.delete_n = model_args.delete_n
 
+        # Head pruning config
+        if hasattr(model_args, 'head_prune_config') and model_args.head_prune_config:
+            import json
+            with open(model_args.head_prune_config, 'r') as f:
+                config.head_prune_config = json.load(f)
+        else:
+            config.head_prune_config = None
+        config.head_prune_n = getattr(model_args, 'head_prune_n', 0)
+
         # Loading the base model
         # if model_backbone == PHI3V:
         #     config._attn_implementation = "eager"
@@ -374,6 +383,15 @@ class MMEBModel(nn.Module):
 
             config.delete_L = model_args.delete_L
             config.delete_n = model_args.delete_n
+
+            # Head pruning config
+            if hasattr(model_args, 'head_prune_config') and model_args.head_prune_config:
+                import json as _json
+                with open(model_args.head_prune_config, 'r') as f:
+                    config.head_prune_config = _json.load(f)
+            else:
+                config.head_prune_config = None
+            config.head_prune_n = getattr(model_args, 'head_prune_n', 0)
             
             base_model = backbone2model[model_args.model_backbone].from_pretrained(
                 model_args.model_name,

@@ -17,10 +17,15 @@ Qwen3-VL model wrapper for VLM2Vec.
 This module provides a wrapper around transformers' native Qwen3-VL implementation.
 """
 
+import json
+import logging
+
 import torch
 import torch.nn as nn
 from transformers import AutoModelForCausalLM, AutoConfig
 from transformers.modeling_utils import PreTrainedModel
+
+logger = logging.getLogger(__name__)
 
 # Try to import Qwen3-VL from transformers, fallback to AutoModelForCausalLM
 try:
@@ -120,6 +125,213 @@ def _apply_delete_layers_if_needed(model: PreTrainedModel, config) -> None:
     language_model.layers = nn.ModuleList([layers[i] for i in keep_indices])
 
 
+def _apply_prune_heads_if_needed(model: PreTrainedModel, config) -> None:
+    """
+    Structured pruning of attention heads at KV-group granularity for Qwen3-VL.
+
+    Each KV group consists of `q_per_group` Q-heads sharing 1 KV head.
+    Pruning a KV group removes the corresponding rows from q_proj, k_proj, v_proj
+    and corresponding columns from o_proj, then replaces them with new compact
+    nn.Linear modules to ensure physically contiguous weight tensors.
+
+    Config attributes read:
+      - head_prune_config: dict  {str(layer_idx): [group_indices_to_prune]}
+      - head_prune_n: int        uniform number of groups to prune per layer
+                                  (requires head_importance JSON with scores to
+                                   auto-select the least important groups)
+    """
+    head_prune_config = getattr(config, "head_prune_config", None)
+    head_prune_n = getattr(config, "head_prune_n", 0)
+
+    if not head_prune_config and (head_prune_n is None or head_prune_n <= 0):
+        return
+
+    # ---- Locate language model layers (same logic as _apply_delete_layers_if_needed) ----
+    language_model = None
+    if hasattr(model, "model") and hasattr(getattr(model, "model"), "language_model"):
+        language_model = getattr(model, "model").language_model
+    elif hasattr(model, "language_model"):
+        language_model = getattr(model, "language_model")
+    elif hasattr(model, "model") and hasattr(getattr(model, "model"), "layers"):
+        language_model = getattr(model, "model")
+    elif hasattr(model, "layers"):
+        language_model = model
+
+    if language_model is None or not hasattr(language_model, "layers"):
+        logger.warning("Cannot locate decoder layers for head pruning; skipping.")
+        return
+
+    layers = language_model.layers
+    num_layers = len(layers)
+
+    # ---- Read head layout from the first layer ----
+    first_attn = layers[0].self_attn
+    num_heads = first_attn.num_heads              # total Q heads
+    num_kv_heads = first_attn.num_key_value_heads  # total KV heads
+    head_dim = first_attn.head_dim
+    q_per_group = num_heads // num_kv_heads        # Q heads per KV group
+    num_kv_groups = num_kv_heads                   # 1 group per KV head
+
+    # ---- Build per-layer pruning spec ----
+    # prune_spec[layer_idx] = sorted list of KV group indices to prune
+    prune_spec = {}
+
+    if head_prune_config:
+        # head_prune_config can be a dict or a path to a JSON file
+        if isinstance(head_prune_config, str):
+            with open(head_prune_config, 'r') as f:
+                head_prune_config = json.load(f)
+        for layer_key, groups in head_prune_config.items():
+            l = int(layer_key)
+            if 0 <= l < num_layers:
+                valid = sorted(set(int(g) for g in groups if 0 <= int(g) < num_kv_groups))
+                if valid:
+                    prune_spec[l] = valid
+
+    elif head_prune_n and head_prune_n > 0:
+        # Uniform pruning: prune head_prune_n groups from every layer.
+        # If an importance JSON is attached, use it to select the least important.
+        head_importance = getattr(config, "head_importance", None)
+        if head_importance:
+            if isinstance(head_importance, str):
+                with open(head_importance, 'r') as f:
+                    head_importance = json.load(f)
+            for l in range(num_layers):
+                layer_scores = head_importance.get(str(l), {})
+                # Sort groups by importance (ascending) and take head_prune_n least important
+                ranked = sorted(range(num_kv_groups),
+                                key=lambda g: float(layer_scores.get(str(g), 0.0)))
+                prune_spec[l] = sorted(ranked[:head_prune_n])
+        else:
+            # No importance scores -> prune the last head_prune_n groups from each layer
+            logger.warning(
+                "head_prune_n=%d specified but no importance scores provided; "
+                "pruning the last %d KV groups from every layer.", head_prune_n, head_prune_n
+            )
+            groups_to_prune = list(range(num_kv_groups - head_prune_n, num_kv_groups))
+            for l in range(num_layers):
+                prune_spec[l] = groups_to_prune
+
+    if not prune_spec:
+        return
+
+    logger.info("Applying attention head pruning (KV-group granularity):")
+    for l in sorted(prune_spec.keys()):
+        logger.info(f"  Layer {l}: pruning KV groups {prune_spec[l]}")
+
+    # ---- Prune each specified layer ----
+    for layer_idx, groups_to_prune in prune_spec.items():
+        layer = layers[layer_idx]
+        attn = layer.self_attn
+
+        cur_num_heads = attn.num_heads
+        cur_num_kv_heads = attn.num_key_value_heads
+        cur_q_per_group = cur_num_heads // cur_num_kv_heads
+        cur_num_kv_groups = cur_num_kv_heads
+
+        groups_to_keep = sorted(set(range(cur_num_kv_groups)) - set(groups_to_prune))
+        if len(groups_to_keep) == 0:
+            logger.warning(f"  Layer {layer_idx}: cannot prune all groups; skipping.")
+            continue
+        if len(groups_to_keep) == cur_num_kv_groups:
+            continue  # nothing to prune
+
+        new_num_kv_heads = len(groups_to_keep)
+        new_num_heads = new_num_kv_heads * cur_q_per_group
+
+        # --- q_proj: (cur_num_heads * head_dim, hidden_size) ---
+        old_q_weight = attn.q_proj.weight.data  # (out_features, in_features)
+        hidden_size = old_q_weight.shape[1]
+        keep_q_slices = []
+        for g in groups_to_keep:
+            start = g * cur_q_per_group * head_dim
+            end = (g + 1) * cur_q_per_group * head_dim
+            keep_q_slices.append(old_q_weight[start:end, :])
+        new_q_weight = torch.cat(keep_q_slices, dim=0).clone().contiguous()
+
+        # --- k_proj: (cur_num_kv_heads * head_dim, hidden_size) ---
+        old_k_weight = attn.k_proj.weight.data
+        keep_k_slices = []
+        for g in groups_to_keep:
+            start = g * head_dim
+            end = (g + 1) * head_dim
+            keep_k_slices.append(old_k_weight[start:end, :])
+        new_k_weight = torch.cat(keep_k_slices, dim=0).clone().contiguous()
+
+        # --- v_proj: (cur_num_kv_heads * head_dim, hidden_size) ---
+        old_v_weight = attn.v_proj.weight.data
+        keep_v_slices = []
+        for g in groups_to_keep:
+            start = g * head_dim
+            end = (g + 1) * head_dim
+            keep_v_slices.append(old_v_weight[start:end, :])
+        new_v_weight = torch.cat(keep_v_slices, dim=0).clone().contiguous()
+
+        # --- o_proj: (hidden_size, cur_num_heads * head_dim) ---
+        old_o_weight = attn.o_proj.weight.data
+        keep_o_col_slices = []
+        for g in groups_to_keep:
+            start = g * cur_q_per_group * head_dim
+            end = (g + 1) * cur_q_per_group * head_dim
+            keep_o_col_slices.append(old_o_weight[:, start:end])
+        new_o_weight = torch.cat(keep_o_col_slices, dim=1).clone().contiguous()
+
+        # --- Create new Linear modules ---
+        device = old_q_weight.device
+        dtype = old_q_weight.dtype
+
+        new_q_proj = nn.Linear(hidden_size, new_num_heads * head_dim, bias=False,
+                               device=device, dtype=dtype)
+        new_q_proj.weight.data.copy_(new_q_weight)
+
+        new_k_proj = nn.Linear(hidden_size, new_num_kv_heads * head_dim, bias=False,
+                               device=device, dtype=dtype)
+        new_k_proj.weight.data.copy_(new_k_weight)
+
+        new_v_proj = nn.Linear(hidden_size, new_num_kv_heads * head_dim, bias=False,
+                               device=device, dtype=dtype)
+        new_v_proj.weight.data.copy_(new_v_weight)
+
+        new_o_proj = nn.Linear(new_num_heads * head_dim, hidden_size, bias=False,
+                               device=device, dtype=dtype)
+        new_o_proj.weight.data.copy_(new_o_weight)
+
+        # --- Replace modules on the attention layer ---
+        attn.q_proj = new_q_proj
+        attn.k_proj = new_k_proj
+        attn.v_proj = new_v_proj
+        attn.o_proj = new_o_proj
+
+        # --- Update attention attributes ---
+        attn.num_heads = new_num_heads
+        attn.num_key_value_heads = new_num_kv_heads
+        attn.num_key_value_groups = new_num_heads // new_num_kv_heads
+        # head_dim stays the same
+
+        # --- Contiguity and dimension assertions ---
+        assert new_q_proj.weight.data.is_contiguous(), \
+            f"Layer {layer_idx}: q_proj weight is not contiguous after pruning"
+        assert new_k_proj.weight.data.is_contiguous(), \
+            f"Layer {layer_idx}: k_proj weight is not contiguous after pruning"
+        assert new_v_proj.weight.data.is_contiguous(), \
+            f"Layer {layer_idx}: v_proj weight is not contiguous after pruning"
+        assert new_o_proj.weight.data.is_contiguous(), \
+            f"Layer {layer_idx}: o_proj weight is not contiguous after pruning"
+        assert new_q_proj.weight.shape[0] == attn.num_heads * attn.head_dim, \
+            f"Layer {layer_idx}: q_proj shape mismatch after pruning"
+        assert new_k_proj.weight.shape[0] == attn.num_key_value_heads * attn.head_dim, \
+            f"Layer {layer_idx}: k_proj shape mismatch after pruning"
+        assert new_o_proj.weight.shape[1] == attn.num_heads * attn.head_dim, \
+            f"Layer {layer_idx}: o_proj column dim mismatch after pruning"
+        assert attn.num_heads % attn.num_key_value_heads == 0, \
+            f"Layer {layer_idx}: GQA grouping broken after pruning"
+
+        logger.info(
+            f"  Layer {layer_idx} pruned: {cur_num_heads} -> {new_num_heads} Q-heads, "
+            f"{cur_num_kv_heads} -> {new_num_kv_heads} KV-heads"
+        )
+
+
 class Qwen3VLForConditionalGeneration(PreTrainedModel):
     """
     Qwen3-VL model wrapper for VLM2Vec.
@@ -190,6 +402,9 @@ class Qwen3VLForConditionalGeneration(PreTrainedModel):
 
         # Apply VLM2Vec layer-deletion knobs (delete_L/delete_n) for Qwen3-VL.
         _apply_delete_layers_if_needed(model=model, config=config)
+
+        # Apply attention head pruning (KV-group granularity) after layer deletion.
+        _apply_prune_heads_if_needed(model=model, config=config)
         
         # For now, directly return the model since it already implements the required interface
         # This avoids PyTorch's attribute setting restrictions
