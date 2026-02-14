@@ -332,6 +332,160 @@ def _apply_prune_heads_if_needed(model: PreTrainedModel, config) -> None:
         )
 
 
+def _apply_prune_mlp_if_needed(model: PreTrainedModel, config) -> None:
+    """
+    Structured pruning of MLP intermediate neurons for Qwen3-VL (SwiGLU).
+
+    Each MLP layer has:
+      gate_proj: Linear(hidden_size, intermediate_size)  # weight (intermediate_size, hidden_size)
+      up_proj:   Linear(hidden_size, intermediate_size)  # weight (intermediate_size, hidden_size)
+      down_proj: Linear(intermediate_size, hidden_size)  # weight (hidden_size, intermediate_size)
+
+    Pruning removes intermediate neurons (rows of gate/up_proj, columns of down_proj)
+    based on importance scores. New nn.Linear modules are created to ensure contiguous
+    weight tensors (no vector fragmentation).
+
+    Config attributes read:
+      - mlp_prune_ratio: float (0~1), fraction of intermediate neurons to prune
+      - mlp_importance: dict {str(layer_idx): [neuron_scores]} or None
+    """
+    mlp_prune_ratio = getattr(config, "mlp_prune_ratio", 0.0)
+
+    if mlp_prune_ratio is None or mlp_prune_ratio <= 0.0:
+        return
+
+    if mlp_prune_ratio >= 1.0:
+        logger.warning("mlp_prune_ratio >= 1.0 would remove all MLP neurons; skipping.")
+        return
+
+    # ---- Locate language model layers ----
+    language_model = None
+    if hasattr(model, "model") and hasattr(getattr(model, "model"), "language_model"):
+        language_model = getattr(model, "model").language_model
+    elif hasattr(model, "language_model"):
+        language_model = getattr(model, "language_model")
+    elif hasattr(model, "model") and hasattr(getattr(model, "model"), "layers"):
+        language_model = getattr(model, "model")
+    elif hasattr(model, "layers"):
+        language_model = model
+
+    if language_model is None or not hasattr(language_model, "layers"):
+        logger.warning("Cannot locate decoder layers for MLP pruning; skipping.")
+        return
+
+    layers = language_model.layers
+    num_layers = len(layers)
+
+    # ---- Load importance scores ----
+    mlp_importance = getattr(config, "mlp_importance", None)
+    if mlp_importance is not None and isinstance(mlp_importance, str):
+        with open(mlp_importance, 'r') as f:
+            mlp_importance = json.load(f)
+
+    if mlp_importance is None:
+        logger.warning(
+            "mlp_prune_ratio=%.3f specified but no mlp_importance scores provided; "
+            "pruning the last N intermediate neurons (arbitrary) from each layer.",
+            mlp_prune_ratio
+        )
+
+    # ---- Prune each layer's MLP ----
+    first_mlp = layers[0].mlp
+    original_intermediate_size = first_mlp.gate_proj.weight.shape[0]  # (intermediate_size, hidden_size)
+    new_intermediate_size = round(original_intermediate_size * (1.0 - mlp_prune_ratio))
+    if new_intermediate_size <= 0:
+        logger.warning("MLP pruning would remove all neurons; skipping.")
+        return
+
+    logger.info(
+        "Applying MLP pruning: ratio=%.3f, intermediate_size %d -> %d (removing %d neurons/layer)",
+        mlp_prune_ratio, original_intermediate_size, new_intermediate_size,
+        original_intermediate_size - new_intermediate_size
+    )
+
+    for layer_idx in range(num_layers):
+        layer = layers[layer_idx]
+        mlp = layer.mlp
+
+        cur_intermediate_size = mlp.gate_proj.weight.shape[0]
+
+        # Determine which neurons to keep
+        if mlp_importance is not None and str(layer_idx) in mlp_importance:
+            scores = mlp_importance[str(layer_idx)]
+            if len(scores) != cur_intermediate_size:
+                logger.warning(
+                    f"  Layer {layer_idx}: importance scores length ({len(scores)}) != "
+                    f"intermediate_size ({cur_intermediate_size}); using arbitrary pruning."
+                )
+                keep_indices = list(range(new_intermediate_size))
+            else:
+                # Sort neuron indices by importance descending, keep top-K
+                indexed_scores = list(enumerate(scores))
+                indexed_scores.sort(key=lambda x: x[1], reverse=True)
+                keep_indices = sorted([idx for idx, _ in indexed_scores[:new_intermediate_size]])
+        else:
+            # No importance for this layer: keep first new_intermediate_size neurons
+            keep_indices = list(range(new_intermediate_size))
+
+        keep_indices_tensor = torch.tensor(keep_indices, dtype=torch.long)
+
+        # ---- gate_proj: weight shape (intermediate_size, hidden_size) -> keep rows ----
+        old_gate_weight = mlp.gate_proj.weight.data
+        hidden_size = old_gate_weight.shape[1]
+        new_gate_weight = old_gate_weight[keep_indices_tensor, :].clone().contiguous()
+
+        # ---- up_proj: weight shape (intermediate_size, hidden_size) -> keep rows ----
+        old_up_weight = mlp.up_proj.weight.data
+        new_up_weight = old_up_weight[keep_indices_tensor, :].clone().contiguous()
+
+        # ---- down_proj: weight shape (hidden_size, intermediate_size) -> keep columns ----
+        old_down_weight = mlp.down_proj.weight.data
+        new_down_weight = old_down_weight[:, keep_indices_tensor].clone().contiguous()
+
+        # ---- Create new Linear modules ----
+        device = old_gate_weight.device
+        dtype = old_gate_weight.dtype
+
+        new_gate_proj = nn.Linear(hidden_size, new_intermediate_size, bias=False,
+                                  device=device, dtype=dtype)
+        new_gate_proj.weight.data.copy_(new_gate_weight)
+
+        new_up_proj = nn.Linear(hidden_size, new_intermediate_size, bias=False,
+                                device=device, dtype=dtype)
+        new_up_proj.weight.data.copy_(new_up_weight)
+
+        new_down_proj = nn.Linear(new_intermediate_size, hidden_size, bias=False,
+                                  device=device, dtype=dtype)
+        new_down_proj.weight.data.copy_(new_down_weight)
+
+        # ---- Replace modules on the MLP layer ----
+        mlp.gate_proj = new_gate_proj
+        mlp.up_proj = new_up_proj
+        mlp.down_proj = new_down_proj
+
+        # ---- Update intermediate_size attribute if present ----
+        if hasattr(mlp, 'intermediate_size'):
+            mlp.intermediate_size = new_intermediate_size
+
+        # ---- Contiguity and dimension assertions ----
+        assert new_gate_proj.weight.data.is_contiguous(), \
+            f"Layer {layer_idx}: gate_proj weight is not contiguous after MLP pruning"
+        assert new_up_proj.weight.data.is_contiguous(), \
+            f"Layer {layer_idx}: up_proj weight is not contiguous after MLP pruning"
+        assert new_down_proj.weight.data.is_contiguous(), \
+            f"Layer {layer_idx}: down_proj weight is not contiguous after MLP pruning"
+        assert new_gate_proj.weight.shape == (new_intermediate_size, hidden_size), \
+            f"Layer {layer_idx}: gate_proj shape mismatch after MLP pruning"
+        assert new_up_proj.weight.shape == (new_intermediate_size, hidden_size), \
+            f"Layer {layer_idx}: up_proj shape mismatch after MLP pruning"
+        assert new_down_proj.weight.shape == (hidden_size, new_intermediate_size), \
+            f"Layer {layer_idx}: down_proj shape mismatch after MLP pruning"
+
+        logger.info(
+            f"  Layer {layer_idx} MLP pruned: intermediate_size {cur_intermediate_size} -> {new_intermediate_size}"
+        )
+
+
 class Qwen3VLForConditionalGeneration(PreTrainedModel):
     """
     Qwen3-VL model wrapper for VLM2Vec.
@@ -405,6 +559,9 @@ class Qwen3VLForConditionalGeneration(PreTrainedModel):
 
         # Apply attention head pruning (KV-group granularity) after layer deletion.
         _apply_prune_heads_if_needed(model=model, config=config)
+
+        # Apply MLP intermediate neuron pruning after head pruning.
+        _apply_prune_mlp_if_needed(model=model, config=config)
         
         # For now, directly return the model since it already implements the required interface
         # This avoids PyTorch's attribute setting restrictions

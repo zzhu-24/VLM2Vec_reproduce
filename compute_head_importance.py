@@ -1,13 +1,16 @@
 """
-Compute attention head importance scores for Qwen3-VL LLM decoder layers.
+Compute attention head AND MLP neuron importance scores for Qwen3-VL LLM decoder layers.
 
-Uses Taylor importance (Michel et al., 2019): importance(l, g) = mean(||h_g * grad(h_g)||_1)
-where h_g is the concatenated output of all Q heads in a KV group.
+Uses Taylor importance (Michel et al., 2019): importance = mean(|activation * gradient|)
+
+- Attention heads: scored per KV-group via hooks on o_proj input
+- MLP neurons: scored per intermediate neuron via hooks on down_proj input
 
 Outputs:
-  - A JSON file with per-layer per-KV-group importance scores
-  - A heatmap PNG visualization (layers x KV groups)
-  - An optional global ranking bar chart
+  - head_importance.json   -- per-layer per-KV-group importance scores
+  - mlp_importance.json    -- per-layer per-neuron importance scores
+  - head_importance_heatmap.png, head_importance_ranking.png
+  - mlp_importance_heatmap.png, mlp_importance_boxplot.png
 """
 
 import argparse
@@ -74,6 +77,13 @@ def _get_attn_module(decoder_layer):
     if hasattr(decoder_layer, 'self_attn'):
         return decoder_layer.self_attn
     raise RuntimeError(f"Cannot find self_attn in {type(decoder_layer)}")
+
+
+def _get_mlp_module(decoder_layer):
+    """Return the MLP sub-module from a decoder layer."""
+    if hasattr(decoder_layer, 'mlp'):
+        return decoder_layer.mlp
+    raise RuntimeError(f"Cannot find mlp in {type(decoder_layer)}")
 
 
 # ---------------------------------------------------------------------------
@@ -157,6 +167,70 @@ class HeadImportanceAccumulator:
         total_backward_calls = self.importance.sum()
         if self.num_samples > 0:
             # Each backward triggers num_layers hooks, each adding B to num_samples
+            effective_samples = self.num_samples / self.num_layers
+            self.importance /= max(effective_samples, 1.0)
+        return self.importance
+
+    def remove_hooks(self):
+        for h in self.hooks:
+            h.remove()
+        self.hooks.clear()
+
+
+class MlpImportanceAccumulator:
+    """
+    Registers forward + backward hooks on the *down_proj* of each decoder
+    layer's MLP.  The input to down_proj has shape (B, S, intermediate_size)
+    and represents the SwiGLU-gated intermediate activations.
+
+    Taylor importance per neuron n: importance(l, n) = sum(|act_n * grad_n|)
+    """
+
+    def __init__(self, layers: nn.ModuleList):
+        self.num_layers = len(layers)
+        self.hooks = []
+        self.activations = {}  # layer_idx -> tensor
+
+        # Discover intermediate_size from first layer
+        mlp0 = _get_mlp_module(layers[0])
+        self.intermediate_size = mlp0.down_proj.in_features
+        self.importance = np.zeros((self.num_layers, self.intermediate_size), dtype=np.float64)
+        self.num_samples = 0
+
+        for layer_idx, layer in enumerate(layers):
+            mlp = _get_mlp_module(layer)
+            h_fwd = mlp.down_proj.register_forward_hook(
+                self._make_fwd_hook(layer_idx)
+            )
+            h_bwd = mlp.down_proj.register_full_backward_hook(
+                self._make_bwd_hook(layer_idx)
+            )
+            self.hooks.extend([h_fwd, h_bwd])
+
+    def _make_fwd_hook(self, layer_idx):
+        def hook_fn(module, inp, out):
+            # inp[0] shape: (B, S, intermediate_size)
+            self.activations[layer_idx] = inp[0].detach()
+        return hook_fn
+
+    def _make_bwd_hook(self, layer_idx):
+        def hook_fn(module, grad_input, grad_output):
+            act = self.activations.get(layer_idx)
+            grad = grad_input[0]
+            if act is None or grad is None:
+                return
+            # Taylor importance per neuron: |act * grad|, summed over batch & seq
+            taylor = (act.float() * grad.float()).abs()  # (B, S, intermediate_size)
+            neuron_importance = taylor.sum(dim=(0, 1)).cpu().numpy()  # (intermediate_size,)
+            self.importance[layer_idx] += neuron_importance
+            self.num_samples += taylor.shape[0]  # B
+
+            del self.activations[layer_idx]
+        return hook_fn
+
+    def finalize(self):
+        """Average accumulated importance over samples."""
+        if self.num_samples > 0:
             effective_samples = self.num_samples / self.num_layers
             self.importance /= max(effective_samples, 1.0)
         return self.importance
@@ -262,6 +336,122 @@ def print_importance_table(importance: np.ndarray):
     print('=' * len(header) + '\n')
 
 
+# -- MLP visualization functions ------------------------------------------
+
+def plot_mlp_heatmap(importance: np.ndarray, output_path: str, bin_size: int = 128):
+    """
+    Generate a heatmap of MLP neuron importance, binned for readability.
+    importance shape: (num_layers, intermediate_size)
+    """
+    try:
+        import matplotlib
+        matplotlib.use('Agg')
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+    except ImportError:
+        logger.warning("matplotlib / seaborn not installed; skipping MLP heatmap.")
+        return
+
+    num_layers, intermediate_size = importance.shape
+    num_bins = (intermediate_size + bin_size - 1) // bin_size
+
+    # Aggregate neuron importance into bins (mean within each bin)
+    binned = np.zeros((num_layers, num_bins), dtype=np.float64)
+    for b in range(num_bins):
+        start = b * bin_size
+        end = min(start + bin_size, intermediate_size)
+        binned[:, b] = importance[:, start:end].mean(axis=1)
+
+    # Normalize to [0, 1]
+    vmin, vmax = binned.min(), binned.max()
+    if vmax - vmin < 1e-12:
+        norm_binned = np.zeros_like(binned)
+    else:
+        norm_binned = (binned - vmin) / (vmax - vmin)
+
+    fig, ax = plt.subplots(figsize=(max(12, num_bins * 0.25), max(6, num_layers * 0.5)))
+    sns.heatmap(
+        norm_binned,
+        cmap='YlOrRd',
+        xticklabels=[f'{b * bin_size}' for b in range(num_bins)],
+        yticklabels=[f'L{i}' for i in range(num_layers)],
+        ax=ax,
+        vmin=0, vmax=1,
+        linewidths=0.3,
+    )
+    ax.set_xlabel(f'Neuron Bin (each bin = {bin_size} neurons)')
+    ax.set_ylabel('Layer Index (post layer-deletion)')
+    ax.set_title('MLP Neuron Importance (Taylor, binned & normalized)')
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150)
+    plt.close()
+    logger.info(f"MLP heatmap saved to {output_path}")
+
+
+def plot_mlp_boxplot(importance: np.ndarray, output_path: str):
+    """
+    Box-plot showing distribution of MLP neuron importance per layer.
+    """
+    try:
+        import matplotlib
+        matplotlib.use('Agg')
+        import matplotlib.pyplot as plt
+    except ImportError:
+        logger.warning("matplotlib not installed; skipping MLP boxplot.")
+        return
+
+    num_layers = importance.shape[0]
+    fig, ax = plt.subplots(figsize=(max(10, num_layers * 0.8), 6))
+
+    data_for_box = [importance[l, :] for l in range(num_layers)]
+    bp = ax.boxplot(data_for_box, vert=True, patch_artist=True, showfliers=False)
+
+    # Color boxes by median importance
+    medians = [np.median(d) for d in data_for_box]
+    med_min, med_max = min(medians), max(medians)
+    cmap = plt.cm.YlOrRd
+    for i, patch in enumerate(bp['boxes']):
+        if med_max - med_min > 1e-12:
+            norm_val = (medians[i] - med_min) / (med_max - med_min)
+        else:
+            norm_val = 0.5
+        patch.set_facecolor(cmap(norm_val))
+
+    ax.set_xticklabels([f'L{l}' for l in range(num_layers)])
+    ax.set_xlabel('Layer')
+    ax.set_ylabel('Neuron Importance (Taylor)')
+    ax.set_title('MLP Neuron Importance Distribution per Layer')
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150)
+    plt.close()
+    logger.info(f"MLP boxplot saved to {output_path}")
+
+
+def print_mlp_importance_summary(importance: np.ndarray, prune_ratios=(0.10, 0.25, 0.50)):
+    """Print summary statistics for MLP neuron importance."""
+    num_layers, intermediate_size = importance.shape
+    print('\n' + '=' * 80)
+    print('  MLP Neuron Importance Summary (Taylor)')
+    print('=' * 80)
+    print(f'  Layers: {num_layers}, Intermediate size: {intermediate_size}')
+    print('-' * 80)
+    header = f'  {"Layer":<8s} {"Mean":>10s} {"Std":>10s} {"Min":>10s} {"Max":>10s}'
+    for r in prune_ratios:
+        header += f' {"Thr@" + str(int(r*100)) + "%":>10s}'
+    print(header)
+    print('-' * 80)
+    for l in range(num_layers):
+        row_scores = importance[l]
+        sorted_scores = np.sort(row_scores)
+        line = f'  L{l:<6d} {row_scores.mean():>10.4f} {row_scores.std():>10.4f} {row_scores.min():>10.4f} {row_scores.max():>10.4f}'
+        for r in prune_ratios:
+            n_prune = int(intermediate_size * r)
+            threshold = sorted_scores[n_prune] if n_prune < intermediate_size else sorted_scores[-1]
+            line += f' {threshold:>10.4f}'
+        print(line)
+    print('=' * 80 + '\n')
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -339,8 +529,10 @@ def main():
     logger.info(f"  num_heads={attn0.num_heads}, num_kv_heads={attn0.num_key_value_heads}, "
                 f"head_dim={attn0.head_dim}, q_per_group={attn0.num_heads // attn0.num_key_value_heads}")
 
-    # ---- Setup importance accumulator ----
-    accumulator = HeadImportanceAccumulator(layers)
+    # ---- Setup importance accumulators (head + MLP) ----
+    head_accumulator = HeadImportanceAccumulator(layers)
+    mlp_accumulator = MlpImportanceAccumulator(layers)
+    logger.info(f"  MLP intermediate_size={mlp_accumulator.intermediate_size}")
 
     # ---- Load processor and data ----
     data_args = DataArguments(
@@ -473,7 +665,8 @@ def main():
             model.zero_grad()
 
     model.eval()
-    accumulator.remove_hooks()
+    head_accumulator.remove_hooks()
+    mlp_accumulator.remove_hooks()
 
     if num_processed == 0:
         logger.error("No batches were successfully processed. Cannot compute importance.")
@@ -481,38 +674,51 @@ def main():
 
     logger.info(f"Successfully processed {num_processed} batches")
 
-    # ---- Finalize and output ----
-    importance = accumulator.finalize()
+    # ---- Finalize head importance ----
+    head_importance = head_accumulator.finalize()
+    print_importance_table(head_importance)
 
-    # Print text table
-    print_importance_table(importance)
-
-    # Save JSON
+    # Save head importance JSON
     json_path = os.path.join(args.output_dir, 'head_importance.json')
-    importance_dict = {}
-    for l in range(importance.shape[0]):
-        importance_dict[str(l)] = {}
-        for g in range(importance.shape[1]):
-            importance_dict[str(l)][str(g)] = float(importance[l, g])
+    head_importance_dict = {}
+    for l in range(head_importance.shape[0]):
+        head_importance_dict[str(l)] = {}
+        for g in range(head_importance.shape[1]):
+            head_importance_dict[str(l)][str(g)] = float(head_importance[l, g])
     with open(json_path, 'w') as f:
-        json.dump(importance_dict, f, indent=2)
-    logger.info(f"Importance scores saved to {json_path}")
+        json.dump(head_importance_dict, f, indent=2)
+    logger.info(f"Head importance scores saved to {json_path}")
 
-    # Save heatmap
-    heatmap_path = os.path.join(args.output_dir, 'head_importance_heatmap.png')
-    plot_heatmap(importance, heatmap_path)
+    # Save head heatmap & ranking
+    plot_heatmap(head_importance, os.path.join(args.output_dir, 'head_importance_heatmap.png'))
+    plot_global_ranking(head_importance, os.path.join(args.output_dir, 'head_importance_ranking.png'))
 
-    # Save global ranking chart
-    ranking_path = os.path.join(args.output_dir, 'head_importance_ranking.png')
-    plot_global_ranking(importance, ranking_path)
-
-    # Print summary: least important groups
-    flat = [(l, g, importance[l, g]) for l in range(importance.shape[0]) for g in range(importance.shape[1])]
+    # Print least important KV groups
+    flat = [(l, g, head_importance[l, g])
+            for l in range(head_importance.shape[0])
+            for g in range(head_importance.shape[1])]
     flat.sort(key=lambda x: x[2])
     print("\n--- Least important KV groups (candidates for pruning) ---")
     for rank, (l, g, score) in enumerate(flat[:20]):
         print(f"  #{rank+1:>3d}  Layer {l}, Group {g}  (score={score:.6f})")
     print()
+
+    # ---- Finalize MLP importance ----
+    mlp_importance = mlp_accumulator.finalize()
+    print_mlp_importance_summary(mlp_importance)
+
+    # Save MLP importance JSON: {layer_idx: [neuron_0_score, ..., neuron_N_score]}
+    mlp_json_path = os.path.join(args.output_dir, 'mlp_importance.json')
+    mlp_importance_dict = {}
+    for l in range(mlp_importance.shape[0]):
+        mlp_importance_dict[str(l)] = [float(v) for v in mlp_importance[l]]
+    with open(mlp_json_path, 'w') as f:
+        json.dump(mlp_importance_dict, f, indent=2)
+    logger.info(f"MLP importance scores saved to {mlp_json_path}")
+
+    # Save MLP heatmap (binned) & boxplot
+    plot_mlp_heatmap(mlp_importance, os.path.join(args.output_dir, 'mlp_importance_heatmap.png'))
+    plot_mlp_boxplot(mlp_importance, os.path.join(args.output_dir, 'mlp_importance_boxplot.png'))
 
 
 if __name__ == '__main__':

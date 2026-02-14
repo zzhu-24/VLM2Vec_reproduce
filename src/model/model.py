@@ -240,6 +240,15 @@ class MMEBModel(nn.Module):
             config.head_prune_config = None
         config.head_prune_n = getattr(model_args, 'head_prune_n', 0)
 
+        # MLP pruning config
+        config.mlp_prune_ratio = getattr(model_args, 'mlp_prune_ratio', 0.0)
+        if hasattr(model_args, 'mlp_importance_path') and model_args.mlp_importance_path:
+            import json as _json_mlp
+            with open(model_args.mlp_importance_path, 'r') as f:
+                config.mlp_importance = _json_mlp.load(f)
+        else:
+            config.mlp_importance = None
+
         # Loading the base model
         # if model_backbone == PHI3V:
         #     config._attn_implementation = "eager"
@@ -392,6 +401,15 @@ class MMEBModel(nn.Module):
             else:
                 config.head_prune_config = None
             config.head_prune_n = getattr(model_args, 'head_prune_n', 0)
+
+            # MLP pruning config
+            config.mlp_prune_ratio = getattr(model_args, 'mlp_prune_ratio', 0.0)
+            if hasattr(model_args, 'mlp_importance_path') and model_args.mlp_importance_path:
+                import json as _json_mlp
+                with open(model_args.mlp_importance_path, 'r') as f:
+                    config.mlp_importance = _json_mlp.load(f)
+            else:
+                config.mlp_importance = None
             
             base_model = backbone2model[model_args.model_backbone].from_pretrained(
                 model_args.model_name,
