@@ -79,6 +79,44 @@ def _get_attn_module(decoder_layer):
     raise RuntimeError(f"Cannot find self_attn in {type(decoder_layer)}")
 
 
+def _get_attn_head_info(attn):
+    """
+    Get (num_heads, num_kv_heads, head_dim) from an attention module.
+    Handles different attribute naming across transformers versions:
+      - Some store attn.num_heads / attn.num_key_value_heads directly
+      - Newer Qwen3VLTextAttention stores them only in attn.config
+    Falls back to deriving from weight shapes.
+    """
+    # head_dim
+    head_dim = getattr(attn, 'head_dim', None)
+    if head_dim is None:
+        cfg = getattr(attn, 'config', None)
+        if cfg:
+            head_dim = getattr(cfg, 'head_dim', None)
+            if head_dim is None:
+                head_dim = cfg.hidden_size // cfg.num_attention_heads
+
+    # num_heads (total Q heads)
+    num_heads = getattr(attn, 'num_heads', None)
+    if num_heads is None:
+        cfg = getattr(attn, 'config', None)
+        if cfg:
+            num_heads = getattr(cfg, 'num_attention_heads', None)
+    if num_heads is None and head_dim:
+        num_heads = attn.q_proj.weight.shape[0] // head_dim
+
+    # num_kv_heads
+    num_kv_heads = getattr(attn, 'num_key_value_heads', None)
+    if num_kv_heads is None:
+        cfg = getattr(attn, 'config', None)
+        if cfg:
+            num_kv_heads = getattr(cfg, 'num_key_value_heads', None)
+    if num_kv_heads is None and head_dim:
+        num_kv_heads = attn.k_proj.weight.shape[0] // head_dim
+
+    return num_heads, num_kv_heads, head_dim
+
+
 def _get_mlp_module(decoder_layer):
     """Return the MLP sub-module from a decoder layer."""
     if hasattr(decoder_layer, 'mlp'):
@@ -109,9 +147,7 @@ class HeadImportanceAccumulator:
 
         # Inspect first layer to discover head layout
         attn0 = _get_attn_module(layers[0])
-        self.num_heads = attn0.num_heads
-        self.num_kv_heads = attn0.num_key_value_heads
-        self.head_dim = attn0.head_dim
+        self.num_heads, self.num_kv_heads, self.head_dim = _get_attn_head_info(attn0)
         self.q_per_group = self.num_heads // self.num_kv_heads
         self.num_kv_groups = self.num_kv_heads  # one group per KV head
 
@@ -525,9 +561,10 @@ def main():
     layers, lm = _get_language_model_layers(model)
     num_layers = len(layers)
     attn0 = _get_attn_module(layers[0])
+    _num_heads, _num_kv_heads, _head_dim = _get_attn_head_info(attn0)
     logger.info(f"Found {num_layers} decoder layers after layer deletion")
-    logger.info(f"  num_heads={attn0.num_heads}, num_kv_heads={attn0.num_key_value_heads}, "
-                f"head_dim={attn0.head_dim}, q_per_group={attn0.num_heads // attn0.num_key_value_heads}")
+    logger.info(f"  num_heads={_num_heads}, num_kv_heads={_num_kv_heads}, "
+                f"head_dim={_head_dim}, q_per_group={_num_heads // _num_kv_heads}")
 
     # ---- Setup importance accumulators (head + MLP) ----
     head_accumulator = HeadImportanceAccumulator(layers)

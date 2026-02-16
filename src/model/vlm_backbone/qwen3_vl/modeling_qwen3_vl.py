@@ -166,9 +166,13 @@ def _apply_prune_heads_if_needed(model: PreTrainedModel, config) -> None:
 
     # ---- Read head layout from the first layer ----
     first_attn = layers[0].self_attn
-    num_heads = first_attn.num_heads              # total Q heads
-    num_kv_heads = first_attn.num_key_value_heads  # total KV heads
-    head_dim = first_attn.head_dim
+    head_dim = getattr(first_attn, 'head_dim', None)
+    if head_dim is None:
+        text_cfg = getattr(config, 'text_config', config)
+        head_dim = getattr(text_cfg, 'head_dim', None) or (text_cfg.hidden_size // text_cfg.num_attention_heads)
+    # Derive num_heads and num_kv_heads from weight shapes (works across transformers versions)
+    num_heads = first_attn.q_proj.weight.shape[0] // head_dim
+    num_kv_heads = first_attn.k_proj.weight.shape[0] // head_dim
     q_per_group = num_heads // num_kv_heads        # Q heads per KV group
     num_kv_groups = num_kv_heads                   # 1 group per KV head
 
@@ -224,8 +228,8 @@ def _apply_prune_heads_if_needed(model: PreTrainedModel, config) -> None:
         layer = layers[layer_idx]
         attn = layer.self_attn
 
-        cur_num_heads = attn.num_heads
-        cur_num_kv_heads = attn.num_key_value_heads
+        cur_num_heads = attn.q_proj.weight.shape[0] // head_dim
+        cur_num_kv_heads = attn.k_proj.weight.shape[0] // head_dim
         cur_q_per_group = cur_num_heads // cur_num_kv_heads
         cur_num_kv_groups = cur_num_kv_heads
 
@@ -317,13 +321,13 @@ def _apply_prune_heads_if_needed(model: PreTrainedModel, config) -> None:
             f"Layer {layer_idx}: v_proj weight is not contiguous after pruning"
         assert new_o_proj.weight.data.is_contiguous(), \
             f"Layer {layer_idx}: o_proj weight is not contiguous after pruning"
-        assert new_q_proj.weight.shape[0] == attn.num_heads * attn.head_dim, \
+        assert new_q_proj.weight.shape[0] == new_num_heads * head_dim, \
             f"Layer {layer_idx}: q_proj shape mismatch after pruning"
-        assert new_k_proj.weight.shape[0] == attn.num_key_value_heads * attn.head_dim, \
+        assert new_k_proj.weight.shape[0] == new_num_kv_heads * head_dim, \
             f"Layer {layer_idx}: k_proj shape mismatch after pruning"
-        assert new_o_proj.weight.shape[1] == attn.num_heads * attn.head_dim, \
+        assert new_o_proj.weight.shape[1] == new_num_heads * head_dim, \
             f"Layer {layer_idx}: o_proj column dim mismatch after pruning"
-        assert attn.num_heads % attn.num_key_value_heads == 0, \
+        assert new_num_heads % new_num_kv_heads == 0, \
             f"Layer {layer_idx}: GQA grouping broken after pruning"
 
         logger.info(
