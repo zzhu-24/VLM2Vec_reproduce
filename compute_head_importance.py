@@ -602,9 +602,8 @@ def main():
         if batch_idx >= args.num_calibration_batches:
             break
 
-        # The collator returns a dict with 'qry' and 'tgt' keys
-        qry = batch.get('qry')
-        tgt = batch.get('tgt')
+        # The collator returns (qry_dict, pos_dict) tuple
+        qry, tgt = batch
 
         if qry is None and tgt is None:
             continue
@@ -632,8 +631,47 @@ def main():
             continue
 
         # Remove non-model keys
-        for k in ['texts', 'images']:
+        for k in ['texts', 'images', 'global_dataset_name']:
             inputs.pop(k, None)
+
+        # Convert list-form pixel_values / image_grid_thw to tensors
+        # (Qwen3-VL collator keeps them as lists because samples have different image counts)
+        def _consolidate_visual_inputs(inp):
+            for pv_key, grid_key in [('pixel_values', 'image_grid_thw'),
+                                      ('pixel_values_videos', 'video_grid_thw')]:
+                if pv_key in inp and isinstance(inp[pv_key], list):
+                    bsz = inp['input_ids'].shape[0]
+                    idx_with_visual = [
+                        i for i in range(bsz)
+                        if inp[pv_key][i] is not None and (
+                            grid_key not in inp or not isinstance(inp.get(grid_key), list)
+                            or inp[grid_key][i] is not None
+                        )
+                    ]
+                    if len(idx_with_visual) > 0:
+                        valid_pv = [
+                            inp[pv_key][i] if isinstance(inp[pv_key][i], torch.Tensor)
+                            else torch.from_numpy(inp[pv_key][i])
+                            for i in idx_with_visual
+                        ]
+                        inp[pv_key] = torch.cat(valid_pv, dim=0).to(inp['input_ids'].device)
+                        if grid_key in inp and isinstance(inp[grid_key], list):
+                            valid_grid = [
+                                inp[grid_key][i] if isinstance(inp[grid_key][i], torch.Tensor)
+                                else torch.from_numpy(inp[grid_key][i])
+                                for i in idx_with_visual
+                            ]
+                            inp[grid_key] = torch.cat(valid_grid, dim=0).to(inp['input_ids'].device)
+                    else:
+                        inp[pv_key] = None
+                        if grid_key in inp:
+                            inp[grid_key] = None
+            # Remove None-valued visual keys so model forward doesn't choke
+            for key in ['pixel_values', 'image_grid_thw', 'pixel_values_videos', 'video_grid_thw']:
+                if key in inp and inp[key] is None:
+                    del inp[key]
+
+        _consolidate_visual_inputs(inputs)
 
         try:
             # Forward pass with gradient computation
