@@ -6,6 +6,7 @@
 #     image_dir: vlm2vec_train/MMEB-train/image
 #     num_sample_per_subset: 100000
 #     weight: 1
+<<<<<<< Updated upstream
 # N24News:
 #     dataset_parser: mmeb
 #     dataset_name: TIGER-Lab/MMEB-train
@@ -14,12 +15,26 @@
 #     image_dir: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train/image
 #     num_sample_per_subset: 50000
 #     weight: 1
+=======
+N24News:
+    dataset_parser: mmeb
+    dataset_name: TIGER-Lab/MMEB-train
+    subset_name: N24News
+    dataset_split: original
+    image_dir: vlm2vec_train/MMEB-train/image
+    num_sample_per_subset: 50000
+    weight: 1
+>>>>>>> Stashed changes
 # HatefulMemes:
 #     dataset_parser: mmeb
 #     dataset_name: TIGER-Lab/MMEB-train
 #     subset_name: HatefulMemes
 #     dataset_split: original
+<<<<<<< Updated upstream
 #     image_dir: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train/image
+=======
+#     image_dir: vlm2vec_train/MMEB-train/image
+>>>>>>> Stashed changes
 #     num_sample_per_subset: 10000
 #     weight: 1
 # VOC2007:
@@ -102,6 +117,7 @@
 #     image_dir: vlm2vec_train/MMEB-train/image
 #     num_sample_per_subset: 30000
 #     weight: 1
+<<<<<<< Updated upstream
 VisualNews_t2i:
     dataset_parser: mmeb
     dataset_name: TIGER-Lab/MMEB-train
@@ -134,6 +150,40 @@ MSCOCO_i2t:
     image_dir: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train/image
     num_sample_per_subset: 120000
     weight: 1
+=======
+# VisualNews_t2i:
+#     dataset_parser: mmeb
+#     dataset_name: TIGER-Lab/MMEB-train
+#     subset_name: VisualNews_t2i
+#     dataset_split: original
+#     image_dir: vlm2vec_train/MMEB-train/image
+#     num_sample_per_subset: 100000
+#     weight: 1
+# VisualNews_i2t:
+#     dataset_parser: mmeb
+#     dataset_name: TIGER-Lab/MMEB-train
+#     subset_name: VisualNews_i2t
+#     dataset_split: original
+#     image_dir: vlm2vec_train/MMEB-train/image
+#     num_sample_per_subset: 100000
+#     weight: 1
+# MSCOCO_t2i:
+#     dataset_parser: mmeb
+#     dataset_name: TIGER-Lab/MMEB-train
+#     subset_name: MSCOCO_t2i
+#     dataset_split: original
+#     image_dir: vlm2vec_train/MMEB-train/image
+#     num_sample_per_subset: 100000
+#     weight: 1
+# MSCOCO_i2t:
+#     dataset_parser: mmeb
+#     dataset_name: TIGER-Lab/MMEB-train
+#     subset_name: MSCOCO_i2t
+#     dataset_split: original
+#     image_dir: vlm2vec_train/MMEB-train/image
+#     num_sample_per_subset: 120000
+#     weight: 1
+>>>>>>> Stashed changes
 # NIGHTS:
 #     dataset_parser: mmeb
 #     dataset_name: TIGER-Lab/MMEB-train

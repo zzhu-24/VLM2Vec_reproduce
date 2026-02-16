@@ -22,7 +22,7 @@ export WANDB_PROJECT=vlm2vec_train
 export WANDB_API_KEY=151b985aec8f2669c89875abb20b1c822ecdb9ad
 # export HUGGING_FACE_HUB_TOKEN=...
 # export WANDB_PROJECT=...
-export WANDB_RUN_GROUP=16Feb_Qwen3VL4B_28_14_mlp05
+export WANDB_RUN_GROUP=16Feb_Qwen3VL4B_28_14_mlp05_sh
 export MODEL_NAME=Qwen/Qwen3-VL-4B-Instruct
 export DATASET_CONFIG_PATH=/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/train_image.yaml
 

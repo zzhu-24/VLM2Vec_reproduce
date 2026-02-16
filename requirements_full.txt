@@ -33,7 +33,7 @@ exceptiongroup==1.2.0
 executing==2.2.1
 fastjsonschema==2.20.0
 filelock==3.19.1
-flash_attn==2.8.3
+# flash_attn==2.8.3
 fonttools==4.60.1
 frozenlist==1.7.0
 fsspec==2025.9.0
