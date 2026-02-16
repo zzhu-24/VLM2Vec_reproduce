@@ -754,7 +754,7 @@ def main():
     print_importance_table(head_importance)
 
     # Save head importance JSON
-    json_path = os.path.join(args.output_dir, 'head_importance.json')
+    json_path = os.path.join(args.output_dir, f'{args.delete_L}_{args.delete_n}_head_importance.json')
     head_importance_dict = {}
     for l in range(head_importance.shape[0]):
         head_importance_dict[str(l)] = {}
