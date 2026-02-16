@@ -602,6 +602,7 @@ def main():
         seed = 42
         interleave_batch_size = 0
         interleave_stopping_strategy = "all_exhausted"
+        dataloader_num_workers = 1
     
     fake_training_args = _FakeTrainingArgs()
 
@@ -615,7 +616,7 @@ def main():
     from src.data.collator.train_collator import MultimodalDataCollator
 
     class _FakeTrainingArgsForCollator:
-        model_backbone = model_backbone
+        model_backbone = model_args.model_backbone
     
     collator = MultimodalDataCollator(processor, model_args, data_args, _FakeTrainingArgsForCollator())
 
@@ -623,7 +624,6 @@ def main():
     dataloader = DataLoader(
         cal_dataset,
         batch_size=args.batch_size,
-        shuffle=True,
         collate_fn=collator,
         num_workers=0,  # Single process for simplicity
         drop_last=True,
@@ -765,8 +765,8 @@ def main():
     logger.info(f"Head importance scores saved to {json_path}")
 
     # Save head heatmap & ranking
-    plot_heatmap(head_importance, os.path.join(args.output_dir, 'head_importance_heatmap.png'))
-    plot_global_ranking(head_importance, os.path.join(args.output_dir, 'head_importance_ranking.png'))
+    plot_heatmap(head_importance, os.path.join(args.output_dir, f'{args.delete_L}_{args.delete_n}_head_importance_heatmap.png'))
+    plot_global_ranking(head_importance, os.path.join(args.output_dir, f'{args.delete_L}_{args.delete_n}_head_importance_ranking.png'))
 
     # Print least important KV groups
     flat = [(l, g, head_importance[l, g])
@@ -783,7 +783,7 @@ def main():
     print_mlp_importance_summary(mlp_importance)
 
     # Save MLP importance JSON: {layer_idx: [neuron_0_score, ..., neuron_N_score]}
-    mlp_json_path = os.path.join(args.output_dir, 'mlp_importance.json')
+    mlp_json_path = os.path.join(args.output_dir, f'{args.delete_L}_{args.delete_n}_mlp_importance.json')
     mlp_importance_dict = {}
     for l in range(mlp_importance.shape[0]):
         mlp_importance_dict[str(l)] = [float(v) for v in mlp_importance[l]]
@@ -792,8 +792,8 @@ def main():
     logger.info(f"MLP importance scores saved to {mlp_json_path}")
 
     # Save MLP heatmap (binned) & boxplot
-    plot_mlp_heatmap(mlp_importance, os.path.join(args.output_dir, 'mlp_importance_heatmap.png'))
-    plot_mlp_boxplot(mlp_importance, os.path.join(args.output_dir, 'mlp_importance_boxplot.png'))
+    plot_mlp_heatmap(mlp_importance, os.path.join(args.output_dir, f'{args.delete_L}_{args.delete_n}_mlp_importance_heatmap.png'))
+    plot_mlp_boxplot(mlp_importance, os.path.join(args.output_dir, f'{args.delete_L}_{args.delete_n}_mlp_importance_boxplot.png'))
 
 
 if __name__ == '__main__':
