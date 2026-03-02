@@ -496,6 +496,10 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Compute attention head importance for Qwen3-VL')
     parser.add_argument('--model_name', type=str, required=True,
                         help='HuggingFace model name or path (e.g. Qwen/Qwen3-VL-4B-Instruct)')
+    parser.add_argument('--checkpoint_path', type=str, default=None,
+                        help='Optional checkpoint path (e.g. LoRA adapter directory), same as training/eval scripts')
+    parser.add_argument('--lora', type=bool, default=False,
+                        help='Whether to use LoRA adapter from checkpoint_path if provided')
     parser.add_argument('--dataset_config', type=str, required=True,
                         help='YAML config for calibration dataset (same format as training)')
     parser.add_argument('--data_basedir', type=str, default=None,
@@ -526,7 +530,7 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     logger.info(f"Using device: {device}")
 
-    # ---- Build model (reuse the same config path as training) ----
+    # ---- Build / load model (reuse the same config path as training) ----
     from transformers import HfArgumentParser, AutoConfig
     from src.arguments import ModelArguments, DataArguments
     from src.model.model import MMEBModel
@@ -535,17 +539,29 @@ def main():
     # Construct a minimal ModelArguments
     model_args = ModelArguments(
         model_name=args.model_name,
+        checkpoint_path=args.checkpoint_path,
         pooling=args.pooling,
         normalize=args.normalize,
         temperature=args.temperature,
-        lora=False,  # No LoRA for importance evaluation
+        lora=args.lora,
         delete_L=args.delete_L,
         delete_n=args.delete_n,
     )
 
     logger.info(f"Building model: {args.model_name}")
     logger.info(f"Layer deletion: delete_L={args.delete_L}, delete_n={args.delete_n}")
-    model = MMEBModel.build(model_args)
+    # If checkpoint_path is provided and contains LoRA adapter, use load() instead of build()
+    # to load the trained LoRA weights instead of creating new random ones
+    if model_args.checkpoint_path and model_args.lora:
+        adapter_config_path = os.path.join(model_args.checkpoint_path, 'adapter_config.json')
+        if os.path.exists(adapter_config_path):
+            logger.info(f"Found LoRA adapter in checkpoint_path, loading model with trained weights from {model_args.checkpoint_path}")
+            model = MMEBModel.load(model_args, is_trainable=False)
+        else:
+            logger.info(f"No LoRA adapter found in checkpoint_path, building base model without LoRA")
+            model = MMEBModel.build(model_args)
+    else:
+        model = MMEBModel.build(model_args)
 
     config = AutoConfig.from_pretrained(args.model_name, trust_remote_code=True)
     model_backbone = get_backbone_name(hf_config=config)

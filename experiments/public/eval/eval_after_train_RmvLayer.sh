@@ -25,7 +25,9 @@ BATCH_SIZE=8
 # MODEL_TYPE="21Jan_Qwen3VL4B_rmv_28_14-Qwen"
 # MODEL_TYPE="23Jan_Qwen3VL4B_rmv_28_14_more_datasets-Qwen"
 # MODEL_TYPE="28Jan_Qwen3VL4B_rmv_30_23-Qwen"
-MODEL_TYPE="3Feb_Qwen3VL4B_rmv_30_23_lora24-Qwen"
+# MODEL_TYPE="3Feb_Qwen3VL4B_rmv_30_23_lora24-Qwen"
+# MODEL_TYPE="16Feb_Qwen3VL4B_28_14_mlp05-Qwen"
+MODEL_TYPE="19Feb_Qwen3VL2b_original_train_all-Qwen"
 
 # EVAL_TYPE="eval_after_train"
 # DATA_CONFIG_PATH="experiments/public/eval/retrieval.yaml"
@@ -38,17 +40,17 @@ DATA_CONFIG_PATH="experiments/public/eval/image_all.yaml"
 
 
 
-BASE_MODEL="Qwen3-VL-4B-Instruct"
+BASE_MODEL="Qwen3-VL-2B-Instruct"
 CHECKPOINT_LIST=(
   # "checkpoint-1000"
   # "checkpoint-2000"
   # "checkpoint-3000"
   # "checkpoint-4000"
-  # "checkpoint-4500"
+  "checkpoint-4500"
   # "checkpoint-5000"
   # "checkpoint-5500"
   # "checkpoint-6000"
-  "checkpoint-9000"
+  # "checkpoint-9000"
 )
 DATA_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_eval/MMEB-V2"
 # OUTPUT_BASEDIR="/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/vlm2vec_retrieval"
@@ -91,7 +93,7 @@ for spec in "${MODEL_SPECS[@]}"; do
 
     CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES CUDA_LAUNCH_BLOCKING=1 TORCH_USE_CUDA_DSA=1 python eval.py \
       --lora True \
-      --lora_r 24 \
+      --lora_r 16 \
       --pooling eos \
       --normalize true \
       --per_device_eval_batch_size "$BATCH_SIZE" \
@@ -100,11 +102,13 @@ for spec in "${MODEL_SPECS[@]}"; do
       --dataset_config "$DATA_CONFIG_PATH" \
       --encode_output_path "$OUTPUT_PATH" \
       --data_basedir "$DATA_BASEDIR" \
-      --delete_L 30 \
-      --delete_n 23 \
+      --delete_L 28 \
+      --delete_n 0 \
       --eval_layers -1 \
       --checkpoint_path "$CKPT_PATH" \
       &> "$OUTPUT_PATH/eval.log"
+      # --mlp_prune_ratio 0.5 \
+      # --mlp_importance_path "/home/infres/zzhu-24/PRIM/VLM2Vec/importance_output/[28]_[14]_mlp_importance.json" \
 
     # Cleanup
     echo " ➤ Cleaning temporary files under $OUTPUT_PATH"
