@@ -1,0 +1,45 @@
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/cuda/__init__.py:128: UserWarning: CUDA initialization: Unexpected error from cudaGetDeviceCount(). Did you run some cuda functions before calling NumCudaDevices() that might have already set an error? Error 804: forward compatibility was attempted on non supported HW (Triggered internally at ../c10/cuda/CUDAFunctions.cpp:108.)
+  return torch._C._cuda_getDeviceCount() > 0
+[2025-10-12 10:20:08,086] DEBUG [git.cmd:1270] Popen(['git', 'version'], cwd=/home/infres/zzhu-24/PRIM/VLM2Vec, stdin=None, shell=False, universal_newlines=False)
+[2025-10-12 10:20:08,089] DEBUG [git.cmd:1270] Popen(['git', 'version'], cwd=/home/infres/zzhu-24/PRIM/VLM2Vec, stdin=None, shell=False, universal_newlines=False)
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+[2025-10-12 10:20:09,293] INFO [src.utils:21] Distributed init debug info:
+[2025-10-12 10:20:09,293] INFO [src.utils:21] RANK: None
+[2025-10-12 10:20:09,293] INFO [src.utils:21] LOCAL_RANK: None
+[2025-10-12 10:20:09,293] INFO [src.utils:21] WORLD_SIZE: None
+[2025-10-12 10:20:09,293] INFO [src.utils:21] MASTER_ADDR: None
+[2025-10-12 10:20:09,293] INFO [src.utils:21] MASTER_PORT: None
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/cuda/__init__.py:654: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+[2025-10-12 10:20:09,486] INFO [src.utils:21] Model Backbone: qwen2_vl
+[2025-10-12 10:20:09,486] INFO [src.utils:21] Loading processor from: VLM2Vec/VLM2Vec-V2.0
+[2025-10-12 10:20:12,206] INFO [src.utils:21] Loading backbone [qwen2_vl] from VLM2Vec/VLM2Vec-V2.0
+DropoutAddRMSNorm of flash_attn is not installed!!!
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 14098.50it/s]
+Traceback (most recent call last):
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/eval.py", line 358, in <module>
+    main()
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/eval.py", line 183, in main
+    model = MMEBModel.load(model_args, is_trainable=False, processor=processor)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 223, in load
+    base_model = backbone2model[model_args.model_backbone].from_pretrained(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/modeling_utils.py", line 279, in _wrapper
+    return func(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/modeling_utils.py", line 4342, in from_pretrained
+    model = cls(config, *model_args, **model_kwargs)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/vlm_backbone/qwen2_vl/modeling_qwen2_vl.py", line 1364, in __init__
+    self.visual = Qwen2VisionTransformerPretrainedModel._from_config(config.vision_config)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/modeling_utils.py", line 279, in _wrapper
+    return func(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/modeling_utils.py", line 2016, in _from_config
+    config = cls._autoset_attn_implementation(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/modeling_utils.py", line 2109, in _autoset_attn_implementation
+    cls._check_and_enable_flash_attn_2(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/modeling_utils.py", line 2261, in _check_and_enable_flash_attn_2
+    raise ValueError(
+ValueError: FlashAttention2 has been toggled on, but it cannot be used due to the following error: Flash Attention 2 is not available on CPU. Please make sure torch can access a CUDA device.
