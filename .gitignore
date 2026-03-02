@@ -8,3 +8,6 @@ slurm_results/*
 
 experiments/public/data/vlm2vec_eval/*
 experiments/public/data/vlm2vec_train/*
+
+.cursor/*
+__pycache__/*
