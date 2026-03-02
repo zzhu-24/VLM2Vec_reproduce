@@ -1,0 +1,415 @@
+[2025-12-20 17:29:13,632] INFO [__main__:92] Found LoRA adapter in checkpoint_path, loading model with trained weights from /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/15Dec_Qwen3VL4b_original-Qwen/Qwen3-VL-4B-Instruct/checkpoint-2500
+[2025-12-20 17:29:13,636] INFO [src.utils:19] Loading backbone [qwen3_vl] from /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/15Dec_Qwen3VL4b_original-Qwen/Qwen3-VL-4B-Instruct/checkpoint-2500
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 19.78it/s]
+[2025-12-20 17:29:14,454] INFO [src.utils:19] Loading LoRA from /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/15Dec_Qwen3VL4b_original-Qwen/Qwen3-VL-4B-Instruct/checkpoint-2500
+[2025-12-20 17:29:56,883] INFO [src.utils:10] rank0: model_backbone: qwen3_vl
+[2025-12-20 17:29:56,884] INFO [src.utils:19] Loading processor from: /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/15Dec_Qwen3VL4b_original-Qwen/Qwen3-VL-4B-Instruct/checkpoint-2500
+[2025-12-20 17:30:01,377] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2025-12-20 17:30:01,378] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=50.0
+[2025-12-20 17:30:02,574] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2025-12-20 17:30:02,575] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=50.0
+[2025-12-20 17:30:02,575] INFO [src.utils:19]
+Initializing interleave datasets:
+		world_size=1
+		total num rows=213287
+		global batch size=16
+		estimated num step per epoch=13330.4375
+		interleave_batch_size=0.0
+[2025-12-20 17:30:02,577] INFO [src.utils:19] ==================================================
+[2025-12-20 17:30:02,578] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2025-12-20 17:30:02,579] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-12-20 17:30:02,580] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-12-20 17:30:02,581] INFO [src.utils:19] ==================================================
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'eos_token_id': 151645, 'pad_token_id': 151643}.
+[2025-12-20 17:30:04,408] INFO [src.trainer:372] ***** Running training *****
+[2025-12-20 17:30:04,408] INFO [src.trainer:373]   Num examples = 96,000
+[2025-12-20 17:30:04,408] INFO [src.trainer:374]   Num Epochs = 9,223,372,036,854,775,807
+[2025-12-20 17:30:04,409] INFO [src.trainer:375]   Instantaneous batch size per device = 16
+[2025-12-20 17:30:04,409] INFO [src.trainer:378]   Total train batch size (w. parallel, distributed & accumulation) = 16
+[2025-12-20 17:30:04,409] INFO [src.trainer:379]   Gradient Accumulation steps = 1
+[2025-12-20 17:30:04,409] INFO [src.trainer:380]   Total optimization steps = 6,000
+[2025-12-20 17:30:04,416] INFO [src.trainer:381]   Number of trainable parameters = 19,279,872
+                                                    
+[2025-12-20 17:30:05,065] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.013924754224717617, 'learning_rate': 1.0000000000000001e-07, 'epoch': 0.0}
+[2025-12-20 17:30:40,680] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0069, 'grad_norm': 4.8412885665893555, 'learning_rate': 2.0000000000000002e-07, 'epoch': 0.0}
+[2025-12-20 17:31:14,541] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0087, 'grad_norm': 2.4413063526153564, 'learning_rate': 3.0000000000000004e-07, 'epoch': 0.0}
+[2025-12-20 17:31:48,319] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0001, 'grad_norm': 0.014165746048092842, 'learning_rate': 4.0000000000000003e-07, 'epoch': 0.0}
+[2025-12-20 17:32:22,062] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0003, 'grad_norm': 0.15149275958538055, 'learning_rate': 5.000000000000001e-07, 'epoch': 0.0}
+[2025-12-20 17:32:56,057] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0016, 'grad_norm': 0.6689688563346863, 'learning_rate': 6.000000000000001e-07, 'epoch': 0.0}
+[2025-12-20 17:33:29,628] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.2412, 'grad_norm': 15.573702812194824, 'learning_rate': 7.000000000000001e-07, 'epoch': 0.0}
+[2025-12-20 17:34:03,133] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0648, 'grad_norm': 17.005577087402344, 'learning_rate': 8.000000000000001e-07, 'epoch': 0.0}
+[2025-12-20 17:34:37,256] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.008749142289161682, 'learning_rate': 9.000000000000001e-07, 'epoch': 0.0}
+[2025-12-20 17:35:10,836] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0103, 'grad_norm': 4.964154243469238, 'learning_rate': 1.0000000000000002e-06, 'epoch': 0.0}
+[2025-12-20 17:35:44,346] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.006933483295142651, 'learning_rate': 1.1e-06, 'epoch': 0.0}
+[2025-12-20 17:36:18,519] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0845, 'grad_norm': 8.357877731323242, 'learning_rate': 1.2000000000000002e-06, 'epoch': 0.0}
+[2025-12-20 17:36:52,125] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0001, 'grad_norm': 0.035974789410829544, 'learning_rate': 1.3e-06, 'epoch': 0.0}
+[2025-12-20 17:37:25,880] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0149, 'grad_norm': 11.267956733703613, 'learning_rate': 1.4000000000000001e-06, 'epoch': 0.0}
+[2025-12-20 17:37:59,498] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.0002982768346555531, 'learning_rate': 1.5e-06, 'epoch': 0.0}
+[2025-12-20 17:38:33,103] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0024, 'grad_norm': 0.8023456335067749, 'learning_rate': 1.6000000000000001e-06, 'epoch': 0.0}
+[2025-12-20 17:39:06,630] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0018, 'grad_norm': 0.6855638027191162, 'learning_rate': 1.7000000000000002e-06, 'epoch': 0.0}
+[2025-12-20 17:39:40,498] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0009, 'grad_norm': 0.6738062500953674, 'learning_rate': 1.8000000000000001e-06, 'epoch': 0.0}
+[2025-12-20 17:40:14,537] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0882, 'grad_norm': 17.704370498657227, 'learning_rate': 1.9000000000000002e-06, 'epoch': 0.0}
+[2025-12-20 17:40:48,044] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 1.0395, 'grad_norm': 35.05158996582031, 'learning_rate': 2.0000000000000003e-06, 'epoch': 0.0}
+[2025-12-20 17:41:21,584] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0003, 'grad_norm': 0.1445089876651764, 'learning_rate': 2.1000000000000002e-06, 'epoch': 0.0}
+[2025-12-20 17:41:55,869] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.0014914765488356352, 'learning_rate': 2.2e-06, 'epoch': 0.0}
+[2025-12-20 17:42:29,405] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0009, 'grad_norm': 0.19528067111968994, 'learning_rate': 2.3000000000000004e-06, 'epoch': 0.0}
+[2025-12-20 17:43:03,548] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.0019035604782402515, 'learning_rate': 2.4000000000000003e-06, 'epoch': 0.0}
+[2025-12-20 17:43:37,190] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.13, 'grad_norm': 14.882550239562988, 'learning_rate': 2.5e-06, 'epoch': 0.0}
+[2025-12-20 17:44:11,259] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0001, 'grad_norm': 0.03841158002614975, 'learning_rate': 2.6e-06, 'epoch': 0.0}
+[2025-12-20 17:44:44,873] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.018358370289206505, 'learning_rate': 2.7000000000000004e-06, 'epoch': 0.0}
+[2025-12-20 17:45:18,975] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.271, 'grad_norm': 32.91688919067383, 'learning_rate': 2.8000000000000003e-06, 'epoch': 0.0}
+[2025-12-20 17:45:52,720] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.017071343958377838, 'learning_rate': 2.9e-06, 'epoch': 0.0}
+[2025-12-20 17:46:26,421] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.3708, 'grad_norm': 24.929340362548828, 'learning_rate': 3e-06, 'epoch': 0.01}
+[2025-12-20 17:46:59,929] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0001, 'grad_norm': 0.015791451558470726, 'learning_rate': 3.1000000000000004e-06, 'epoch': 0.01}
+[2025-12-20 17:47:33,421] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.1363, 'grad_norm': 13.801980018615723, 'learning_rate': 3.2000000000000003e-06, 'epoch': 0.01}
+[2025-12-20 17:48:07,004] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0039, 'grad_norm': 1.2112207412719727, 'learning_rate': 3.3000000000000006e-06, 'epoch': 0.01}
+[2025-12-20 17:48:40,886] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0208, 'grad_norm': 5.165916442871094, 'learning_rate': 3.4000000000000005e-06, 'epoch': 0.01}
+[2025-12-20 17:49:14,597] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.011876140721142292, 'learning_rate': 3.5e-06, 'epoch': 0.01}
+[2025-12-20 17:49:48,147] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0001, 'grad_norm': 0.038567714393138885, 'learning_rate': 3.6000000000000003e-06, 'epoch': 0.01}
+[2025-12-20 17:50:22,011] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0022, 'grad_norm': 0.9926451444625854, 'learning_rate': 3.7e-06, 'epoch': 0.01}
+[2025-12-20 17:50:55,587] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.1677, 'grad_norm': 28.79189109802246, 'learning_rate': 3.8000000000000005e-06, 'epoch': 0.01}
+[2025-12-20 17:51:29,094] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0001, 'grad_norm': 0.056764692068099976, 'learning_rate': 3.900000000000001e-06, 'epoch': 0.01}
+[2025-12-20 17:52:02,679] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0011, 'grad_norm': 0.576216459274292, 'learning_rate': 4.000000000000001e-06, 'epoch': 0.01}
+[2025-12-20 17:52:36,059] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.003809905145317316, 'learning_rate': 4.1e-06, 'epoch': 0.01}
+[2025-12-20 17:53:10,210] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0005, 'grad_norm': 0.10891380161046982, 'learning_rate': 4.2000000000000004e-06, 'epoch': 0.01}
+[2025-12-20 17:53:44,099] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.2081, 'grad_norm': 22.245580673217773, 'learning_rate': 4.3e-06, 'epoch': 0.01}
+[2025-12-20 17:54:17,565] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.0027422527782619, 'learning_rate': 4.4e-06, 'epoch': 0.01}
+[2025-12-20 17:54:51,637] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0001, 'grad_norm': 0.016177035868167877, 'learning_rate': 4.5e-06, 'epoch': 0.01}
+[2025-12-20 17:55:25,240] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0002, 'grad_norm': 0.0570920966565609, 'learning_rate': 4.600000000000001e-06, 'epoch': 0.01}
+[2025-12-20 17:55:58,836] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0824, 'grad_norm': 13.628808975219727, 'learning_rate': 4.7e-06, 'epoch': 0.01}
+[2025-12-20 17:56:32,741] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0301, 'grad_norm': 4.449619770050049, 'learning_rate': 4.800000000000001e-06, 'epoch': 0.01}
+[2025-12-20 17:57:06,415] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.104, 'grad_norm': 16.767545700073242, 'learning_rate': 4.9000000000000005e-06, 'epoch': 0.01}
+[2025-12-20 17:57:39,973] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.019015537574887276, 'learning_rate': 5e-06, 'epoch': 0.01}
+[2025-12-20 17:58:13,962] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.3106, 'grad_norm': 40.4403190612793, 'learning_rate': 5.1e-06, 'epoch': 0.01}
+[2025-12-20 17:58:48,058] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0001, 'grad_norm': 0.055205147713422775, 'learning_rate': 5.2e-06, 'epoch': 0.01}
+[2025-12-20 17:59:21,712] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0067, 'grad_norm': 3.7243497371673584, 'learning_rate': 5.300000000000001e-06, 'epoch': 0.01}
+[2025-12-20 17:59:55,274] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0395, 'grad_norm': 7.807650566101074, 'learning_rate': 5.400000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:00:29,192] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0809, 'grad_norm': 20.77411460876465, 'learning_rate': 5.500000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:01:04,999] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0066, 'grad_norm': 1.5141732692718506, 'learning_rate': 5.600000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:01:38,489] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0021, 'grad_norm': 0.811315655708313, 'learning_rate': 5.7e-06, 'epoch': 0.01}
+[2025-12-20 18:02:11,939] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0213, 'grad_norm': 6.361792087554932, 'learning_rate': 5.8e-06, 'epoch': 0.01}
+[2025-12-20 18:02:45,430] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0005, 'grad_norm': 0.18264202773571014, 'learning_rate': 5.9e-06, 'epoch': 0.01}
+[2025-12-20 18:03:18,916] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0474, 'grad_norm': 11.824899673461914, 'learning_rate': 6e-06, 'epoch': 0.01}
+[2025-12-20 18:03:52,411] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0021, 'grad_norm': 2.3782546520233154, 'learning_rate': 6.1e-06, 'epoch': 0.01}
+[2025-12-20 18:04:25,966] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0001, 'grad_norm': 0.031043976545333862, 'learning_rate': 6.200000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:04:59,487] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0206, 'grad_norm': 8.150908470153809, 'learning_rate': 6.300000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:05:33,011] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0041, 'grad_norm': 1.4487435817718506, 'learning_rate': 6.4000000000000006e-06, 'epoch': 0.01}
+[2025-12-20 18:06:06,521] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0134, 'grad_norm': 8.101487159729004, 'learning_rate': 6.5000000000000004e-06, 'epoch': 0.01}
+[2025-12-20 18:06:40,072] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0003, 'grad_norm': 0.10553081333637238, 'learning_rate': 6.600000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:07:13,643] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.2387, 'grad_norm': 24.94074821472168, 'learning_rate': 6.700000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:07:47,437] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.005980241112411022, 'learning_rate': 6.800000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:08:21,332] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.0006349487812258303, 'learning_rate': 6.9e-06, 'epoch': 0.01}
+[2025-12-20 18:08:55,031] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0001, 'grad_norm': 0.06486384570598602, 'learning_rate': 7e-06, 'epoch': 0.01}
+[2025-12-20 18:09:28,653] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.1025, 'grad_norm': 6.166738033294678, 'learning_rate': 7.100000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:10:02,246] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.0003006007173098624, 'learning_rate': 7.2000000000000005e-06, 'epoch': 0.01}
+[2025-12-20 18:10:35,754] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0012, 'grad_norm': 0.5087674260139465, 'learning_rate': 7.3e-06, 'epoch': 0.01}
+[2025-12-20 18:11:09,482] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.0028503932990133762, 'learning_rate': 7.4e-06, 'epoch': 0.01}
+[2025-12-20 18:11:43,108] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0017, 'grad_norm': 0.6577296853065491, 'learning_rate': 7.500000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:12:16,772] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.00014518735406454653, 'learning_rate': 7.600000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:12:50,511] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 6.612415745621547e-05, 'learning_rate': 7.7e-06, 'epoch': 0.01}
+[2025-12-20 18:13:24,242] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.016, 'grad_norm': 7.4737548828125, 'learning_rate': 7.800000000000002e-06, 'epoch': 0.01}
+[2025-12-20 18:13:57,925] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0007, 'grad_norm': 0.37896132469177246, 'learning_rate': 7.9e-06, 'epoch': 0.01}
+[2025-12-20 18:14:31,413] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0001, 'grad_norm': 0.019222687929868698, 'learning_rate': 8.000000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:15:04,976] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0, 'grad_norm': 0.007182955741882324, 'learning_rate': 8.1e-06, 'epoch': 0.01}
+[2025-12-20 18:15:38,796] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0002, 'grad_norm': 0.0991692766547203, 'learning_rate': 8.2e-06, 'epoch': 0.01}
+[2025-12-20 18:16:12,423] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0063, 'grad_norm': 2.8378379344940186, 'learning_rate': 8.3e-06, 'epoch': 0.01}
+[2025-12-20 18:16:45,963] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0053, 'grad_norm': 2.063682794570923, 'learning_rate': 8.400000000000001e-06, 'epoch': 0.01}
+[2025-12-20 18:17:19,675] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 0.0427, 'grad_norm': 9.319592475891113, 'learning_rate': 8.5e-06, 'epoch': 0.01}
+[2025-12-20 18:17:53,646] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 132, in <module>
+    main()
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 124, in main
+    trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/trainer.py", line 2325, in train
+    return inner_training_loop(
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 541, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 749, in training_step
+    loss = self.gc(queries, targets, no_sync_except_last=_distributed)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 72, in __call__
+    return self.cache_step(*args, **kwargs)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 294, in cache_step
+    self.forward_backward(model, x, model_cache, rnd_states, no_sync_except_last=no_sync_except_last)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 242, in forward_backward
+    y = self.model_call(model, x)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 142, in model_call
+    return model(**model_input)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/.local/lib/python3.10/site-packages/accelerate/utils/operations.py", line 819, in forward
+    return model_forward(*args, **kwargs)
+  File "/home/infres/zzhu-24/.local/lib/python3.10/site-packages/accelerate/utils/operations.py", line 807, in __call__
+    return convert_to_fp32(self.model_forward(*args, **kwargs))
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/amp/autocast_mode.py", line 43, in decorate_autocast
+    return func(*args, **kwargs)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 482, in forward
+    tgt_reps_list = self.encode_input(tgt, self.joint_training_layers) if tgt else None # list of (bsz_per_device, dim)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 188, in encode_input
+    hidden_states = self.encoder(**input, return_dict=True, output_hidden_states=True)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/peft/peft_model.py", line 881, in forward
+    return self.get_base_model()(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/generic.py", line 1064, in wrapper
+    outputs = func(self, *args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py", line 1344, in forward
+    outputs = self.model(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/generic.py", line 1064, in wrapper
+    outputs = func(self, *args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py", line 1223, in forward
+    outputs = self.language_model(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/generic.py", line 1064, in wrapper
+    outputs = func(self, *args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py", line 850, in forward
+    layer_outputs = decoder_layer(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/modeling_layers.py", line 94, in __call__
+    return super().__call__(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/generic.py", line 1023, in wrapped_forward
+    output = orig_forward(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/generic.py", line 1023, in wrapped_forward
+    output = orig_forward(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/generic.py", line 1023, in wrapped_forward
+    output = orig_forward(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py", line 517, in forward
+    hidden_states = self.mlp(hidden_states)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py", line 472, in forward
+    down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/peft/tuners/lora/layer.py", line 773, in forward
+    result = self.lora_variant[active_adapter].forward(
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/peft/tuners/lora/variants.py", line 122, in forward
+    result = result + module.lora_magnitude_vector[active_adapter](
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/peft/tuners/lora/dora.py", line 74, in forward
+    lora_weight = lora_B(lora_A(x_eye)).T
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/linear.py", line 117, in forward
+    return F.linear(input, self.weight, self.bias)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 182.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 89.00 MiB is free. Including non-PyTorch memory, this process has 23.46 GiB memory in use. Of the allocated memory 22.55 GiB is allocated by PyTorch, and 476.51 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 132, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 124, in main
+[rank0]:     trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/trainer.py", line 2325, in train
+[rank0]:     return inner_training_loop(
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 541, in _inner_training_loop
+[rank0]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 749, in training_step
+[rank0]:     loss = self.gc(queries, targets, no_sync_except_last=_distributed)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 72, in __call__
+[rank0]:     return self.cache_step(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 294, in cache_step
+[rank0]:     self.forward_backward(model, x, model_cache, rnd_states, no_sync_except_last=no_sync_except_last)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 242, in forward_backward
+[rank0]:     y = self.model_call(model, x)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 142, in model_call
+[rank0]:     return model(**model_input)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/.local/lib/python3.10/site-packages/accelerate/utils/operations.py", line 819, in forward
+[rank0]:     return model_forward(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/.local/lib/python3.10/site-packages/accelerate/utils/operations.py", line 807, in __call__
+[rank0]:     return convert_to_fp32(self.model_forward(*args, **kwargs))
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/amp/autocast_mode.py", line 43, in decorate_autocast
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 482, in forward
+[rank0]:     tgt_reps_list = self.encode_input(tgt, self.joint_training_layers) if tgt else None # list of (bsz_per_device, dim)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/model.py", line 188, in encode_input
+[rank0]:     hidden_states = self.encoder(**input, return_dict=True, output_hidden_states=True)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/peft/peft_model.py", line 881, in forward
+[rank0]:     return self.get_base_model()(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/generic.py", line 1064, in wrapper
+[rank0]:     outputs = func(self, *args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py", line 1344, in forward
+[rank0]:     outputs = self.model(
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/generic.py", line 1064, in wrapper
+[rank0]:     outputs = func(self, *args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py", line 1223, in forward
+[rank0]:     outputs = self.language_model(
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/generic.py", line 1064, in wrapper
+[rank0]:     outputs = func(self, *args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py", line 850, in forward
+[rank0]:     layer_outputs = decoder_layer(
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/modeling_layers.py", line 94, in __call__
+[rank0]:     return super().__call__(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/generic.py", line 1023, in wrapped_forward
+[rank0]:     output = orig_forward(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/generic.py", line 1023, in wrapped_forward
+[rank0]:     output = orig_forward(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/generic.py", line 1023, in wrapped_forward
+[rank0]:     output = orig_forward(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py", line 517, in forward
+[rank0]:     hidden_states = self.mlp(hidden_states)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py", line 472, in forward
+[rank0]:     down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/peft/tuners/lora/layer.py", line 773, in forward
+[rank0]:     result = self.lora_variant[active_adapter].forward(
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/peft/tuners/lora/variants.py", line 122, in forward
+[rank0]:     result = result + module.lora_magnitude_vector[active_adapter](
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/peft/tuners/lora/dora.py", line 74, in forward
+[rank0]:     lora_weight = lora_B(lora_A(x_eye)).T
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/torch/nn/modules/linear.py", line 117, in forward
+[rank0]:     return F.linear(input, self.weight, self.bias)
+[rank0]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 182.00 MiB. GPU 0 has a total capacity of 23.56 GiB of which 89.00 MiB is free. Including non-PyTorch memory, this process has 23.46 GiB memory in use. Of the allocated memory 22.55 GiB is allocated by PyTorch, and 476.51 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

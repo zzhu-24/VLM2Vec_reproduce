@@ -1,0 +1,307 @@
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+DropoutAddRMSNorm of flash_attn is not installed!!!
+/home/infres/zzhu-24/PRIM/VLM2Vec/src/model/baseline_backbone/internvideo2/modeling_internvideo2.py:539: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @torch.cuda.amp.autocast(enabled=False)
+Model args: ModelArguments(model_name='Qwen/Qwen2-VL-2B-Instruct', model_type=None, processor_name=None, model_backbone=None, checkpoint_path=None, pooling='eos', normalize=True, temperature=0.02, lora=True, lora_r=16, lora_alpha=64, lora_dropout=0.1, lora_target_modules='qkv_proj,o_proj,gate_up_proj,down_proj,k_proj,q_proj,out_proj,v_proj', num_crops=16, uigraph_use=False, uigraph_diff=1, uigraph_rand=False, uimask_ratio=0.5, uimask_rand=False, lm_skip_layer='[1,28,0]', vis_skip_layer='[1,32,0]', plus_one_token=False, tail_token_train_only=False, tail_gradient_flow_only=False, delete_L=26, delete_n=5, joint_training_layers=[-1], eval_layers=[-1])
+Data args: DataArguments(dataset_config='/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/retrieval.yaml', data_basedir='/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train', dataset_name=None, subset_name=None, dataset_split='train', num_sample_per_subset=None, image_dir=None, encode_output_path=None, max_len=None, embedding_type='', image_resolution=None, resize_use_processor=True, resize_min_pixels=3136, resize_max_pixels=1003520, image_decay_factor=None, num_hardneg=0)
+Training args: TrainingArguments(
+_n_gpu=1,
+accelerator_config={'split_batches': False, 'dispatch_batches': None, 'even_batches': True, 'use_seedable_sampler': True, 'non_blocking': False, 'gradient_accumulation_kwargs': None, 'use_configured_state': False},
+adafactor=False,
+adam_beta1=0.9,
+adam_beta2=0.999,
+adam_epsilon=1e-08,
+auto_find_batch_size=False,
+average_tokens_across_devices=False,
+batch_eval_metrics=False,
+bf16=True,
+bf16_full_eval=False,
+data_seed=None,
+dataloader_drop_last=False,
+dataloader_num_workers=1,
+dataloader_persistent_workers=False,
+dataloader_pin_memory=True,
+dataloader_prefetch_factor=None,
+ddp_backend=None,
+ddp_broadcast_buffers=None,
+ddp_bucket_cap_mb=None,
+ddp_find_unused_parameters=None,
+ddp_timeout=1800,
+debug=[],
+deepspeed=None,
+disable_tqdm=False,
+do_eval=False,
+do_predict=False,
+do_train=False,
+eval_accumulation_steps=None,
+eval_delay=0,
+eval_do_concat_batches=True,
+eval_on_start=False,
+eval_steps=None,
+eval_strategy=no,
+eval_use_gather_object=False,
+fp16=False,
+fp16_backend=auto,
+fp16_full_eval=False,
+fp16_opt_level=O1,
+fsdp=[],
+fsdp_config={'min_num_params': 0, 'xla': False, 'xla_fsdp_v2': False, 'xla_fsdp_grad_ckpt': False},
+fsdp_min_num_params=0,
+fsdp_transformer_layer_cls_to_wrap=None,
+full_determinism=False,
+gc_p_chunk_size=8,
+gc_q_chunk_size=8,
+grad_cache=True,
+gradient_accumulation_steps=1,
+gradient_checkpointing=False,
+gradient_checkpointing_kwargs=None,
+greater_is_better=None,
+group_by_length=False,
+half_precision_backend=auto,
+hub_always_push=False,
+hub_model_id=None,
+hub_private_repo=None,
+hub_strategy=every_save,
+hub_token=<HUB_TOKEN>,
+ignore_data_skip=False,
+image_encoder_freeze=False,
+include_for_metrics=[],
+include_inputs_for_metrics=False,
+include_num_input_tokens_seen=False,
+include_tokens_per_second=False,
+interleave_batch_size=0.0,
+interleave_stopping_strategy=all_exhausted,
+jit_mode_eval=False,
+label_names=None,
+label_smoothing_factor=0.0,
+learning_rate=1e-05,
+length_column_name=length,
+load_best_model_at_end=False,
+local_rank=0,
+log_level=passive,
+log_level_replica=warning,
+log_on_each_node=True,
+logging_dir=/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/7DecRmvLayer-Qwen/Qwen2-VL-2B-Instruct/runs/Dec11_01-20-45_node40.enst.fr,
+logging_first_step=False,
+logging_nan_inf_filter=True,
+logging_steps=1,
+logging_strategy=steps,
+lr_scheduler_kwargs={},
+lr_scheduler_type=linear,
+max_grad_norm=1.0,
+max_steps=6000,
+metric_for_best_model=None,
+mp_parameters=,
+neftune_noise_alpha=None,
+no_cuda=False,
+num_train_epochs=1,
+optim=adamw_torch,
+optim_args=None,
+optim_target_modules=None,
+output_dir=/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/7DecRmvLayer-Qwen/Qwen2-VL-2B-Instruct,
+overwrite_output_dir=False,
+past_index=-1,
+per_device_eval_batch_size=8,
+per_device_train_batch_size=16,
+prediction_loss_only=False,
+project_name=None,
+push_to_hub=False,
+push_to_hub_model_id=None,
+push_to_hub_organization=None,
+push_to_hub_token=<PUSH_TO_HUB_TOKEN>,
+ray_scope=last,
+remove_unused_columns=False,
+report_to=['wandb'],
+restore_callback_states_from_checkpoint=False,
+resume_from=auto,
+resume_from_checkpoint=None,
+run_name=7DecRmvLayer-Qwen/Qwen2-VL-2B-Instruct,
+save_on_each_node=False,
+save_only_model=False,
+save_safetensors=True,
+save_steps=50,
+save_strategy=steps,
+save_total_limit=None,
+seed=42,
+skip_memory_metrics=True,
+tf32=None,
+torch_compile=False,
+torch_compile_backend=None,
+torch_compile_mode=None,
+torch_empty_cache_steps=None,
+torchdynamo=None,
+tpu_metrics_debug=False,
+tpu_num_cores=None,
+use_cpu=False,
+use_ipex=False,
+use_legacy_prediction_loop=False,
+use_liger_kernel=False,
+use_mps_device=False,
+warmup_ratio=0.0,
+warmup_steps=100,
+weight_decay=0.0,
+)
+Distributed init debug info:
+RANK: 0
+LOCAL_RANK: 0
+WORLD_SIZE: 1
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2207
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 0
+torch.distributed.get_world_size(): 1
+[2025-12-11 01:20:45,815] INFO [src.utils:10] rank0: init wandb
+wandb: Currently logged in as: zhuzhehua16 (zhuzhehua16-t-l-com-paris) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run lyho9493
+wandb: Tracking run with wandb version 0.22.1
+wandb: Run data is saved locally in /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/7DecRmvLayer-Qwen/Qwen2-VL-2B-Instruct/wandb/run-20251211_012046-lyho9493
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run 7DecRmvLayer-Qwen/Qwen2-VL-2B-Instruct
+wandb: ⭐️ View project at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train
+wandb: 🚀 View run at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train/runs/lyho9493
+[2025-12-11 01:20:47,472] INFO [src.utils:19] Loading backbone [qwen2_vl] from Qwen/Qwen2-VL-2B-Instruct
+You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 21.01it/s]
+Some weights of the model checkpoint at Qwen/Qwen2-VL-2B-Instruct were not used when initializing Qwen2VLForConditionalGeneration: ['model.layers.23.input_layernorm.weight', 'model.layers.23.mlp.down_proj.weight', 'model.layers.23.mlp.gate_proj.weight', 'model.layers.23.mlp.up_proj.weight', 'model.layers.23.post_attention_layernorm.weight', 'model.layers.23.self_attn.k_proj.bias', 'model.layers.23.self_attn.k_proj.weight', 'model.layers.23.self_attn.o_proj.weight', 'model.layers.23.self_attn.q_proj.bias', 'model.layers.23.self_attn.q_proj.weight', 'model.layers.23.self_attn.v_proj.bias', 'model.layers.23.self_attn.v_proj.weight', 'model.layers.24.input_layernorm.weight', 'model.layers.24.mlp.down_proj.weight', 'model.layers.24.mlp.gate_proj.weight', 'model.layers.24.mlp.up_proj.weight', 'model.layers.24.post_attention_layernorm.weight', 'model.layers.24.self_attn.k_proj.bias', 'model.layers.24.self_attn.k_proj.weight', 'model.layers.24.self_attn.o_proj.weight', 'model.layers.24.self_attn.q_proj.bias', 'model.layers.24.self_attn.q_proj.weight', 'model.layers.24.self_attn.v_proj.bias', 'model.layers.24.self_attn.v_proj.weight', 'model.layers.25.input_layernorm.weight', 'model.layers.25.mlp.down_proj.weight', 'model.layers.25.mlp.gate_proj.weight', 'model.layers.25.mlp.up_proj.weight', 'model.layers.25.post_attention_layernorm.weight', 'model.layers.25.self_attn.k_proj.bias', 'model.layers.25.self_attn.k_proj.weight', 'model.layers.25.self_attn.o_proj.weight', 'model.layers.25.self_attn.q_proj.bias', 'model.layers.25.self_attn.q_proj.weight', 'model.layers.25.self_attn.v_proj.bias', 'model.layers.25.self_attn.v_proj.weight', 'model.layers.26.input_layernorm.weight', 'model.layers.26.mlp.down_proj.weight', 'model.layers.26.mlp.gate_proj.weight', 'model.layers.26.mlp.up_proj.weight', 'model.layers.26.post_attention_layernorm.weight', 'model.layers.26.self_attn.k_proj.bias', 'model.layers.26.self_attn.k_proj.weight', 'model.layers.26.self_attn.o_proj.weight', 'model.layers.26.self_attn.q_proj.bias', 'model.layers.26.self_attn.q_proj.weight', 'model.layers.26.self_attn.v_proj.bias', 'model.layers.26.self_attn.v_proj.weight', 'model.layers.27.input_layernorm.weight', 'model.layers.27.mlp.down_proj.weight', 'model.layers.27.mlp.gate_proj.weight', 'model.layers.27.mlp.up_proj.weight', 'model.layers.27.post_attention_layernorm.weight', 'model.layers.27.self_attn.k_proj.bias', 'model.layers.27.self_attn.k_proj.weight', 'model.layers.27.self_attn.o_proj.weight', 'model.layers.27.self_attn.q_proj.bias', 'model.layers.27.self_attn.q_proj.weight', 'model.layers.27.self_attn.v_proj.bias', 'model.layers.27.self_attn.v_proj.weight']
+- This IS expected if you are initializing Qwen2VLForConditionalGeneration from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing Qwen2VLForConditionalGeneration from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+[2025-12-11 01:20:48,262] INFO [src.utils:19] Loading lora adapter from Qwen2VLForConditionalGeneration(
+  (visual): Qwen2VisionTransformerPretrainedModel(
+    (patch_embed): PatchEmbed(
+      (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+    )
+    (rotary_pos_emb): VisionRotaryEmbedding()
+    (blocks): ModuleList(
+      (0-31): 32 x Qwen2VLVisionBlock(
+        (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (attn): VisionFlashAttention2(
+          (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+          (proj): Linear(in_features=1280, out_features=1280, bias=True)
+        )
+        (mlp): VisionMlp(
+          (fc1): Linear(in_features=1280, out_features=5120, bias=True)
+          (act): QuickGELUActivation()
+          (fc2): Linear(in_features=5120, out_features=1280, bias=True)
+        )
+      )
+    )
+    (merger): PatchMerger(
+      (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+      (mlp): Sequential(
+        (0): Linear(in_features=5120, out_features=5120, bias=True)
+        (1): GELU(approximate='none')
+        (2): Linear(in_features=5120, out_features=1536, bias=True)
+      )
+    )
+  )
+  (model): Qwen2VLModel(
+    (embed_tokens): Embedding(151936, 1536)
+    (layers): ModuleList(
+      (0-22): 23 x Qwen2VLDecoderLayer(
+        (self_attn): Qwen2VLFlashAttention2(
+          (q_proj): Linear(in_features=1536, out_features=1536, bias=True)
+          (k_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (v_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (o_proj): Linear(in_features=1536, out_features=1536, bias=False)
+          (rotary_emb): Qwen2VLRotaryEmbedding()
+        )
+        (mlp): Qwen2MLP(
+          (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (down_proj): Linear(in_features=8960, out_features=1536, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+        (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+      )
+    )
+    (norm): Qwen2RMSNorm((1536,), eps=1e-06)
+    (rotary_emb): Qwen2VLRotaryEmbedding()
+  )
+  (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
+)
+[2025-12-11 01:20:56,315] INFO [src.utils:10] rank0: model_backbone: qwen2_vl
+[2025-12-11 01:20:56,316] INFO [src.utils:19] Loading processor from: Qwen/Qwen2-VL-2B-Instruct
+[2025-12-11 01:21:01,422] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2025-12-11 01:21:01,423] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=50.0
+[2025-12-11 01:21:02,274] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2025-12-11 01:21:02,275] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=50.0
+[2025-12-11 01:21:02,275] INFO [src.utils:19] 
+Initializing interleave datasets:
+		world_size=1
+		total num rows=213287
+		global batch size=16
+		estimated num step per epoch=13330.4375
+		interleave_batch_size=0.0
+[2025-12-11 01:21:02,277] INFO [src.utils:19] ==================================================
+[2025-12-11 01:21:02,277] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2025-12-11 01:21:02,278] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-12-11 01:21:02,279] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-12-11 01:21:02,280] INFO [src.utils:19] ==================================================
+[2025-12-11 01:21:03,715] INFO [src.trainer:331] ***** Running training *****
+[2025-12-11 01:21:03,716] INFO [src.trainer:332]   Num examples = 96,000
+[2025-12-11 01:21:03,716] INFO [src.trainer:333]   Num Epochs = 9,223,372,036,854,775,807
+[2025-12-11 01:21:03,716] INFO [src.trainer:334]   Instantaneous batch size per device = 16
+[2025-12-11 01:21:03,717] INFO [src.trainer:337]   Total train batch size (w. parallel, distributed & accumulation) = 16
+[2025-12-11 01:21:03,717] INFO [src.trainer:338]   Gradient Accumulation steps = 1
+[2025-12-11 01:21:03,718] INFO [src.trainer:339]   Total optimization steps = 6,000
+[2025-12-11 01:21:03,722] INFO [src.trainer:340]   Number of trainable parameters = 7,560,192
+[2025-12-11 01:21:03,726] INFO [src.trainer:341]   Trainable Parameters = ['encoder.base_model.model.model.layers.0.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.0.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.0.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.0.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.1.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.1.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.1.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.2.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.2.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.2.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.3.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.3.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.3.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.4.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.4.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.4.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.4.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.4.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.4.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.4.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.4.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.4.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.4.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.4.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.4.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.4.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.4.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.4.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.5.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.5.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.5.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.5.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.5.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.5.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.5.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.5.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.5.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.5.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.5.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.5.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.5.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.5.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.5.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.6.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.6.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.6.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.6.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.6.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.6.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.6.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.6.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.6.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.6.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.6.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.6.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.6.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.6.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.6.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.7.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.7.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.7.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.7.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.7.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.7.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.7.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.7.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.7.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.7.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.7.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.7.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.7.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.7.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.7.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.8.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.8.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.8.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.8.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.8.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.8.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.8.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.8.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.8.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.8.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.8.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.8.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.8.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.8.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.8.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.9.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.9.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.9.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.9.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.9.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.9.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.9.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.9.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.9.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.9.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.9.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.9.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.9.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.9.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.9.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.10.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.10.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.10.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.10.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.10.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.10.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.10.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.10.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.10.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.10.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.10.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.10.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.10.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.10.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.10.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.11.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.11.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.11.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.11.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.11.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.11.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.11.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.11.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.11.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.11.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.11.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.11.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.11.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.11.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.11.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.12.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.12.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.12.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.12.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.12.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.12.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.12.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.12.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.12.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.12.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.12.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.12.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.12.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.12.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.12.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.13.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.13.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.13.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.13.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.13.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.13.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.13.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.13.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.13.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.13.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.13.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.13.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.13.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.13.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.13.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.14.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.14.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.14.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.14.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.14.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.14.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.14.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.14.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.14.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.14.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.14.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.14.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.14.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.14.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.14.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.15.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.15.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.15.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.15.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.15.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.15.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.15.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.15.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.15.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.15.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.15.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.15.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.15.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.15.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.15.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.16.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.16.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.16.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.16.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.16.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.16.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.16.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.16.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.16.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.16.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.16.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.16.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.16.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.16.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.16.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.17.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.17.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.17.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.17.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.17.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.17.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.17.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.17.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.17.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.17.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.17.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.17.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.17.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.17.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.17.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.18.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.18.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.18.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.18.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.18.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.18.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.18.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.18.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.18.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.18.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.18.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.18.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.18.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.18.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.18.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.19.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.19.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.19.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.19.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.19.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.19.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.19.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.19.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.19.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.19.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.19.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.19.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.19.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.19.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.19.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.20.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.20.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.20.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.20.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.20.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.20.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.20.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.20.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.20.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.20.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.20.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.20.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.20.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.20.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.20.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.21.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.21.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.21.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.21.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.21.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.21.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.21.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.21.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.21.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.21.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.21.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.21.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.21.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.21.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.21.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.22.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.22.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.22.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.22.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.22.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.22.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.22.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.22.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.22.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.22.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.22.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.22.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.22.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.22.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.22.mlp.down_proj.lora_magnitude_vector.default.weight']
+  0%|          | 0/6000 [00:00<?, ?it/s]You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+[2025-12-11 01:21:06,362] INFO [src.utils:19] [tensor([[[ 0.0283,  0.1078, -0.0118,  ...,  0.0340,  0.0231,  0.0063],
+         [-0.0219,  0.0414,  0.0162,  ...,  0.0063,  0.0225,  0.0307],
+         [ 0.0164,  0.1028, -0.0069,  ...,  0.0266,  0.0414,  0.0229],
+         ...,
+         [-0.0052,  0.1113, -0.0164,  ...,  0.0265,  0.0089, -0.0018],
+         [-0.0220,  0.0485,  0.0143,  ...,  0.0024,  0.0181,  0.0274],
+         [-0.0195,  0.0443,  0.0053,  ...,  0.0100,  0.0316,  0.0200]]],
+       device='cuda:0', requires_grad=True), tensor([[[-0.0066,  0.0461, -0.0131,  ...,  0.0197,  0.0073,  0.0338],
+         [ 0.0213,  0.1096, -0.0282,  ...,  0.0038,  0.0201, -0.0039],
+         [ 0.0208, -0.0336, -0.0121,  ...,  0.0027,  0.0111,  0.0226],
+         ...,
+         [-0.0133, -0.0721, -0.0179,  ...,  0.0114, -0.0096,  0.0119],
+         [ 0.0304,  0.0924, -0.0156,  ...,  0.0151,  0.0052,  0.0148],
+         [ 0.0020,  0.1178, -0.0293,  ...,  0.0192,  0.0547,  0.0346]]],
+       device='cuda:0', requires_grad=True)]
+[2025-12-11 01:21:06,397] INFO [src.utils:19] torch.Size([1, 16, 1536])
+[2025-12-11 01:21:06,397] INFO [src.utils:19] torch.Size([1, 16, 1536])
+  0%|          | 1/6000 [00:11<19:46:03, 11.86s/it]                                                   {'loss': 17.9189, 'grad_norm': 1031.07373046875, 'learning_rate': 1.0000000000000001e-07, 'epoch': 0.0}
+  0%|          | 1/6000 [00:11<19:46:03, 11.86s/it][2025-12-11 01:21:16,929] INFO [src.utils:19] [tensor([[[-0.0142,  0.0787, -0.0059,  ...,  0.0288,  0.0144, -0.0022],
+         [-0.0096,  0.0434, -0.0071,  ...,  0.0106,  0.0235,  0.0156],
+         [ 0.0231,  0.1140, -0.0075,  ...,  0.0190,  0.0192, -0.0017],
+         ...,
+         [-0.0139,  0.0898, -0.0126,  ...,  0.0317,  0.0357,  0.0053],
+         [ 0.0336,  0.0948, -0.0055,  ...,  0.0474,  0.0168,  0.0024],
+         [ 0.0272,  0.1027, -0.0106,  ...,  0.0228,  0.0466,  0.0038]]],
+       device='cuda:0', requires_grad=True), tensor([[[-0.0025, -0.0024, -0.0030,  ...,  0.0039,  0.0124,  0.0176],
+         [ 0.0251,  0.1063, -0.0099,  ...,  0.0168,  0.0096,  0.0221],
+         [ 0.0218, -0.0807, -0.0118,  ..., -0.0019,  0.0059,  0.0136],
+         ...,
+         [-0.0108,  0.0382, -0.0093,  ...,  0.0076,  0.0139,  0.0357],
+         [-0.0163, -0.0006, -0.0125,  ...,  0.0027,  0.0171,  0.0190],
+         [ 0.0251, -0.0323, -0.0223,  ..., -0.0004, -0.0012,  0.0080]]],
+       device='cuda:0', requires_grad=True)]
+[2025-12-11 01:21:16,933] INFO [src.utils:19] torch.Size([1, 16, 1536])
+[2025-12-11 01:21:16,933] INFO [src.utils:19] torch.Size([1, 16, 1536])
+  0%|          | 2/6000 [00:21<17:49:53, 10.70s/it]                                                   {'loss': 19.4499, 'grad_norm': 1242.1107177734375, 'learning_rate': 2.0000000000000002e-07, 'epoch': 0.0}
+  0%|          | 2/6000 [00:21<17:49:53, 10.70s/it][2025-12-11 01:21:26,833] INFO [src.utils:19] [tensor([[[-0.0246,  0.0379,  0.0172,  ...,  0.0101,  0.0264,  0.0285],
+         [-0.0184,  0.0451,  0.0135,  ...,  0.0076,  0.0198,  0.0235],
+         [-0.0135,  0.0424,  0.0090,  ...,  0.0118,  0.0217,  0.0204],
+         ...,
+         [-0.0143,  0.0860, -0.0223,  ...,  0.0286,  0.0278,  0.0141],
+         [-0.0074,  0.0530,  0.0015,  ...,  0.0110,  0.0170,  0.0184],
+         [-0.0144,  0.0481,  0.0067,  ...,  0.0113,  0.0173,  0.0213]]],
+       device='cuda:0', requires_grad=True), tensor([[[ 0.0131,  0.1052, -0.0288,  ...,  0.0284, -0.0062,  0.0089],
+         [-0.0048,  0.0979, -0.0366,  ...,  0.0140,  0.0118,  0.0104],
+         [ 0.0300,  0.1391, -0.0424,  ...,  0.0034,  0.0611,  0.0093],
+         ...,
+         [ 0.0082, -0.0182, -0.0026,  ..., -0.0052,  0.0091,  0.0248],
+         [ 0.0008,  0.1137, -0.0535,  ...,  0.0170,  0.0047,  0.0075],
+         [ 0.0058,  0.1136, -0.0317,  ...,  0.0267,  0.0427,  0.0069]]],
+       device='cuda:0', requires_grad=True)]
+[2025-12-11 01:21:26,836] INFO [src.utils:19] torch.Size([1, 16, 1536])
+[2025-12-11 01:21:26,837] INFO [src.utils:19] torch.Size([1, 16, 1536])

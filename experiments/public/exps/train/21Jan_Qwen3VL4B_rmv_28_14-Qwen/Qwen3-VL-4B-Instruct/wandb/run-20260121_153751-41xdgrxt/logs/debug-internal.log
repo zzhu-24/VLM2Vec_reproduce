@@ -1,0 +1,26 @@
+{"time":"2026-01-21T15:37:51.603619199+01:00","level":"INFO","msg":"stream: starting","core version":"0.22.1"}
+{"time":"2026-01-21T15:37:51.876393235+01:00","level":"INFO","msg":"stream: created new stream","id":"41xdgrxt"}
+{"time":"2026-01-21T15:37:51.876537654+01:00","level":"INFO","msg":"handler: started","stream_id":"41xdgrxt"}
+{"time":"2026-01-21T15:37:51.877343036+01:00","level":"INFO","msg":"stream: started","id":"41xdgrxt"}
+{"time":"2026-01-21T15:37:51.877426477+01:00","level":"INFO","msg":"sender: started","stream_id":"41xdgrxt"}
+{"time":"2026-01-21T15:37:51.877439502+01:00","level":"INFO","msg":"writer: started","stream_id":"41xdgrxt"}
+{"time":"2026-01-21T16:14:23.350617283+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2026-01-21T16:14:45.100293595+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":1477}
+{"time":"2026-01-21T16:14:55.468736389+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2026-01-21T16:14:59.939212016+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":11}
+{"time":"2026-01-21T16:24:19.930101562+01:00","level":"INFO","msg":"api: retrying HTTP error","status":500,"url":"https://api.wandb.ai/files/zhuzhehua16-t-l-com-paris/vlm2vec_train/41xdgrxt/file_stream","body":"{\"error\":\"context deadline exceeded\"}"}
+{"time":"2026-01-21T16:27:33.36925728+01:00","level":"INFO","msg":"api: retrying HTTP error","status":500,"url":"https://api.wandb.ai/files/zhuzhehua16-t-l-com-paris/vlm2vec_train/41xdgrxt/file_stream","body":"{\"error\":\"context deadline exceeded\"}"}
+{"time":"2026-01-21T16:27:38.372302764+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}
+{"time":"2026-01-21T16:30:23.380836293+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}
+{"time":"2026-01-21T16:33:38.386788109+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}
+{"time":"2026-01-21T16:44:53.405051842+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2026-01-21T16:46:28.31616371+01:00","level":"INFO","msg":"api: retrying HTTP error","status":500,"url":"https://api.wandb.ai/files/zhuzhehua16-t-l-com-paris/vlm2vec_train/41xdgrxt/file_stream","body":"{\"error\":\"context deadline exceeded\"}"}
+{"time":"2026-01-21T16:47:23.410612601+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}
+{"time":"2026-01-21T16:51:38.421733274+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}
+{"time":"2026-01-21T16:58:06.243564515+01:00","level":"INFO","msg":"api: retrying HTTP error","status":500,"url":"https://api.wandb.ai/files/zhuzhehua16-t-l-com-paris/vlm2vec_train/41xdgrxt/file_stream","body":"{\"error\":\"context deadline exceeded\"}"}
+{"time":"2026-01-21T19:08:59.179230212+01:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/zhuzhehua16-t-l-com-paris/vlm2vec_train/41xdgrxt/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2026-01-21T23:33:39.695948531+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}
+{"time":"2026-01-22T00:34:42.354544258+01:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/zhuzhehua16-t-l-com-paris/vlm2vec_train/41xdgrxt/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2026-01-22T01:02:25.109012768+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2026-01-22T06:52:10.451828984+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2026-01-23T01:18:58.420337622+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}

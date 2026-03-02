@@ -1,0 +1,15 @@
+{"time":"2025-12-02T10:12:44.563070049+01:00","level":"INFO","msg":"stream: starting","core version":"0.22.1"}
+{"time":"2025-12-02T10:12:44.822279432+01:00","level":"INFO","msg":"stream: created new stream","id":"72qkp1bz"}
+{"time":"2025-12-02T10:12:44.822312383+01:00","level":"INFO","msg":"handler: started","stream_id":"72qkp1bz"}
+{"time":"2025-12-02T10:12:44.823031466+01:00","level":"INFO","msg":"stream: started","id":"72qkp1bz"}
+{"time":"2025-12-02T10:12:44.823063255+01:00","level":"INFO","msg":"sender: started","stream_id":"72qkp1bz"}
+{"time":"2025-12-02T10:12:44.823059728+01:00","level":"INFO","msg":"writer: started","stream_id":"72qkp1bz"}
+{"time":"2025-12-02T21:39:15.82058845+01:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/zhuzhehua16-t-l-com-paris/vlm2vec_train/72qkp1bz/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2025-12-03T00:33:22.460723238+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":70426}
+{"time":"2025-12-03T00:33:32.760094902+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2025-12-03T00:33:39.853301458+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":15}
+{"time":"2025-12-03T01:12:13.49144368+01:00","level":"INFO","msg":"stream: closing","id":"72qkp1bz"}
+{"time":"2025-12-03T01:12:14.460808492+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-12-03T01:12:14.694138125+01:00","level":"INFO","msg":"handler: closed","stream_id":"72qkp1bz"}
+{"time":"2025-12-03T01:12:14.696205296+01:00","level":"INFO","msg":"sender: closed","stream_id":"72qkp1bz"}
+{"time":"2025-12-03T01:12:14.696222759+01:00","level":"INFO","msg":"stream: closed","id":"72qkp1bz"}

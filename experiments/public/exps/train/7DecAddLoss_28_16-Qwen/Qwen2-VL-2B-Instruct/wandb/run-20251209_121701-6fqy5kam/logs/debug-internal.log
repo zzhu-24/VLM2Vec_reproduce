@@ -1,0 +1,28 @@
+{"time":"2025-12-09T12:17:01.867651551+01:00","level":"INFO","msg":"stream: starting","core version":"0.22.1"}
+{"time":"2025-12-09T12:17:02.119009492+01:00","level":"INFO","msg":"stream: created new stream","id":"6fqy5kam"}
+{"time":"2025-12-09T12:17:02.119063383+01:00","level":"INFO","msg":"handler: started","stream_id":"6fqy5kam"}
+{"time":"2025-12-09T12:17:02.11962948+01:00","level":"INFO","msg":"stream: started","id":"6fqy5kam"}
+{"time":"2025-12-09T12:17:02.119652483+01:00","level":"INFO","msg":"writer: started","stream_id":"6fqy5kam"}
+{"time":"2025-12-09T12:17:02.119662692+01:00","level":"INFO","msg":"sender: started","stream_id":"6fqy5kam"}
+{"time":"2025-12-09T23:08:05.021509055+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":77025}
+{"time":"2025-12-09T23:08:07.460396995+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":4}
+{"time":"2025-12-10T02:09:05.901181915+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":99013}
+{"time":"2025-12-10T02:09:20.508004048+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}
+{"time":"2025-12-10T02:09:22.974267291+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":27}
+{"time":"2025-12-10T08:50:52.057972708+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":149500}
+{"time":"2025-12-10T08:50:59.53492623+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":10}
+{"time":"2025-12-10T08:54:52.543759965+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":149999}
+{"time":"2025-12-10T08:54:54.06851101+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":1}
+{"time":"2025-12-10T08:55:36.284266248+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":150095}
+{"time":"2025-12-10T08:55:46.600260141+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":16}
+{"time":"2025-12-10T08:56:06.811872928+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":150160}
+{"time":"2025-12-10T08:56:16.430362901+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":16}
+{"time":"2025-12-10T08:57:22.169743753+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":150319}
+{"time":"2025-12-10T08:57:36.622925261+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2025-12-10T08:57:44.857231442+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":44}
+{"time":"2025-12-10T08:59:05.707320226+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":150540}
+{"time":"2025-12-10T08:59:17.504700565+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":16}
+{"time":"2025-12-10T08:59:51.299515987+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":150628}
+{"time":"2025-12-10T08:59:57.919245355+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":10}
+{"time":"2025-12-10T09:57:06.515059306+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":157803}
+{"time":"2025-12-10T09:57:09.65349074+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":4}

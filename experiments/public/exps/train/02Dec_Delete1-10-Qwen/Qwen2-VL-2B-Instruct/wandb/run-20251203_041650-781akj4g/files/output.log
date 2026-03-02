@@ -1,0 +1,51 @@
+[2025-12-03 04:16:51,822] INFO [src.trainer:332] ***** Running training *****
+[2025-12-03 04:16:51,823] INFO [src.trainer:333]   Num examples = 192,000
+[2025-12-03 04:16:51,823] INFO [src.trainer:334]   Num Epochs = 9,223,372,036,854,775,807
+[2025-12-03 04:16:51,823] INFO [src.trainer:335]   Instantaneous batch size per device = 16
+[2025-12-03 04:16:51,823] INFO [src.trainer:338]   Total train batch size (w. parallel, distributed & accumulation) = 32
+[2025-12-03 04:16:51,823] INFO [src.trainer:339]   Gradient Accumulation steps = 1
+[2025-12-03 04:16:51,824] INFO [src.trainer:340]   Total optimization steps = 6,000
+[2025-12-03 04:16:51,828] INFO [src.trainer:341]   Number of trainable parameters = 7,560,192
+[2025-12-03 04:16:51,831] INFO [src.trainer:342]   Trainable Parameters = ['module.encoder.base_model.model.model.layers.0.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.0.mlp.down_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.0.mlp.down_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.0.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.1.mlp.down_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.1.mlp.down_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.1.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.2.mlp.down_proj.lora_A.default.weight', 'modu
+[2025-12-03 04:16:51,842] INFO [src.trainer:367]   Continuing training from checkpoint, will skip to saved global_step
+[2025-12-03 04:16:51,842] INFO [src.trainer:368]   Continuing training from epoch 1
+[2025-12-03 04:16:51,842] INFO [src.trainer:369]   Continuing training from global step 6000
+[2025-12-03 04:16:51,842] INFO [src.trainer:371]   Will skip the first 1 epochs then the first 0 batches in the first epoch.
+Traceback (most recent call last):
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 118, in <module>
+    main()
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 110, in main
+    trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+    return inner_training_loop(
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 419, in _inner_training_loop
+    self._load_rng_state(resume_from_checkpoint)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 3130, in _load_rng_state
+    checkpoint_rng_state = torch.load(rng_file, weights_only=True)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/serialization.py", line 1096, in load
+    raise pickle.UnpicklingError(_get_wo_message(str(e))) from None
+_pickle.UnpicklingError: Weights only load failed. This file can still be loaded, to do so you have two options
+	(1) Re-running `torch.load` with `weights_only` set to `False` will likely succeed, but it can result in arbitrary code execution. Do it only if you got the file from a trusted source.
+	(2) Alternatively, to load with `weights_only=True` please check the recommended steps in the following error message.
+	WeightsUnpickler error: Unsupported global: GLOBAL _codecs.encode was not an allowed global by default. Please use `torch.serialization.add_safe_globals([encode])` to allowlist this global if you trust this class/function.
+
+Check the documentation of torch.load to learn more about types accepted by default with weights_only https://pytorch.org/docs/stable/generated/torch.load.html.
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 118, in <module>
+[rank1]:     main()
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 110, in main
+[rank1]:     trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+[rank1]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+[rank1]:     return inner_training_loop(
+[rank1]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 419, in _inner_training_loop
+[rank1]:     self._load_rng_state(resume_from_checkpoint)
+[rank1]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 3130, in _load_rng_state
+[rank1]:     checkpoint_rng_state = torch.load(rng_file, weights_only=True)
+[rank1]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/torch/serialization.py", line 1096, in load
+[rank1]:     raise pickle.UnpicklingError(_get_wo_message(str(e))) from None
+[rank1]: _pickle.UnpicklingError: Weights only load failed. This file can still be loaded, to do so you have two options
+[rank1]: 	(1) Re-running `torch.load` with `weights_only` set to `False` will likely succeed, but it can result in arbitrary code execution. Do it only if you got the file from a trusted source.
+[rank1]: 	(2) Alternatively, to load with `weights_only=True` please check the recommended steps in the following error message.
+[rank1]: 	WeightsUnpickler error: Unsupported global: GLOBAL _codecs.encode was not an allowed global by default. Please use `torch.serialization.add_safe_globals([encode])` to allowlist this global if you trust this class/function.
+
+[rank1]: Check the documentation of torch.load to learn more about types accepted by default with weights_only https://pytorch.org/docs/stable/generated/torch.load.html.

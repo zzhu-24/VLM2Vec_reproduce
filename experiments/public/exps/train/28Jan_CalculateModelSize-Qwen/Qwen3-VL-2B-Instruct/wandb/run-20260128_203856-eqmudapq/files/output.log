@@ -1,0 +1,106 @@
+[2026-01-28 20:38:57,294] INFO [src.utils:19] Loading backbone [qwen3_vl] from Qwen/Qwen3-VL-2B-Instruct
+`torch_dtype` is deprecated! Use `dtype` instead!
+[2026-01-28 20:38:57,894] INFO [src.utils:19] Loading lora adapter from Qwen3VLForConditionalGeneration(
+  (model): Qwen3VLModel(
+    (visual): Qwen3VLVisionModel(
+      (patch_embed): Qwen3VLVisionPatchEmbed(
+        (proj): Conv3d(3, 1024, kernel_size=(2, 16, 16), stride=(2, 16, 16))
+      )
+      (pos_embed): Embedding(2304, 1024)
+      (rotary_pos_emb): Qwen3VLVisionRotaryEmbedding()
+      (blocks): ModuleList(
+        (0-23): 24 x Qwen3VLVisionBlock(
+          (norm1): LayerNorm((1024,), eps=1e-06, elementwise_affine=True)
+          (norm2): LayerNorm((1024,), eps=1e-06, elementwise_affine=True)
+          (attn): Qwen3VLVisionAttention(
+            (qkv): Linear(in_features=1024, out_features=3072, bias=True)
+            (proj): Linear(in_features=1024, out_features=1024, bias=True)
+          )
+          (mlp): Qwen3VLVisionMLP(
+            (linear_fc1): Linear(in_features=1024, out_features=4096, bias=True)
+            (linear_fc2): Linear(in_features=4096, out_features=1024, bias=True)
+            (act_fn): GELUTanh()
+          )
+        )
+      )
+      (merger): Qwen3VLVisionPatchMerger(
+        (norm): LayerNorm((1024,), eps=1e-06, elementwise_affine=True)
+        (linear_fc1): Linear(in_features=4096, out_features=4096, bias=True)
+        (act_fn): GELU(approximate='none')
+        (linear_fc2): Linear(in_features=4096, out_features=2048, bias=True)
+      )
+      (deepstack_merger_list): ModuleList(
+        (0-2): 3 x Qwen3VLVisionPatchMerger(
+          (norm): LayerNorm((4096,), eps=1e-06, elementwise_affine=True)
+          (linear_fc1): Linear(in_features=4096, out_features=4096, bias=True)
+          (act_fn): GELU(approximate='none')
+          (linear_fc2): Linear(in_features=4096, out_features=2048, bias=True)
+        )
+      )
+    )
+    (language_model): Qwen3VLTextModel(
+      (embed_tokens): Embedding(151936, 2048)
+      (layers): ModuleList(
+        (0-27): 28 x Qwen3VLTextDecoderLayer(
+          (self_attn): Qwen3VLTextAttention(
+            (q_proj): Linear(in_features=2048, out_features=2048, bias=False)
+            (k_proj): Linear(in_features=2048, out_features=1024, bias=False)
+            (v_proj): Linear(in_features=2048, out_features=1024, bias=False)
+            (o_proj): Linear(in_features=2048, out_features=2048, bias=False)
+            (q_norm): Qwen3VLTextRMSNorm((128,), eps=1e-06)
+            (k_norm): Qwen3VLTextRMSNorm((128,), eps=1e-06)
+          )
+          (mlp): Qwen3VLTextMLP(
+            (gate_proj): Linear(in_features=2048, out_features=6144, bias=False)
+            (up_proj): Linear(in_features=2048, out_features=6144, bias=False)
+            (down_proj): Linear(in_features=6144, out_features=2048, bias=False)
+            (act_fn): SiLUActivation()
+          )
+          (input_layernorm): Qwen3VLTextRMSNorm((2048,), eps=1e-06)
+          (post_attention_layernorm): Qwen3VLTextRMSNorm((2048,), eps=1e-06)
+        )
+      )
+      (norm): Qwen3VLTextRMSNorm((2048,), eps=1e-06)
+      (rotary_emb): Qwen3VLTextRotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2048, out_features=151936, bias=False)
+)
+[2026-01-28 20:39:25,638] INFO [src.utils:10] rank0: model_backbone: qwen3_vl
+[2026-01-28 20:39:25,639] INFO [src.utils:19] Loading processor from: Qwen/Qwen3-VL-2B-Instruct
+[2026-01-28 20:39:32,244] INFO [src.utils:19] Loaded mmeb/VisualNews_t2i dataset with 99903 samples
+[2026-01-28 20:39:32,245] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): VisualNews_t2i, num_rows=99903, prob=25.0
+[2026-01-28 20:39:33,122] INFO [src.utils:19] Loaded mmeb/VisualNews_i2t dataset with 100000 samples
+[2026-01-28 20:39:33,123] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): VisualNews_i2t, num_rows=100000, prob=25.0
+[2026-01-28 20:39:33,964] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2026-01-28 20:39:33,964] INFO [src.utils:19] 		Dataset#2 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=25.0
+[2026-01-28 20:39:34,824] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2026-01-28 20:39:34,825] INFO [src.utils:19] 		Dataset#3 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=25.0
+[2026-01-28 20:39:34,825] INFO [src.utils:19]
+Initializing interleave datasets:
+		world_size=1
+		total num rows=413190
+		global batch size=16
+		estimated num step per epoch=25824.375
+		interleave_batch_size=0.0
+[2026-01-28 20:39:34,827] INFO [src.utils:19] ==================================================
+[2026-01-28 20:39:34,828] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2026-01-28 20:39:34,828] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-01-28 20:39:34,829] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-01-28 20:39:34,830] INFO [src.utils:19] 		Dataset 2 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-01-28 20:39:34,831] INFO [src.utils:19] 		Dataset 3 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-01-28 20:39:34,832] INFO [src.utils:19] ==================================================
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'eos_token_id': 151645, 'pad_token_id': 151643}.
+[2026-01-28 20:39:36,154] INFO [src.trainer:426] ***** Running training *****
+[2026-01-28 20:39:36,155] INFO [src.trainer:427]   Num examples = 235,200
+[2026-01-28 20:39:36,155] INFO [src.trainer:428]   Num Epochs = 9,223,372,036,854,775,807
+[2026-01-28 20:39:36,156] INFO [src.trainer:429]   Instantaneous batch size per device = 16
+[2026-01-28 20:39:36,156] INFO [src.trainer:432]   Total train batch size (w. parallel, distributed & accumulation) = 16
+[2026-01-28 20:39:36,156] INFO [src.trainer:433]   Gradient Accumulation steps = 1
+[2026-01-28 20:39:36,156] INFO [src.trainer:434]   Total optimization steps = 14,700
+[2026-01-28 20:39:36,161] INFO [src.trainer:435]   Number of trainable parameters = 10,321,920
+[2026-01-28 20:39:36,166] INFO [src.trainer:436]   Number of total parameters = 2,137,853,952
+[2026-01-28 20:39:36,171] INFO [src.trainer:439]   Number of base model parameters (excluding LoRA) = 2,137,853,952
+[2026-01-28 20:39:36,182] INFO [src.trainer:442]   [Param breakdown] image encoder (ViT) = 306,242,560, merger = 100,714,496, LLM = 1,730,896,896
+  0%|          | 0/14700 [00:00<?, ?it/s]
+[2026-01-28 20:39:36,997] WARNING [src.trainer:571] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.

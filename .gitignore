@@ -1,6 +1,7 @@
 # Global .gitignore for PRIM/VLM2Vec
 
-experiments/public/exps/train/*
+experiments/public/exps/train/**
+!experiments/public/exps/train/**/
 !experiments/public/exps/train/**/*.log
 
 slurm_results/*

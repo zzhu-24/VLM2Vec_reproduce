@@ -1,0 +1,12 @@
+{"time":"2026-01-28T21:50:52.65530372+01:00","level":"INFO","msg":"stream: starting","core version":"0.22.1"}
+{"time":"2026-01-28T21:50:52.911392607+01:00","level":"INFO","msg":"stream: created new stream","id":"x5diajz8"}
+{"time":"2026-01-28T21:50:52.911458544+01:00","level":"INFO","msg":"handler: started","stream_id":"x5diajz8"}
+{"time":"2026-01-28T21:50:52.912999355+01:00","level":"INFO","msg":"stream: started","id":"x5diajz8"}
+{"time":"2026-01-28T21:50:52.914116308+01:00","level":"INFO","msg":"sender: started","stream_id":"x5diajz8"}
+{"time":"2026-01-28T21:50:52.914159081+01:00","level":"INFO","msg":"writer: started","stream_id":"x5diajz8"}
+{"time":"2026-01-28T22:53:53.816466029+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2026-01-29T18:25:27.30180906+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}
+{"time":"2026-01-29T18:25:38.809112615+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":73679}
+{"time":"2026-01-29T18:25:45.538033615+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":9}
+{"time":"2026-01-29T20:20:15.654168905+01:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/zhuzhehua16-t-l-com-paris/vlm2vec_train/x5diajz8/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2026-01-30T01:54:33.292260145+01:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/zhuzhehua16-t-l-com-paris/vlm2vec_train/x5diajz8/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}

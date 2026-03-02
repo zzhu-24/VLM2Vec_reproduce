@@ -1,0 +1,130 @@
+[2025-12-03 03:40:56,589] INFO [src.utils:19] Loading backbone [qwen2_vl] from Qwen/Qwen2-VL-2B-Instruct
+You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 11.41it/s]
+[2025-12-03 03:40:57,239] INFO [src.utils:19] Loading lora adapter from Qwen2VLForConditionalGeneration(
+  (visual): Qwen2VisionTransformerPretrainedModel(
+    (patch_embed): PatchEmbed(
+      (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+    )
+    (rotary_pos_emb): VisionRotaryEmbedding()
+    (blocks): ModuleList(
+      (0-31): 32 x Qwen2VLVisionBlock(
+        (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (attn): VisionFlashAttention2(
+          (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+          (proj): Linear(in_features=1280, out_features=1280, bias=True)
+        )
+        (mlp): VisionMlp(
+          (fc1): Linear(in_features=1280, out_features=5120, bias=True)
+          (act): QuickGELUActivation()
+          (fc2): Linear(in_features=5120, out_features=1280, bias=True)
+        )
+      )
+    )
+    (merger): PatchMerger(
+      (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+      (mlp): Sequential(
+        (0): Linear(in_features=5120, out_features=5120, bias=True)
+        (1): GELU(approximate='none')
+        (2): Linear(in_features=5120, out_features=1536, bias=True)
+      )
+    )
+  )
+  (model): Qwen2VLModel(
+    (embed_tokens): Embedding(151936, 1536)
+    (layers): ModuleList(
+      (0-27): 28 x Qwen2VLDecoderLayer(
+        (self_attn): Qwen2VLFlashAttention2(
+          (q_proj): Linear(in_features=1536, out_features=1536, bias=True)
+          (k_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (v_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (o_proj): Linear(in_features=1536, out_features=1536, bias=False)
+          (rotary_emb): Qwen2VLRotaryEmbedding()
+        )
+        (mlp): Qwen2MLP(
+          (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (down_proj): Linear(in_features=8960, out_features=1536, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+        (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+      )
+    )
+    (norm): Qwen2RMSNorm((1536,), eps=1e-06)
+    (rotary_emb): Qwen2VLRotaryEmbedding()
+  )
+  (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
+)
+[2025-12-03 03:41:04,610] INFO [src.utils:10] rank0: model_backbone: qwen2_vl
+[2025-12-03 03:41:04,611] INFO [src.utils:19] Loading processor from: Qwen/Qwen2-VL-2B-Instruct
+[2025-12-03 03:41:07,875] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2025-12-03 03:41:07,875] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=50.0
+[2025-12-03 03:41:08,684] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2025-12-03 03:41:08,684] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=50.0
+[2025-12-03 03:41:08,685] INFO [src.utils:19]
+Initializing interleave datasets:
+		world_size=2
+		total num rows=213287
+		global batch size=32
+		estimated num step per epoch=6665.21875
+		interleave_batch_size=0.0
+[2025-12-03 03:41:08,685] INFO [src.utils:19] ==================================================
+[2025-12-03 03:41:08,686] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2025-12-03 03:41:08,686] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-12-03 03:41:08,687] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-12-03 03:41:08,687] INFO [src.utils:19] ==================================================
+[2025-12-03 03:41:10,453] INFO [src.trainer:332] ***** Running training *****
+[2025-12-03 03:41:10,454] INFO [src.trainer:333]   Num examples = 192,000
+[2025-12-03 03:41:10,454] INFO [src.trainer:334]   Num Epochs = 9,223,372,036,854,775,807
+[2025-12-03 03:41:10,454] INFO [src.trainer:335]   Instantaneous batch size per device = 16
+[2025-12-03 03:41:10,454] INFO [src.trainer:338]   Total train batch size (w. parallel, distributed & accumulation) = 32
+[2025-12-03 03:41:10,455] INFO [src.trainer:339]   Gradient Accumulation steps = 1
+[2025-12-03 03:41:10,455] INFO [src.trainer:340]   Total optimization steps = 6,000
+[2025-12-03 03:41:10,460] INFO [src.trainer:341]   Number of trainable parameters = 9,203,712
+[2025-12-03 03:41:10,465] INFO [src.trainer:342]   Trainable Parameters = ['module.encoder.base_model.model.model.layers.0.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.0.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.0.mlp.down_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.0.mlp.down_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.0.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.1.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.1.mlp.down_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.1.mlp.down_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.1.mlp.down_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.q_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.q_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.q_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.k_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.k_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.k_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.v_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.v_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.v_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.o_proj.lora_A.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.o_proj.lora_B.default.weight', 'module.encoder.base_model.model.model.layers.2.self_attn.o_proj.lora_magnitude_vector.default.weight', 'module.encoder.base_model.model.model.layers.2.mlp.down_proj.lora_A.default.weight', 'modu
+  0%|          | 0/6000 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 118, in <module>
+    main()
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 110, in main
+    trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+  File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+    return inner_training_loop(
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 501, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 709, in training_step
+    loss = self.gc(queries, targets, no_sync_except_last=_distributed)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 71, in __call__
+    return self.cache_step(*args, **kwargs)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 285, in cache_step
+    model_reps, rnd_states = self.forward_no_grad(model, x)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 188, in forward_no_grad
+    model_reps.append(self.get_reps(y))
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 155, in get_reps
+    return self.get_rep_fn(model_out)
+  File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/data/collator/train_collator.py", line 84, in get_dense_rep
+    if x["qry_reps"] is None:
+TypeError: 'float' object is not subscriptable
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 118, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/train.py", line 110, in main
+[rank0]:     trainer.train(resume_from_checkpoint=resume_checkpoint_dir)
+[rank0]:   File "/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/transformers/trainer.py", line 2245, in train
+[rank0]:     return inner_training_loop(
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 501, in _inner_training_loop
+[rank0]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/trainer.py", line 709, in training_step
+[rank0]:     loss = self.gc(queries, targets, no_sync_except_last=_distributed)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 71, in __call__
+[rank0]:     return self.cache_step(*args, **kwargs)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 285, in cache_step
+[rank0]:     model_reps, rnd_states = self.forward_no_grad(model, x)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 188, in forward_no_grad
+[rank0]:     model_reps.append(self.get_reps(y))
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/grad_cache/grad_cache.py", line 155, in get_reps
+[rank0]:     return self.get_rep_fn(model_out)
+[rank0]:   File "/home/infres/zzhu-24/PRIM/VLM2Vec/src/data/collator/train_collator.py", line 84, in get_dense_rep
+[rank0]:     if x["qry_reps"] is None:
+[rank0]: TypeError: 'float' object is not subscriptable

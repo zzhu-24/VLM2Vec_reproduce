@@ -1,0 +1,229 @@
+[2026-02-16 14:30:20,124] INFO [src.utils:19] Loading backbone [qwen3_vl] from Qwen/Qwen3-VL-4B-Instruct
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 20.50it/s]
+[2026-02-16 14:30:21,370] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:222] Applying attention head pruning (KV-group granularity):
+[2026-02-16 14:30:21,371] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 0: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,371] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 1: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,372] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 2: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,372] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 3: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,373] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 4: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,373] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 5: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,374] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 6: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,375] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 7: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,375] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 8: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,376] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 9: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,376] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 10: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,377] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 11: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,377] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 12: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,378] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 13: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,378] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 14: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,379] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 15: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,379] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 16: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,380] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 17: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,380] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 18: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,381] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 19: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,381] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 20: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,382] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 21: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,383] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 22: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,383] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 23: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,384] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 24: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,384] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 25: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,385] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 26: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,385] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 27: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,386] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 28: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,386] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 29: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,387] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 30: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,387] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 31: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,388] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 32: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,388] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 33: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,389] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 34: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,389] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:224]   Layer 35: pruning KV groups [0, 1, 2, 3, 4, 5, 6, 7]
+[2026-02-16 14:30:21,390] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 0: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,390] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 1: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,391] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 2: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,392] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 3: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,392] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 4: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,393] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 5: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,394] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 6: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,394] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 7: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,395] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 8: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,395] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 9: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,396] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 10: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,396] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 11: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,397] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 12: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,397] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 13: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,398] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 14: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,399] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 15: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,399] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 16: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,400] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 17: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,400] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 18: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,401] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 19: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,401] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 20: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,402] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 21: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,403] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 22: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,403] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 23: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,404] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 24: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,404] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 25: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,405] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 26: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,405] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 27: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,406] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 28: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,407] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 29: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,407] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 30: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,408] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 31: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,408] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 32: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,409] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 33: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,409] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 34: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,410] WARNING [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:238]   Layer 35: cannot prune all groups; skipping.
+[2026-02-16 14:30:21,411] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:404] Applying MLP pruning: ratio=0.500, intermediate_size 9728 -> 4864 (removing 4864 neurons/layer)
+[2026-02-16 14:30:21,799] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 0 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:22,161] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 1 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:22,519] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 2 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:22,876] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 3 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:23,260] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 4 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:23,618] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 5 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:23,976] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 6 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:24,332] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 7 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:24,690] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 8 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:25,048] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 9 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:25,404] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 10 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:25,757] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 11 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:26,113] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 12 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:26,471] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 13 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:26,827] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 14 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:27,184] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 15 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:27,541] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 16 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:27,896] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 17 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:28,252] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 18 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:28,609] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 19 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:28,966] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 20 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:29,320] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 21 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:29,668] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 22 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:30,025] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 23 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:30,377] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 24 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:30,732] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 25 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:31,087] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 26 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:31,445] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 27 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:31,800] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 28 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:32,156] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 29 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:32,512] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 30 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:32,867] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 31 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:33,222] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 32 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:33,579] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 33 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:33,931] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 34 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:34,287] INFO [src.model.vlm_backbone.qwen3_vl.modeling_qwen3_vl:488]   Layer 35 MLP pruned: intermediate_size 9728 -> 4864
+[2026-02-16 14:30:34,293] INFO [src.utils:19] Loading lora adapter from Qwen3VLForConditionalGeneration(
+  (model): Qwen3VLModel(
+    (visual): Qwen3VLVisionModel(
+      (patch_embed): Qwen3VLVisionPatchEmbed(
+        (proj): Conv3d(3, 1024, kernel_size=(2, 16, 16), stride=(2, 16, 16))
+      )
+      (pos_embed): Embedding(2304, 1024)
+      (rotary_pos_emb): Qwen3VLVisionRotaryEmbedding()
+      (blocks): ModuleList(
+        (0-23): 24 x Qwen3VLVisionBlock(
+          (norm1): LayerNorm((1024,), eps=1e-06, elementwise_affine=True)
+          (norm2): LayerNorm((1024,), eps=1e-06, elementwise_affine=True)
+          (attn): Qwen3VLVisionAttention(
+            (qkv): Linear(in_features=1024, out_features=3072, bias=True)
+            (proj): Linear(in_features=1024, out_features=1024, bias=True)
+          )
+          (mlp): Qwen3VLVisionMLP(
+            (linear_fc1): Linear(in_features=1024, out_features=4096, bias=True)
+            (linear_fc2): Linear(in_features=4096, out_features=1024, bias=True)
+            (act_fn): GELUTanh()
+          )
+        )
+      )
+      (merger): Qwen3VLVisionPatchMerger(
+        (norm): LayerNorm((1024,), eps=1e-06, elementwise_affine=True)
+        (linear_fc1): Linear(in_features=4096, out_features=4096, bias=True)
+        (act_fn): GELU(approximate='none')
+        (linear_fc2): Linear(in_features=4096, out_features=2560, bias=True)
+      )
+      (deepstack_merger_list): ModuleList(
+        (0-2): 3 x Qwen3VLVisionPatchMerger(
+          (norm): LayerNorm((4096,), eps=1e-06, elementwise_affine=True)
+          (linear_fc1): Linear(in_features=4096, out_features=4096, bias=True)
+          (act_fn): GELU(approximate='none')
+          (linear_fc2): Linear(in_features=4096, out_features=2560, bias=True)
+        )
+      )
+    )
+    (language_model): Qwen3VLTextModel(
+      (embed_tokens): Embedding(151936, 2560)
+      (layers): ModuleList(
+        (0-35): 36 x Qwen3VLTextDecoderLayer(
+          (self_attn): Qwen3VLTextAttention(
+            (q_proj): Linear(in_features=2560, out_features=4096, bias=False)
+            (k_proj): Linear(in_features=2560, out_features=1024, bias=False)
+            (v_proj): Linear(in_features=2560, out_features=1024, bias=False)
+            (o_proj): Linear(in_features=4096, out_features=2560, bias=False)
+            (q_norm): Qwen3VLTextRMSNorm((128,), eps=1e-06)
+            (k_norm): Qwen3VLTextRMSNorm((128,), eps=1e-06)
+          )
+          (mlp): Qwen3VLTextMLP(
+            (gate_proj): Linear(in_features=2560, out_features=4864, bias=False)
+            (up_proj): Linear(in_features=2560, out_features=4864, bias=False)
+            (down_proj): Linear(in_features=4864, out_features=2560, bias=False)
+            (act_fn): SiLUActivation()
+          )
+          (input_layernorm): Qwen3VLTextRMSNorm((2560,), eps=1e-06)
+          (post_attention_layernorm): Qwen3VLTextRMSNorm((2560,), eps=1e-06)
+        )
+      )
+      (norm): Qwen3VLTextRMSNorm((2560,), eps=1e-06)
+      (rotary_emb): Qwen3VLTextRotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2560, out_features=151936, bias=False)
+)
+[2026-02-16 14:31:04,949] INFO [src.utils:10] rank0: model_backbone: qwen3_vl
+[2026-02-16 14:31:04,950] INFO [src.utils:19] Loading processor from: Qwen/Qwen3-VL-4B-Instruct
+[2026-02-16 14:31:11,223] INFO [src.utils:19] Loaded mmeb/VisualNews_t2i dataset with 99903 samples
+[2026-02-16 14:31:11,224] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): VisualNews_t2i, num_rows=99903, prob=25.0
+[2026-02-16 14:31:12,486] INFO [src.utils:19] Loaded mmeb/VisualNews_i2t dataset with 100000 samples
+[2026-02-16 14:31:12,486] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): VisualNews_i2t, num_rows=100000, prob=25.0
+[2026-02-16 14:31:13,670] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2026-02-16 14:31:13,671] INFO [src.utils:19] 		Dataset#2 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=25.0
+[2026-02-16 14:31:14,886] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2026-02-16 14:31:14,887] INFO [src.utils:19] 		Dataset#3 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=25.0
+[2026-02-16 14:31:14,888] INFO [src.utils:19]
+Initializing interleave datasets:
+		world_size=1
+		total num rows=413190
+		global batch size=16
+		estimated num step per epoch=25824.375
+		interleave_batch_size=0.0
+[2026-02-16 14:31:14,891] INFO [src.utils:19] ==================================================
+[2026-02-16 14:31:14,892] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2026-02-16 14:31:14,893] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-02-16 14:31:14,894] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-02-16 14:31:14,896] INFO [src.utils:19] 		Dataset 2 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-02-16 14:31:14,897] INFO [src.utils:19] 		Dataset 3 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-02-16 14:31:14,898] INFO [src.utils:19] ==================================================
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'eos_token_id': 151645, 'pad_token_id': 151643}.
+[2026-02-16 14:31:16,731] INFO [src.trainer:429] ***** Running training *****
+[2026-02-16 14:31:16,731] INFO [src.trainer:430]   Num examples = 235,200
+[2026-02-16 14:31:16,732] INFO [src.trainer:431]   Num Epochs = 9,223,372,036,854,775,807
+[2026-02-16 14:31:16,732] INFO [src.trainer:432]   Instantaneous batch size per device = 16
+[2026-02-16 14:31:16,732] INFO [src.trainer:435]   Total train batch size (w. parallel, distributed & accumulation) = 16
+[2026-02-16 14:31:16,732] INFO [src.trainer:436]   Gradient Accumulation steps = 1
+[2026-02-16 14:31:16,733] INFO [src.trainer:437]   Total optimization steps = 14,700
+[2026-02-16 14:31:16,739] INFO [src.trainer:438]   Number of trainable parameters = 16,478,208
+[2026-02-16 14:31:16,745] INFO [src.trainer:439]   Number of total parameters = 3,109,495,296
+[2026-02-16 14:31:16,751] INFO [src.trainer:442]   Number of base model parameters (excluding LoRA) = 3,109,495,296
+[2026-02-16 14:31:16,765] INFO [src.trainer:445]   [Param breakdown] image encoder (ViT) = 306,242,560, merger = 109,105,152, LLM = 2,694,147,584
+  0%|          | 6/14700 [03:22<135:56:37, 33.31s/it]
+[2026-02-16 14:31:19,496] WARNING [src.trainer:574] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 16.2715, 'grad_norm': 881.8460693359375, 'learning_rate': 1.0000000000000001e-07, 'epoch': 0.0}
+[2026-02-16 14:31:55,639] WARNING [src.trainer:574] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 15.8987, 'grad_norm': 949.7537231445312, 'learning_rate': 2.0000000000000002e-07, 'epoch': 0.0}
+[2026-02-16 14:32:28,800] WARNING [src.trainer:574] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 14.9962, 'grad_norm': 943.5602416992188, 'learning_rate': 3.0000000000000004e-07, 'epoch': 0.0}
+[2026-02-16 14:33:01,821] WARNING [src.trainer:574] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 16.8122, 'grad_norm': 1375.7337646484375, 'learning_rate': 4.0000000000000003e-07, 'epoch': 0.0}
+[2026-02-16 14:33:34,758] WARNING [src.trainer:574] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 16.8314, 'grad_norm': 1218.6763916015625, 'learning_rate': 5.000000000000001e-07, 'epoch': 0.0}
+[2026-02-16 14:34:07,933] WARNING [src.trainer:574] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+{'loss': 13.8243, 'grad_norm': 838.6707763671875, 'learning_rate': 6.000000000000001e-07, 'epoch': 0.0}
+[2026-02-16 14:34:40,999] WARNING [src.trainer:574] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.

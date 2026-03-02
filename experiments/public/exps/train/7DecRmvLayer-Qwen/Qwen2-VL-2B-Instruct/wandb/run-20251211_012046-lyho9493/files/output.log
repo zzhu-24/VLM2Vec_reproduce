@@ -1,0 +1,143 @@
+[2025-12-11 01:20:47,472] INFO [src.utils:19] Loading backbone [qwen2_vl] from Qwen/Qwen2-VL-2B-Instruct
+You are attempting to use Flash Attention 2.0 with a model not initialized on GPU. Make sure to move the model to GPU after initializing it on CPU with `model.to('cuda')`.
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 21.01it/s]
+Some weights of the model checkpoint at Qwen/Qwen2-VL-2B-Instruct were not used when initializing Qwen2VLForConditionalGeneration: ['model.layers.23.input_layernorm.weight', 'model.layers.23.mlp.down_proj.weight', 'model.layers.23.mlp.gate_proj.weight', 'model.layers.23.mlp.up_proj.weight', 'model.layers.23.post_attention_layernorm.weight', 'model.layers.23.self_attn.k_proj.bias', 'model.layers.23.self_attn.k_proj.weight', 'model.layers.23.self_attn.o_proj.weight', 'model.layers.23.self_attn.q_proj.bias', 'model.layers.23.self_attn.q_proj.weight', 'model.layers.23.self_attn.v_proj.bias', 'model.layers.23.self_attn.v_proj.weight', 'model.layers.24.input_layernorm.weight', 'model.layers.24.mlp.down_proj.weight', 'model.layers.24.mlp.gate_proj.weight', 'model.layers.24.mlp.up_proj.weight', 'model.layers.24.post_attention_layernorm.weight', 'model.layers.24.self_attn.k_proj.bias', 'model.layers.24.self_attn.k_proj.weight', 'model.layers.24.self_attn.o_proj.weight', 'model.layers.24.self_attn.q_proj.bias', 'model.layers.24.self_attn.q_proj.weight', 'model.layers.24.self_attn.v_proj.bias', 'model.layers.24.self_attn.v_proj.weight', 'model.layers.25.input_layernorm.weight', 'model.layers.25.mlp.down_proj.weight', 'model.layers.25.mlp.gate_proj.weight', 'model.layers.25.mlp.up_proj.weight', 'model.layers.25.post_attention_layernorm.weight', 'model.layers.25.self_attn.k_proj.bias', 'model.layers.25.self_attn.k_proj.weight', 'model.layers.25.self_attn.o_proj.weight', 'model.layers.25.self_attn.q_proj.bias', 'model.layers.25.self_attn.q_proj.weight', 'model.layers.25.self_attn.v_proj.bias', 'model.layers.25.self_attn.v_proj.weight', 'model.layers.26.input_layernorm.weight', 'model.layers.26.mlp.down_proj.weight', 'model.layers.26.mlp.gate_proj.weight', 'model.layers.26.mlp.up_proj.weight', 'model.layers.26.post_attention_layernorm.weight', 'model.layers.26.self_attn.k_proj.bias', 'model.layers.26.self_attn.k_proj.weight', 'model.layers.26.self_attn.o_proj.weight', 'model.layers.26.self_attn.q_proj.bias', 'model.layers.26.self_attn.q_proj.weight', 'model.layers.26.self_attn.v_proj.bias', 'model.layers.26.self_attn.v_proj.weight', 'model.layers.27.input_layernorm.weight', 'model.layers.27.mlp.down_proj.weight', 'model.layers.27.mlp.gate_proj.weight', 'model.layers.27.mlp.up_proj.weight', 'model.layers.27.post_attention_layernorm.weight', 'model.layers.27.self_attn.k_proj.bias', 'model.layers.27.self_attn.k_proj.weight', 'model.layers.27.self_attn.o_proj.weight', 'model.layers.27.self_attn.q_proj.bias', 'model.layers.27.self_attn.q_proj.weight', 'model.layers.27.self_attn.v_proj.bias', 'model.layers.27.self_attn.v_proj.weight']
+- This IS expected if you are initializing Qwen2VLForConditionalGeneration from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing Qwen2VLForConditionalGeneration from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+[2025-12-11 01:20:48,262] INFO [src.utils:19] Loading lora adapter from Qwen2VLForConditionalGeneration(
+  (visual): Qwen2VisionTransformerPretrainedModel(
+    (patch_embed): PatchEmbed(
+      (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+    )
+    (rotary_pos_emb): VisionRotaryEmbedding()
+    (blocks): ModuleList(
+      (0-31): 32 x Qwen2VLVisionBlock(
+        (norm1): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (norm2): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+        (attn): VisionFlashAttention2(
+          (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+          (proj): Linear(in_features=1280, out_features=1280, bias=True)
+        )
+        (mlp): VisionMlp(
+          (fc1): Linear(in_features=1280, out_features=5120, bias=True)
+          (act): QuickGELUActivation()
+          (fc2): Linear(in_features=5120, out_features=1280, bias=True)
+        )
+      )
+    )
+    (merger): PatchMerger(
+      (ln_q): LayerNorm((1280,), eps=1e-06, elementwise_affine=True)
+      (mlp): Sequential(
+        (0): Linear(in_features=5120, out_features=5120, bias=True)
+        (1): GELU(approximate='none')
+        (2): Linear(in_features=5120, out_features=1536, bias=True)
+      )
+    )
+  )
+  (model): Qwen2VLModel(
+    (embed_tokens): Embedding(151936, 1536)
+    (layers): ModuleList(
+      (0-22): 23 x Qwen2VLDecoderLayer(
+        (self_attn): Qwen2VLFlashAttention2(
+          (q_proj): Linear(in_features=1536, out_features=1536, bias=True)
+          (k_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (v_proj): Linear(in_features=1536, out_features=256, bias=True)
+          (o_proj): Linear(in_features=1536, out_features=1536, bias=False)
+          (rotary_emb): Qwen2VLRotaryEmbedding()
+        )
+        (mlp): Qwen2MLP(
+          (gate_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (up_proj): Linear(in_features=1536, out_features=8960, bias=False)
+          (down_proj): Linear(in_features=8960, out_features=1536, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+        (post_attention_layernorm): Qwen2RMSNorm((1536,), eps=1e-06)
+      )
+    )
+    (norm): Qwen2RMSNorm((1536,), eps=1e-06)
+    (rotary_emb): Qwen2VLRotaryEmbedding()
+  )
+  (lm_head): Linear(in_features=1536, out_features=151936, bias=False)
+)
+[2025-12-11 01:20:56,315] INFO [src.utils:10] rank0: model_backbone: qwen2_vl
+[2025-12-11 01:20:56,316] INFO [src.utils:19] Loading processor from: Qwen/Qwen2-VL-2B-Instruct
+[2025-12-11 01:21:01,422] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2025-12-11 01:21:01,423] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=50.0
+[2025-12-11 01:21:02,274] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2025-12-11 01:21:02,275] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=50.0
+[2025-12-11 01:21:02,275] INFO [src.utils:19]
+Initializing interleave datasets:
+		world_size=1
+		total num rows=213287
+		global batch size=16
+		estimated num step per epoch=13330.4375
+		interleave_batch_size=0.0
+[2025-12-11 01:21:02,277] INFO [src.utils:19] ==================================================
+[2025-12-11 01:21:02,277] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2025-12-11 01:21:02,278] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-12-11 01:21:02,279] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2025-12-11 01:21:02,280] INFO [src.utils:19] ==================================================
+[2025-12-11 01:21:03,715] INFO [src.trainer:331] ***** Running training *****
+[2025-12-11 01:21:03,716] INFO [src.trainer:332]   Num examples = 96,000
+[2025-12-11 01:21:03,716] INFO [src.trainer:333]   Num Epochs = 9,223,372,036,854,775,807
+[2025-12-11 01:21:03,716] INFO [src.trainer:334]   Instantaneous batch size per device = 16
+[2025-12-11 01:21:03,717] INFO [src.trainer:337]   Total train batch size (w. parallel, distributed & accumulation) = 16
+[2025-12-11 01:21:03,717] INFO [src.trainer:338]   Gradient Accumulation steps = 1
+[2025-12-11 01:21:03,718] INFO [src.trainer:339]   Total optimization steps = 6,000
+[2025-12-11 01:21:03,722] INFO [src.trainer:340]   Number of trainable parameters = 7,560,192
+[2025-12-11 01:21:03,726] INFO [src.trainer:341]   Trainable Parameters = ['encoder.base_model.model.model.layers.0.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.0.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.0.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.0.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.0.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.1.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.1.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.1.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.1.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.q_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.q_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.k_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.k_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.k_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.v_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.v_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.v_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.o_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.o_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.2.self_attn.o_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.2.mlp.down_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.2.mlp.down_proj.lora_B.default.weight', 'encoder.base_model.model.model.layers.2.mlp.down_proj.lora_magnitude_vector.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.q_proj.lora_A.default.weight', 'encoder.base_model.model.model.layers.3.self_attn.
+  0%|          | 1/6000 [00:11<19:46:03, 11.86s/it]
+[2025-12-11 01:21:06,362] INFO [src.utils:19] [tensor([[[ 0.0283,  0.1078, -0.0118,  ...,  0.0340,  0.0231,  0.0063],
+         [-0.0219,  0.0414,  0.0162,  ...,  0.0063,  0.0225,  0.0307],
+         [ 0.0164,  0.1028, -0.0069,  ...,  0.0266,  0.0414,  0.0229],
+         ...,
+         [-0.0052,  0.1113, -0.0164,  ...,  0.0265,  0.0089, -0.0018],
+         [-0.0220,  0.0485,  0.0143,  ...,  0.0024,  0.0181,  0.0274],
+         [-0.0195,  0.0443,  0.0053,  ...,  0.0100,  0.0316,  0.0200]]],
+       device='cuda:0', requires_grad=True), tensor([[[-0.0066,  0.0461, -0.0131,  ...,  0.0197,  0.0073,  0.0338],
+         [ 0.0213,  0.1096, -0.0282,  ...,  0.0038,  0.0201, -0.0039],
+         [ 0.0208, -0.0336, -0.0121,  ...,  0.0027,  0.0111,  0.0226],
+         ...,
+         [-0.0133, -0.0721, -0.0179,  ...,  0.0114, -0.0096,  0.0119],
+         [ 0.0304,  0.0924, -0.0156,  ...,  0.0151,  0.0052,  0.0148],
+         [ 0.0020,  0.1178, -0.0293,  ...,  0.0192,  0.0547,  0.0346]]],
+       device='cuda:0', requires_grad=True)]
+[2025-12-11 01:21:06,397] INFO [src.utils:19] torch.Size([1, 16, 1536])
+[2025-12-11 01:21:06,397] INFO [src.utils:19] torch.Size([1, 16, 1536])
+{'loss': 17.9189, 'grad_norm': 1031.07373046875, 'learning_rate': 1.0000000000000001e-07, 'epoch': 0.0}
+[2025-12-11 01:21:16,929] INFO [src.utils:19] [tensor([[[-0.0142,  0.0787, -0.0059,  ...,  0.0288,  0.0144, -0.0022],
+         [-0.0096,  0.0434, -0.0071,  ...,  0.0106,  0.0235,  0.0156],
+         [ 0.0231,  0.1140, -0.0075,  ...,  0.0190,  0.0192, -0.0017],
+         ...,
+         [-0.0139,  0.0898, -0.0126,  ...,  0.0317,  0.0357,  0.0053],
+         [ 0.0336,  0.0948, -0.0055,  ...,  0.0474,  0.0168,  0.0024],
+         [ 0.0272,  0.1027, -0.0106,  ...,  0.0228,  0.0466,  0.0038]]],
+       device='cuda:0', requires_grad=True), tensor([[[-0.0025, -0.0024, -0.0030,  ...,  0.0039,  0.0124,  0.0176],
+         [ 0.0251,  0.1063, -0.0099,  ...,  0.0168,  0.0096,  0.0221],
+         [ 0.0218, -0.0807, -0.0118,  ..., -0.0019,  0.0059,  0.0136],
+         ...,
+         [-0.0108,  0.0382, -0.0093,  ...,  0.0076,  0.0139,  0.0357],
+         [-0.0163, -0.0006, -0.0125,  ...,  0.0027,  0.0171,  0.0190],
+         [ 0.0251, -0.0323, -0.0223,  ..., -0.0004, -0.0012,  0.0080]]],
+       device='cuda:0', requires_grad=True)]
+[2025-12-11 01:21:16,933] INFO [src.utils:19] torch.Size([1, 16, 1536])
+[2025-12-11 01:21:16,933] INFO [src.utils:19] torch.Size([1, 16, 1536])
+{'loss': 19.4499, 'grad_norm': 1242.1107177734375, 'learning_rate': 2.0000000000000002e-07, 'epoch': 0.0}
+[2025-12-11 01:21:26,833] INFO [src.utils:19] [tensor([[[-0.0246,  0.0379,  0.0172,  ...,  0.0101,  0.0264,  0.0285],
+         [-0.0184,  0.0451,  0.0135,  ...,  0.0076,  0.0198,  0.0235],
+         [-0.0135,  0.0424,  0.0090,  ...,  0.0118,  0.0217,  0.0204],
+         ...,
+         [-0.0143,  0.0860, -0.0223,  ...,  0.0286,  0.0278,  0.0141],
+         [-0.0074,  0.0530,  0.0015,  ...,  0.0110,  0.0170,  0.0184],
+         [-0.0144,  0.0481,  0.0067,  ...,  0.0113,  0.0173,  0.0213]]],
+       device='cuda:0', requires_grad=True), tensor([[[ 0.0131,  0.1052, -0.0288,  ...,  0.0284, -0.0062,  0.0089],
+         [-0.0048,  0.0979, -0.0366,  ...,  0.0140,  0.0118,  0.0104],
+         [ 0.0300,  0.1391, -0.0424,  ...,  0.0034,  0.0611,  0.0093],
+         ...,
+         [ 0.0082, -0.0182, -0.0026,  ..., -0.0052,  0.0091,  0.0248],
+         [ 0.0008,  0.1137, -0.0535,  ...,  0.0170,  0.0047,  0.0075],
+         [ 0.0058,  0.1136, -0.0317,  ...,  0.0267,  0.0427,  0.0069]]],
+       device='cuda:0', requires_grad=True)]
+[2025-12-11 01:21:26,836] INFO [src.utils:19] torch.Size([1, 16, 1536])
+[2025-12-11 01:21:26,837] INFO [src.utils:19] torch.Size([1, 16, 1536])

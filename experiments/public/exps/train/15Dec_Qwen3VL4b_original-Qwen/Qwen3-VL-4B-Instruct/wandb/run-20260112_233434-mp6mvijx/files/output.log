@@ -1,0 +1,18 @@
+[2026-01-12 23:34:35,756] INFO [src.trainer:372] ***** Running training *****
+[2026-01-12 23:34:35,756] INFO [src.trainer:373]   Num examples = 384,000
+[2026-01-12 23:34:35,757] INFO [src.trainer:374]   Num Epochs = 9,223,372,036,854,775,807
+[2026-01-12 23:34:35,757] INFO [src.trainer:375]   Instantaneous batch size per device = 16
+[2026-01-12 23:34:35,758] INFO [src.trainer:378]   Total train batch size (w. parallel, distributed & accumulation) = 32
+[2026-01-12 23:34:35,758] INFO [src.trainer:379]   Gradient Accumulation steps = 1
+[2026-01-12 23:34:35,758] INFO [src.trainer:380]   Total optimization steps = 12,000
+[2026-01-12 23:34:35,768] INFO [src.trainer:381]   Number of trainable parameters = 19,279,872
+[2026-01-12 23:34:35,779] INFO [src.trainer:407]   Continuing training from checkpoint, will skip to saved global_step
+[2026-01-12 23:34:35,780] INFO [src.trainer:408]   Continuing training from epoch 0
+[2026-01-12 23:34:35,780] INFO [src.trainer:409]   Continuing training from global step 2500
+[2026-01-12 23:34:35,781] INFO [src.trainer:411]   Will skip the first 0 epochs then the first 2500 batches in the first epoch.
+[2026-01-12 23:41:44,354] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+[2026-01-12 23:44:03,170] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+[2026-01-12 23:46:21,093] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+[2026-01-12 23:48:38,393] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+[2026-01-12 23:50:56,341] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+[2026-01-12 23:53:14,355] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.

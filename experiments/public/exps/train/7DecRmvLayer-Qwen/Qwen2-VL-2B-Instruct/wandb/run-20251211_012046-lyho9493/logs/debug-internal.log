@@ -1,0 +1,11 @@
+{"time":"2025-12-11T01:20:46.400315554+01:00","level":"INFO","msg":"stream: starting","core version":"0.22.1"}
+{"time":"2025-12-11T01:20:46.663143618+01:00","level":"INFO","msg":"stream: created new stream","id":"lyho9493"}
+{"time":"2025-12-11T01:20:46.663218623+01:00","level":"INFO","msg":"handler: started","stream_id":"lyho9493"}
+{"time":"2025-12-11T01:20:46.664359803+01:00","level":"INFO","msg":"stream: started","id":"lyho9493"}
+{"time":"2025-12-11T01:20:46.664433445+01:00","level":"INFO","msg":"sender: started","stream_id":"lyho9493"}
+{"time":"2025-12-11T01:20:46.664445218+01:00","level":"INFO","msg":"writer: started","stream_id":"lyho9493"}
+{"time":"2025-12-11T01:21:31.259002751+01:00","level":"INFO","msg":"stream: closing","id":"lyho9493"}
+{"time":"2025-12-11T01:21:32.120204801+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-12-11T01:21:32.324801943+01:00","level":"INFO","msg":"handler: closed","stream_id":"lyho9493"}
+{"time":"2025-12-11T01:21:32.32544366+01:00","level":"INFO","msg":"sender: closed","stream_id":"lyho9493"}
+{"time":"2025-12-11T01:21:32.325472586+01:00","level":"INFO","msg":"stream: closed","id":"lyho9493"}

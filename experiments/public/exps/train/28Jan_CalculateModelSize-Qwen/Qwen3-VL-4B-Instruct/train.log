@@ -1,0 +1,278 @@
+/home/infres/zzhu-24/anaconda3/envs/vlm2vec/lib/python3.10/site-packages/requests/__init__.py:86: RequestsDependencyWarning: Unable to find acceptable character detection dependency (chardet or charset_normalizer).
+  warnings.warn(
+Model args: ModelArguments(model_name='Qwen/Qwen3-VL-4B-Instruct', model_type=None, processor_name=None, model_backbone=None, checkpoint_path=None, pooling='eos', normalize=True, temperature=0.02, lora=True, lora_r=16, lora_alpha=64, lora_dropout=0.1, lora_target_modules='qkv_proj,o_proj,gate_up_proj,down_proj,k_proj,q_proj,out_proj,v_proj', num_crops=16, uigraph_use=False, uigraph_diff=1, uigraph_rand=False, uimask_ratio=0.5, uimask_rand=False, lm_skip_layer='[1,28,0]', vis_skip_layer='[1,32,0]', plus_one_token=False, tail_token_train_only=False, tail_gradient_flow_only=False, delete_L=[28], delete_n=[23], joint_training_layers=[-1], eval_layers=[-1])
+Data args: DataArguments(dataset_config='/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/train/train_image.yaml', data_basedir='/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/data/vlm2vec_train/MMEB-train', dataset_name=None, subset_name=None, dataset_split='train', num_sample_per_subset=None, image_dir=None, encode_output_path=None, max_len=None, embedding_type='', image_resolution=None, resize_use_processor=True, resize_min_pixels=3136, resize_max_pixels=1003520, image_decay_factor=None, num_hardneg=0)
+Training args: TrainingArguments(
+_n_gpu=1,
+accelerator_config={'split_batches': False, 'dispatch_batches': None, 'even_batches': True, 'use_seedable_sampler': True, 'non_blocking': False, 'gradient_accumulation_kwargs': None, 'use_configured_state': False},
+adafactor=False,
+adam_beta1=0.9,
+adam_beta2=0.999,
+adam_epsilon=1e-08,
+auto_find_batch_size=False,
+average_tokens_across_devices=True,
+batch_eval_metrics=False,
+bf16=True,
+bf16_full_eval=False,
+data_seed=None,
+dataloader_drop_last=False,
+dataloader_num_workers=2,
+dataloader_persistent_workers=False,
+dataloader_pin_memory=True,
+dataloader_prefetch_factor=None,
+ddp_backend=None,
+ddp_broadcast_buffers=None,
+ddp_bucket_cap_mb=None,
+ddp_find_unused_parameters=None,
+ddp_timeout=1800,
+debug=[],
+deepspeed=None,
+disable_tqdm=False,
+do_eval=False,
+do_predict=False,
+do_train=False,
+eval_accumulation_steps=None,
+eval_delay=0,
+eval_do_concat_batches=True,
+eval_on_start=False,
+eval_steps=None,
+eval_strategy=no,
+eval_use_gather_object=False,
+fp16=False,
+fp16_backend=auto,
+fp16_full_eval=False,
+fp16_opt_level=O1,
+fsdp=[],
+fsdp_config={'min_num_params': 0, 'xla': False, 'xla_fsdp_v2': False, 'xla_fsdp_grad_ckpt': False},
+fsdp_min_num_params=0,
+fsdp_transformer_layer_cls_to_wrap=None,
+full_determinism=False,
+gc_p_chunk_size=4,
+gc_q_chunk_size=4,
+grad_cache=True,
+gradient_accumulation_steps=1,
+gradient_checkpointing=False,
+gradient_checkpointing_kwargs=None,
+greater_is_better=None,
+group_by_length=False,
+half_precision_backend=auto,
+hub_always_push=False,
+hub_model_id=None,
+hub_private_repo=None,
+hub_revision=None,
+hub_strategy=every_save,
+hub_token=<HUB_TOKEN>,
+ignore_data_skip=False,
+image_encoder_freeze=False,
+include_for_metrics=[],
+include_inputs_for_metrics=False,
+include_num_input_tokens_seen=no,
+include_tokens_per_second=False,
+interleave_batch_size=0.0,
+interleave_stopping_strategy=all_exhausted,
+jit_mode_eval=False,
+label_names=None,
+label_smoothing_factor=0.0,
+learning_rate=1e-05,
+length_column_name=length,
+liger_kernel_config=None,
+load_best_model_at_end=False,
+local_rank=0,
+log_level=passive,
+log_level_replica=warning,
+log_on_each_node=True,
+logging_dir=/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/28Jan_CalculateModelSize-Qwen/Qwen3-VL-4B-Instruct/runs/Jan28_20-48-46_node40.enst.fr,
+logging_first_step=False,
+logging_nan_inf_filter=True,
+logging_steps=1,
+logging_strategy=steps,
+lr_scheduler_kwargs={},
+lr_scheduler_type=linear,
+max_grad_norm=1.0,
+max_steps=14700,
+metric_for_best_model=None,
+mp_parameters=,
+neftune_noise_alpha=None,
+no_cuda=False,
+num_train_epochs=1,
+optim=adamw_torch,
+optim_args=None,
+optim_target_modules=None,
+output_dir=/home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/28Jan_CalculateModelSize-Qwen/Qwen3-VL-4B-Instruct,
+overwrite_output_dir=False,
+parallelism_config=None,
+past_index=-1,
+per_device_eval_batch_size=8,
+per_device_train_batch_size=16,
+prediction_loss_only=False,
+project=huggingface,
+project_name=None,
+push_to_hub=False,
+push_to_hub_model_id=None,
+push_to_hub_organization=None,
+push_to_hub_token=<PUSH_TO_HUB_TOKEN>,
+ray_scope=last,
+remove_unused_columns=False,
+report_to=['wandb'],
+restore_callback_states_from_checkpoint=False,
+resume_from=none,
+resume_from_checkpoint=None,
+run_name=28Jan_CalculateModelSize-Qwen/Qwen3-VL-4B-Instruct,
+save_on_each_node=False,
+save_only_model=False,
+save_safetensors=True,
+save_steps=500,
+save_strategy=steps,
+save_total_limit=None,
+seed=42,
+skip_memory_metrics=True,
+tf32=None,
+torch_compile=False,
+torch_compile_backend=None,
+torch_compile_mode=None,
+torch_empty_cache_steps=None,
+torchdynamo=None,
+tpu_metrics_debug=False,
+tpu_num_cores=None,
+trackio_space_id=trackio,
+use_cpu=False,
+use_legacy_prediction_loop=False,
+use_liger_kernel=False,
+use_mps_device=False,
+warmup_ratio=0.0,
+warmup_steps=100,
+weight_decay=0.0,
+)
+Distributed init debug info:
+RANK: 0
+LOCAL_RANK: 0
+WORLD_SIZE: 1
+MASTER_ADDR: 127.0.0.1
+MASTER_PORT: 2208
+torch.distributed.is_initialized: True
+torch.distributed.get_rank(): 0
+torch.distributed.get_world_size(): 1
+[2026-01-28 20:48:46,486] INFO [__main__:76] No checkpoint found. Starting fresh training.
+[2026-01-28 20:48:46,486] INFO [src.utils:10] rank0: init wandb
+wandb: Currently logged in as: zhuzhehua16 (zhuzhehua16-t-l-com-paris) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run e2eavx5v
+wandb: Tracking run with wandb version 0.22.1
+wandb: Run data is saved locally in /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/28Jan_CalculateModelSize-Qwen/Qwen3-VL-4B-Instruct/wandb/run-20260128_204846-e2eavx5v
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run 28Jan_CalculateModelSize-Qwen/Qwen3-VL-4B-Instruct
+wandb: ⭐️ View project at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train
+wandb: 🚀 View run at https://wandb.ai/zhuzhehua16-t-l-com-paris/vlm2vec_train/runs/e2eavx5v
+[2026-01-28 20:48:48,553] INFO [src.utils:19] Loading backbone [qwen3_vl] from Qwen/Qwen3-VL-4B-Instruct
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 19.96it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 19.76it/s]
+[2026-01-28 20:48:49,278] INFO [src.utils:19] Loading lora adapter from Qwen3VLForConditionalGeneration(
+  (model): Qwen3VLModel(
+    (visual): Qwen3VLVisionModel(
+      (patch_embed): Qwen3VLVisionPatchEmbed(
+        (proj): Conv3d(3, 1024, kernel_size=(2, 16, 16), stride=(2, 16, 16))
+      )
+      (pos_embed): Embedding(2304, 1024)
+      (rotary_pos_emb): Qwen3VLVisionRotaryEmbedding()
+      (blocks): ModuleList(
+        (0-23): 24 x Qwen3VLVisionBlock(
+          (norm1): LayerNorm((1024,), eps=1e-06, elementwise_affine=True)
+          (norm2): LayerNorm((1024,), eps=1e-06, elementwise_affine=True)
+          (attn): Qwen3VLVisionAttention(
+            (qkv): Linear(in_features=1024, out_features=3072, bias=True)
+            (proj): Linear(in_features=1024, out_features=1024, bias=True)
+          )
+          (mlp): Qwen3VLVisionMLP(
+            (linear_fc1): Linear(in_features=1024, out_features=4096, bias=True)
+            (linear_fc2): Linear(in_features=4096, out_features=1024, bias=True)
+            (act_fn): GELUTanh()
+          )
+        )
+      )
+      (merger): Qwen3VLVisionPatchMerger(
+        (norm): LayerNorm((1024,), eps=1e-06, elementwise_affine=True)
+        (linear_fc1): Linear(in_features=4096, out_features=4096, bias=True)
+        (act_fn): GELU(approximate='none')
+        (linear_fc2): Linear(in_features=4096, out_features=2560, bias=True)
+      )
+      (deepstack_merger_list): ModuleList(
+        (0-2): 3 x Qwen3VLVisionPatchMerger(
+          (norm): LayerNorm((4096,), eps=1e-06, elementwise_affine=True)
+          (linear_fc1): Linear(in_features=4096, out_features=4096, bias=True)
+          (act_fn): GELU(approximate='none')
+          (linear_fc2): Linear(in_features=4096, out_features=2560, bias=True)
+        )
+      )
+    )
+    (language_model): Qwen3VLTextModel(
+      (embed_tokens): Embedding(151936, 2560)
+      (layers): ModuleList(
+        (0-12): 13 x Qwen3VLTextDecoderLayer(
+          (self_attn): Qwen3VLTextAttention(
+            (q_proj): Linear(in_features=2560, out_features=4096, bias=False)
+            (k_proj): Linear(in_features=2560, out_features=1024, bias=False)
+            (v_proj): Linear(in_features=2560, out_features=1024, bias=False)
+            (o_proj): Linear(in_features=4096, out_features=2560, bias=False)
+            (q_norm): Qwen3VLTextRMSNorm((128,), eps=1e-06)
+            (k_norm): Qwen3VLTextRMSNorm((128,), eps=1e-06)
+          )
+          (mlp): Qwen3VLTextMLP(
+            (gate_proj): Linear(in_features=2560, out_features=9728, bias=False)
+            (up_proj): Linear(in_features=2560, out_features=9728, bias=False)
+            (down_proj): Linear(in_features=9728, out_features=2560, bias=False)
+            (act_fn): SiLUActivation()
+          )
+          (input_layernorm): Qwen3VLTextRMSNorm((2560,), eps=1e-06)
+          (post_attention_layernorm): Qwen3VLTextRMSNorm((2560,), eps=1e-06)
+        )
+      )
+      (norm): Qwen3VLTextRMSNorm((2560,), eps=1e-06)
+      (rotary_emb): Qwen3VLTextRotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2560, out_features=151936, bias=False)
+)
+[2026-01-28 20:49:04,389] INFO [src.utils:10] rank0: model_backbone: qwen3_vl
+[2026-01-28 20:49:04,391] INFO [src.utils:19] Loading processor from: Qwen/Qwen3-VL-4B-Instruct
+[2026-01-28 20:49:12,152] INFO [src.utils:19] Loaded mmeb/VisualNews_t2i dataset with 99903 samples
+[2026-01-28 20:49:12,152] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): VisualNews_t2i, num_rows=99903, prob=25.0
+[2026-01-28 20:49:13,087] INFO [src.utils:19] Loaded mmeb/VisualNews_i2t dataset with 100000 samples
+[2026-01-28 20:49:13,088] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): VisualNews_i2t, num_rows=100000, prob=25.0
+[2026-01-28 20:49:14,046] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2026-01-28 20:49:14,047] INFO [src.utils:19] 		Dataset#2 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=25.0
+[2026-01-28 20:49:14,963] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2026-01-28 20:49:14,964] INFO [src.utils:19] 		Dataset#3 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=25.0
+[2026-01-28 20:49:14,965] INFO [src.utils:19] 
+Initializing interleave datasets:
+		world_size=1
+		total num rows=413190
+		global batch size=16
+		estimated num step per epoch=25824.375
+		interleave_batch_size=0.0
+[2026-01-28 20:49:14,968] INFO [src.utils:19] ==================================================
+[2026-01-28 20:49:14,969] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2026-01-28 20:49:14,970] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-01-28 20:49:14,971] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-01-28 20:49:14,972] INFO [src.utils:19] 		Dataset 2 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-01-28 20:49:14,972] INFO [src.utils:19] 		Dataset 3 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-01-28 20:49:14,973] INFO [src.utils:19] ==================================================
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'eos_token_id': 151645, 'pad_token_id': 151643}.
+[2026-01-28 20:49:16,201] INFO [src.trainer:429] ***** Running training *****
+[2026-01-28 20:49:16,202] INFO [src.trainer:430]   Num examples = 235,200
+[2026-01-28 20:49:16,202] INFO [src.trainer:431]   Num Epochs = 9,223,372,036,854,775,807
+[2026-01-28 20:49:16,203] INFO [src.trainer:432]   Instantaneous batch size per device = 16
+[2026-01-28 20:49:16,203] INFO [src.trainer:435]   Total train batch size (w. parallel, distributed & accumulation) = 16
+[2026-01-28 20:49:16,203] INFO [src.trainer:436]   Gradient Accumulation steps = 1
+[2026-01-28 20:49:16,204] INFO [src.trainer:437]   Total optimization steps = 14,700
+[2026-01-28 20:49:16,207] INFO [src.trainer:438]   Number of trainable parameters = 6,962,176
+[2026-01-28 20:49:16,209] INFO [src.trainer:439]   Number of total parameters = 2,123,369,216
+[2026-01-28 20:49:16,212] INFO [src.trainer:442]   Number of base model parameters (excluding LoRA) = 2,123,369,216
+[2026-01-28 20:49:16,218] INFO [src.trainer:445]   [Param breakdown] image encoder (ViT) = 306,242,560, merger = 109,105,152, LLM = 1,708,021,504
+  0%|          | 0/14700 [00:00<?, ?it/s]You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+[2026-01-28 20:49:16,886] WARNING [src.trainer:574] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+  0%|          | 1/14700 [00:14<60:49:44, 14.90s/it]                                                    {'loss': 14.655, 'grad_norm': 832.415283203125, 'learning_rate': 1.0000000000000001e-07, 'epoch': 0.0}
+  0%|          | 1/14700 [00:14<60:49:44, 14.90s/it][2026-01-28 20:49:31,132] WARNING [src.trainer:574] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+  0%|          | 2/14700 [00:27<56:08:03, 13.75s/it]                                                    {'loss': 13.2642, 'grad_norm': 1043.7784423828125, 'learning_rate': 2.0000000000000002e-07, 'epoch': 0.0}
+  0%|          | 2/14700 [00:27<56:08:03, 13.75s/it][2026-01-28 20:49:44,076] WARNING [src.trainer:574] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+  0%|          | 3/14700 [00:40<54:46:55, 13.42s/it]                                                    {'loss': 12.4031, 'grad_norm': 854.5792236328125, 'learning_rate': 3.0000000000000004e-07, 'epoch': 0.0}
+  0%|          | 3/14700 [00:40<54:46:55, 13.42s/it][2026-01-28 20:49:57,102] WARNING [src.trainer:574] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.

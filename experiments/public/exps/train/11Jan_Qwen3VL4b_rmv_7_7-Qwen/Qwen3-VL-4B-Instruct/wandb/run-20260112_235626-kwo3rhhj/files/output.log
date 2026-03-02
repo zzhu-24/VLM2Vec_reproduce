@@ -1,0 +1,107 @@
+[2026-01-12 23:56:27,330] INFO [src.utils:19] Loading backbone [qwen3_vl] from Qwen/Qwen3-VL-4B-Instruct
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 19.73it/s]
+[2026-01-12 23:56:28,007] INFO [src.utils:19] Loading lora adapter from Qwen3VLForConditionalGeneration(
+  (model): Qwen3VLModel(
+    (visual): Qwen3VLVisionModel(
+      (patch_embed): Qwen3VLVisionPatchEmbed(
+        (proj): Conv3d(3, 1024, kernel_size=(2, 16, 16), stride=(2, 16, 16))
+      )
+      (pos_embed): Embedding(2304, 1024)
+      (rotary_pos_emb): Qwen3VLVisionRotaryEmbedding()
+      (blocks): ModuleList(
+        (0-23): 24 x Qwen3VLVisionBlock(
+          (norm1): LayerNorm((1024,), eps=1e-06, elementwise_affine=True)
+          (norm2): LayerNorm((1024,), eps=1e-06, elementwise_affine=True)
+          (attn): Qwen3VLVisionAttention(
+            (qkv): Linear(in_features=1024, out_features=3072, bias=True)
+            (proj): Linear(in_features=1024, out_features=1024, bias=True)
+          )
+          (mlp): Qwen3VLVisionMLP(
+            (linear_fc1): Linear(in_features=1024, out_features=4096, bias=True)
+            (linear_fc2): Linear(in_features=4096, out_features=1024, bias=True)
+            (act_fn): GELUTanh()
+          )
+        )
+      )
+      (merger): Qwen3VLVisionPatchMerger(
+        (norm): LayerNorm((1024,), eps=1e-06, elementwise_affine=True)
+        (linear_fc1): Linear(in_features=4096, out_features=4096, bias=True)
+        (act_fn): GELU(approximate='none')
+        (linear_fc2): Linear(in_features=4096, out_features=2560, bias=True)
+      )
+      (deepstack_merger_list): ModuleList(
+        (0-2): 3 x Qwen3VLVisionPatchMerger(
+          (norm): LayerNorm((4096,), eps=1e-06, elementwise_affine=True)
+          (linear_fc1): Linear(in_features=4096, out_features=4096, bias=True)
+          (act_fn): GELU(approximate='none')
+          (linear_fc2): Linear(in_features=4096, out_features=2560, bias=True)
+        )
+      )
+    )
+    (language_model): Qwen3VLTextModel(
+      (embed_tokens): Embedding(151936, 2560)
+      (layers): ModuleList(
+        (0-28): 29 x Qwen3VLTextDecoderLayer(
+          (self_attn): Qwen3VLTextAttention(
+            (q_proj): Linear(in_features=2560, out_features=4096, bias=False)
+            (k_proj): Linear(in_features=2560, out_features=1024, bias=False)
+            (v_proj): Linear(in_features=2560, out_features=1024, bias=False)
+            (o_proj): Linear(in_features=4096, out_features=2560, bias=False)
+            (q_norm): Qwen3VLTextRMSNorm((128,), eps=1e-06)
+            (k_norm): Qwen3VLTextRMSNorm((128,), eps=1e-06)
+          )
+          (mlp): Qwen3VLTextMLP(
+            (gate_proj): Linear(in_features=2560, out_features=9728, bias=False)
+            (up_proj): Linear(in_features=2560, out_features=9728, bias=False)
+            (down_proj): Linear(in_features=9728, out_features=2560, bias=False)
+            (act_fn): SiLUActivation()
+          )
+          (input_layernorm): Qwen3VLTextRMSNorm((2560,), eps=1e-06)
+          (post_attention_layernorm): Qwen3VLTextRMSNorm((2560,), eps=1e-06)
+        )
+      )
+      (norm): Qwen3VLTextRMSNorm((2560,), eps=1e-06)
+      (rotary_emb): Qwen3VLTextRotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2560, out_features=151936, bias=False)
+)
+[2026-01-12 23:57:04,048] INFO [src.utils:10] rank0: model_backbone: qwen3_vl
+[2026-01-12 23:57:04,049] INFO [src.utils:19] Loading processor from: Qwen/Qwen3-VL-4B-Instruct
+[2026-01-12 23:57:10,410] INFO [src.utils:19] Loaded mmeb/MSCOCO_t2i dataset with 100000 samples
+[2026-01-12 23:57:10,411] INFO [src.utils:19] 		Dataset#0 (dataset_parser=mmeb): MSCOCO_t2i, num_rows=100000, prob=50.0
+[2026-01-12 23:57:11,446] INFO [src.utils:19] Loaded mmeb/MSCOCO_i2t dataset with 113287 samples
+[2026-01-12 23:57:11,447] INFO [src.utils:19] 		Dataset#1 (dataset_parser=mmeb): MSCOCO_i2t, num_rows=113287, prob=50.0
+[2026-01-12 23:57:11,448] INFO [src.utils:19]
+Initializing interleave datasets:
+		world_size=2
+		total num rows=213287
+		global batch size=32
+		estimated num step per epoch=6665.21875
+		interleave_batch_size=0.0
+[2026-01-12 23:57:11,450] INFO [src.utils:19] ==================================================
+[2026-01-12 23:57:11,451] INFO [src.utils:19] Print the features of each dataset, make sure that all datasets have valid features.
+[2026-01-12 23:57:11,452] INFO [src.utils:19] 		Dataset 0 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-01-12 23:57:11,452] INFO [src.utils:19] 		Dataset 1 features: ['query_text', 'query_image', 'pos_text', 'pos_image', 'neg_text', 'neg_image', 'global_dataset_name']
+[2026-01-12 23:57:11,453] INFO [src.utils:19] ==================================================
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'eos_token_id': 151645, 'pad_token_id': 151643}.
+[2026-01-12 23:57:13,185] INFO [src.trainer:161] Loading checkpoint from /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/11Jan_Qwen3VL4b_rmv_7_7-Qwen/Qwen3-VL-4B-Instruct/checkpoint-1000
+[2026-01-12 23:57:13,189] INFO [src.utils:19] Loading backbone [qwen3_vl] from /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/11Jan_Qwen3VL4b_rmv_7_7-Qwen/Qwen3-VL-4B-Instruct/checkpoint-1000
+Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 19.24it/s]
+[2026-01-12 23:57:13,997] INFO [src.utils:19] Loading LoRA from /home/infres/zzhu-24/PRIM/VLM2Vec/experiments/public/exps/train/11Jan_Qwen3VL4b_rmv_7_7-Qwen/Qwen3-VL-4B-Instruct/checkpoint-1000
+[2026-01-12 23:57:51,067] INFO [src.trainer:372] ***** Running training *****
+[2026-01-12 23:57:51,068] INFO [src.trainer:373]   Num examples = 192,000
+[2026-01-12 23:57:51,068] INFO [src.trainer:374]   Num Epochs = 9,223,372,036,854,775,807
+[2026-01-12 23:57:51,069] INFO [src.trainer:375]   Instantaneous batch size per device = 16
+[2026-01-12 23:57:51,069] INFO [src.trainer:378]   Total train batch size (w. parallel, distributed & accumulation) = 32
+[2026-01-12 23:57:51,069] INFO [src.trainer:379]   Gradient Accumulation steps = 1
+[2026-01-12 23:57:51,070] INFO [src.trainer:380]   Total optimization steps = 6,000
+[2026-01-12 23:57:51,079] INFO [src.trainer:381]   Number of trainable parameters = 15,531,008
+[2026-01-12 23:57:51,083] INFO [src.trainer:407]   Continuing training from checkpoint, will skip to saved global_step
+[2026-01-12 23:57:51,083] INFO [src.trainer:408]   Continuing training from epoch 0
+[2026-01-12 23:57:51,084] INFO [src.trainer:409]   Continuing training from global step 1000
+[2026-01-12 23:57:51,084] INFO [src.trainer:411]   Will skip the first 0 epochs then the first 1000 batches in the first epoch.
+  0%|          | 0/6000 [00:00<?, ?it/s]/home/infres/zzhu-24/anaconda3/envs/vlm2vec_update/lib/python3.10/site-packages/transformers/trainer.py:3255: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+[2026-01-13 00:00:36,822] WARNING [src.trainer:506] Tried to track the number of tokens seen, however the current model is not configured properly to know what item is the input. To fix this, add a `main_input_name` attribute to the model class you are using.
+  checkpoint_rng_state = torch.load(rng_file)

@@ -1,0 +1,9 @@
+{"time":"2025-12-11T14:39:06.521327466+01:00","level":"INFO","msg":"stream: starting","core version":"0.22.1"}
+{"time":"2025-12-11T14:39:06.795356065+01:00","level":"INFO","msg":"stream: created new stream","id":"m0wssz1m"}
+{"time":"2025-12-11T14:39:06.795452471+01:00","level":"INFO","msg":"handler: started","stream_id":"m0wssz1m"}
+{"time":"2025-12-11T14:39:06.796337688+01:00","level":"INFO","msg":"stream: started","id":"m0wssz1m"}
+{"time":"2025-12-11T14:39:06.796393536+01:00","level":"INFO","msg":"writer: started","stream_id":"m0wssz1m"}
+{"time":"2025-12-11T14:39:06.796443562+01:00","level":"INFO","msg":"sender: started","stream_id":"m0wssz1m"}
+{"time":"2025-12-11T18:43:57.312923606+01:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/zhuzhehua16-t-l-com-paris/vlm2vec_train/m0wssz1m/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2025-12-12T01:36:25.252689983+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}
+{"time":"2025-12-12T02:01:55.275823334+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}

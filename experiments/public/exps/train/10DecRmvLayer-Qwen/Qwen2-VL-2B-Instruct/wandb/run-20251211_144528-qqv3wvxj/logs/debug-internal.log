@@ -1,0 +1,14 @@
+{"time":"2025-12-11T14:45:28.980081372+01:00","level":"INFO","msg":"stream: starting","core version":"0.22.1"}
+{"time":"2025-12-11T14:45:29.251087023+01:00","level":"INFO","msg":"stream: created new stream","id":"qqv3wvxj"}
+{"time":"2025-12-11T14:45:29.251180042+01:00","level":"INFO","msg":"handler: started","stream_id":"qqv3wvxj"}
+{"time":"2025-12-11T14:45:29.252517431+01:00","level":"INFO","msg":"stream: started","id":"qqv3wvxj"}
+{"time":"2025-12-11T14:45:29.252575984+01:00","level":"INFO","msg":"writer: started","stream_id":"qqv3wvxj"}
+{"time":"2025-12-11T14:45:29.2525997+01:00","level":"INFO","msg":"sender: started","stream_id":"qqv3wvxj"}
+{"time":"2025-12-12T01:37:30.244701377+01:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/zhuzhehua16-t-l-com-paris/vlm2vec_train/qqv3wvxj/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2025-12-12T02:01:41.267993911+01:00","level":"INFO","msg":"flowcontrol: backed up, offloading to disk","recordNumber":49616}
+{"time":"2025-12-12T02:01:47.804849776+01:00","level":"INFO","msg":"flowcontrol: unblocked","totalOffloaded":4}
+{"time":"2025-12-12T07:41:26.346788986+01:00","level":"INFO","msg":"stream: closing","id":"qqv3wvxj"}
+{"time":"2025-12-12T07:41:27.475734692+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-12-12T07:41:27.698247137+01:00","level":"INFO","msg":"handler: closed","stream_id":"qqv3wvxj"}
+{"time":"2025-12-12T07:41:27.699269679+01:00","level":"INFO","msg":"sender: closed","stream_id":"qqv3wvxj"}
+{"time":"2025-12-12T07:41:27.699294426+01:00","level":"INFO","msg":"stream: closed","id":"qqv3wvxj"}
