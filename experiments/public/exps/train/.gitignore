@@ -3,3 +3,6 @@
 
 # Except this file
 !.gitignore
+
+# Allow tracking of log files
+!*.log
