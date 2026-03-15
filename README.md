@@ -10,33 +10,6 @@ The original VLM2Vec project provides a unified multimodal embedding framework a
 
 ---
 
-## Repository Scope
-
-- **Purpose**: Personal research/experiments, focusing on training and evaluation scripts for specific backbones (e.g., Qwen / Qwen2-VL).
-- **No guarantee**: Backward compatibility or general usability is not guaranteed; some scripts are tightly coupled to a specific environment or cluster (e.g., Slurm).
-- **Recommendation**: If you need the full functionality and best practices of VLM2Vec, please directly refer to the original upstream repository.
-
-Upstream resources:
-
-- GitHub repo: <https://github.com/TIGER-AI-Lab/VLM2Vec>
-- Project website & docs: <https://tiger-ai-lab.github.io/VLM2Vec/>
-- HuggingFace models: <https://huggingface.co/VLM2Vec>
-- MMEB-V2 dataset: <https://huggingface.co/datasets/TIGER-Lab/MMEB-V2>
-
----
-
-## Rough Project Structure (Differences From Upstream)
-
-- `experiments/`  
-  - `experiments/public/train/`: my training scripts and configs (some additional or modified `.sh` / `.yaml` etc.).  
-  - `experiments/public/eval/`: evaluation / retrieval scripts and configs.  
-- `train_*.slurm`: Slurm job submission scripts for my current cluster environment only.
-- Other directories such as `src/` and `assets/` mostly follow the upstream VLM2Vec layout, with only minor adjustments (if any).
-
-> If you fork/clone this repo, please adapt paths and scripts to your own environment.
-
----
-
 ## Environment & Quick Start
 
 The following is a **non-strict** example of how you might set up an environment:
