@@ -1,6 +1,7 @@
 # Personal Research Repository Based on VLM2Vec
 
-This repository is a **personal extension and experimental fork** of [TIGER-AI-Lab/VLM2Vec](https://github.com/TIGER-AI-Lab/VLM2Vec), mainly used to manage my own research experiments and training scripts.  
+This repository is a **extension and experimental fork** of [TIGER-AI-Lab/VLM2Vec](https://github.com/TIGER-AI-Lab/VLM2Vec). In this repo, we tried various strategies to accelerate the training of VLM2Vec.
+
 The original VLM2Vec project provides a unified multimodal embedding framework and the MMEB benchmark series; on top of that, this repo adds custom training scripts, configurations, and experimental workflows.
 
 > **Important Disclaimer**
